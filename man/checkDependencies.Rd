@@ -19,6 +19,6 @@ Check package dependencies
 }
 \examples{
 if (interactive()) {
-  checkDependencies()
+  checkDependencies(system.file(package = "PaRe", "glue"))
 }
 }
