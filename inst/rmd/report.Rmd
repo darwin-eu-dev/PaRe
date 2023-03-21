@@ -1,6 +1,6 @@
 ---
 title: "`r paste('PaRe Report:', basename(params$pkgPath))`"
-author: "`r paste('PaRe', packageVersion('DependencyReviewer'))`"
+author: "`r paste('PaRe', packageVersion('PaRe'))`"
 date: "`r Sys.Date()`"
 output: html_document
 params:
@@ -37,23 +37,23 @@ The complexity score is interpreted as follows:
 
 ## Dependency review
 ### Check dependencies against whitelist
-```{r echo=params$showCode, message=FALSE, warning=FALSE}
-DependencyReviewer::checkDependencies()
+```{r chedkDependencies, echo=params$showCode, message=FALSE, warning=FALSE}
+DT::datatable(PaRe::checkDependencies(pkgPath = params$pkgPath))
 ```
 
 ### Function use per dependency
-```{r echo=params$showCode, message=FALSE, warning=FALSE}
-funsUsed <- DependencyReviewer::summariseFunctionUse(
+```{r summariseFunctionUse, echo=params$showCode, message=FALSE, warning=FALSE}
+funsUsed <- PaRe::summariseFunctionUse(
   list.files(normalizePath(paste0(params$pkgPath, "/R")), full.names = TRUE))
 
 DT::datatable(funsUsed)
 ```
 
-```{r echo=params$showCode, message=FALSE, warning=FALSE}
-defFuns <- DependencyReviewer::getDefinedFunctionsPkg(params$pkgPath)
+```{r getDefinedFunctionsPkg, echo=params$showCode, message=FALSE, warning=FALSE}
+defFuns <- PaRe::getDefinedFunctionsPkg(params$pkgPath)
 ```
 
-```{r dpi=100, fig.height=25, out.width="100%", echo=params$showCode, message=FALSE, warning=FALSE}
+```{r plotFunctionUse, dpi=100, fig.height=25, out.width="100%", echo=params$showCode, message=FALSE, warning=FALSE}
 function_sub <- funsUsed %>% 
   dplyr::filter(!pkg %in% c("base"))
 
@@ -80,23 +80,23 @@ ggplot2::ggplot(
 
 ## Package Review
 ### Package Diagram
-```{r out.width="100%", echo=params$showCode}
-DependencyReviewer::pkgDiagram(pkgPath = params$pkgPath)
+```{r packageDiagram, out.width="100%", echo=params$showCode}
+PaRe::pkgDiagram(pkgPath = params$pkgPath)
 ```
 
 
 ### Defined functions in the package
-```{r echo=params$showCode}
+```{r definedFunctions, echo=params$showCode}
 DT::datatable(defFuns)
 ```
 
 ### Lintr
-```{r echo=params$showCode, message=FALSE, warning=FALSE}
-DT::datatable(DependencyReviewer::lintScore(DependencyReviewer::lintPackage, params$pkgPath))
+```{r lintScores, echo=params$showCode, message=FALSE, warning=FALSE}
+DT::datatable(PaRe::lintScore(PaRe::lintPackage, params$pkgPath))
 ```
 
-```{r echo=params$showCode, message=FALSE, warning=FALSE}
-lintMsgs <- data.frame(DependencyReviewer::lintPackage(params$pkgPath))
+```{r lintMessages, echo=params$showCode, message=FALSE, warning=FALSE}
+lintMsgs <- data.frame(PaRe::lintPackage(params$pkgPath))
 
 DT::datatable(
   lintMsgs %>%
