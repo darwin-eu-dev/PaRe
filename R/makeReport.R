@@ -23,14 +23,41 @@
 #'   makeReport(pkgPath, outputFile)
 #' }
 makeReport <- function(pkgPath, outputFile, showCode = FALSE) {
-  # Normalize paths
-  pkgPath <- normalizePath(pkgPath)
-  outputFile <- normalizePath(outputFile, mustWork = FALSE)
-  writeLines("", con = outputFile)
+  if (checkInstalled(pkgPath)) {
+    # Normalize paths
+    pkgPath <- normalizePath(pkgPath)
+    outputFile <- normalizePath(outputFile, mustWork = FALSE)
+    writeLines("", con = outputFile)
 
-  # Render report.Rmd
-  rmarkdown::render(
-    input = system.file(package = "PaRe", "rmd", "report.Rmd"),
-    output_file = outputFile,
-    params = list(pkgPath = pkgPath, showCode = showCode))
+    # Render report.Rmd
+    rmarkdown::render(
+      input = system.file(package = "PaRe", "rmd", "report.Rmd"),
+      output_file = outputFile,
+      params = list(pkgPath = pkgPath, showCode = showCode))
+  }
+}
+
+#' checkInstalled
+#'
+#' Checks if suggested packages are installed.
+#'
+#' @param pkgPath Path to package
+#'
+#' @return Boolean depending if suggested packages are installed.
+checkInstalled <- function(pkgPath) {
+  desc <- desc::description$new(file = file.path(pkgPath, "DESCRIPTION"))
+
+  reqs <- desc$get_deps() %>%
+    dplyr::filter(.data$type == "Suggests") %>%
+    dplyr::select("package") %>%
+    unlist()
+
+  installed <- unlist(lapply(reqs, FUN = require, character.only = TRUE, quietly = TRUE))
+
+  if (any(!installed)) {
+    cli::cli_alert_warning(glue::glue(
+      "The following packages are required but not installed: {cli::style_bold(paste0(reqs[!installed], collapse = ', '))}."))
+    return(FALSE)
+  }
+  return(TRUE)
 }
