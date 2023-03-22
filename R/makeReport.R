@@ -25,7 +25,8 @@
 makeReport <- function(pkgPath, outputFile, showCode = FALSE) {
   # Normalize paths
   pkgPath <- normalizePath(pkgPath)
-  outputFile <- normalizePath(outputFile)
+  outputFile <- normalizePath(outputFile, mustWork = FALSE)
+  writeLines("", con = outputFile)
 
   # Render report.Rmd
   rmarkdown::render(

@@ -16,13 +16,23 @@
 #'
 getDefaultPermittedPackages <- function(base = TRUE) {
   # Custom list
-  customWhiteList <- dplyr::bind_rows(lapply(seq_len(nrow(whiteList)), function(i) {
-    pkgs <- utils::read.table(
-      file = unlist(whiteList[i, ]["link"]),
-      sep = ",",
-      header = TRUE) %>%
-      select(unlist(whiteList[i, ]["package"]), unlist(whiteList[i, ]["version"]))
-  }))
+  customWhiteList <- tryCatch({
+    dplyr::bind_rows(lapply(seq_len(nrow(whiteList)), function(i) {
+      pkgs <- utils::read.table(
+        file = unlist(whiteList[i, ]["link"]),
+        sep = ",",
+        header = TRUE) %>%
+        select(unlist(whiteList[i, ]["package"]), unlist(whiteList[i, ]["version"]))
+    }))
+  }, error = function(e) {
+    cli::cli_alert_warning(cli::style_bold(cli::col_blue(
+      "Could not connect to the internet, online hosted whitelists will be ignored.")))
+    return(NULL)
+  }, warning = function(w) {
+    cli::cli_alert_warning(cli::style_bold(cli::col_blue(
+      "Could not connect to the internet, online hosted whitelists will be ignored.")))
+    return(NULL)
+  })
 
   basePackages <- NULL
   if (base) {

@@ -4,24 +4,21 @@
 \alias{checkDependencies}
 \title{checkDependencies}
 \usage{
-checkDependencies(packageName = NULL, dependencyType = c("Imports", "Depends"))
+checkDependencies(pkgPath = "./", dependencyType = c("Imports", "Depends"))
 }
 \arguments{
-\item{packageName}{Name of package to profile. If NULL current package}
+\item{pkgPath}{Path to package}
 
-\item{dependencyType}{Imports, depends, and/ or suggests}
+\item{dependencyType}{Types of dependencies to be included}
 }
 \value{
-Returns value NULL
+Returns a data.frame with all the packages that are now permitted.
 }
 \description{
 Check package dependencies
 }
 \examples{
-# Run only in interactive session
 if (interactive()) {
-  checkDependencies(packageName = "PaRe")
-
-  checkDependencies(packageName = "PaRe", c("Suggests"))
+  checkDependencies(system.file(package = "PaRe", "glue"))
 }
 }
