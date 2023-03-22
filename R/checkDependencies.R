@@ -44,8 +44,15 @@ getVersionDf <- function(dependencies, permittedPackages) {
 
   permitted$version[permitted$version == "*"] <- "0.0.0"
 
+  permitted <- permitted %>%
+    arrange(package)
+
+  permittedPackages <- permittedPackages[
+    permittedPackages$package %in% permitted$package, ] %>%
+    arrange(package)
+
   df <- cbind(
-    permittedPackages[permittedPackages$package %in% permitted$package, ],
+    permittedPackages,
     allowed = permitted$version)
 
   return(df[
@@ -72,6 +79,10 @@ checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Dep
   dependencies <- description$get_deps() %>%
     dplyr::filter(.data$type %in% dependencyType) %>%
     dplyr::select("package", "version")
+
+  dependencies$version <- stringr::str_remove(
+    string = dependencies$version,
+    pattern = "[\\s>=<]+")
 
   permittedPackages <- getDefaultPermittedPackages()
 
