@@ -45,7 +45,7 @@ makeReport <- function(pkgPath, outputFile, showCode = FALSE) {
 #'
 #' @return Boolean depending if suggested packages are installed.
 checkInstalled <- function(pkgPath) {
-  desc <- desc::description$new(file = file.path(pkgPath, "DESCRIPTION"))
+  desc <- desc::description$new(package = "PaRe")
 
   reqs <- desc$get_deps() %>%
     dplyr::filter(.data$type == "Suggests") %>%

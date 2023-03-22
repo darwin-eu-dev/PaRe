@@ -37,16 +37,16 @@ The complexity score is interpreted as follows:
 
 ## Dependency review
 ### Check dependencies against whitelist
-```{r chedkDependencies, echo=params$showCode, message=FALSE, warning=FALSE}
+```{r checkDependencies, echo=params$showCode, message=FALSE, warning=FALSE}
 DT::datatable(PaRe::checkDependencies(pkgPath = params$pkgPath))
 ```
 
 ### Dependency characteristics
-**countVertices**: The amount of recursive dependencies `r params$pkgPath` depends on.
-**countEdges**: The total amount of imports of all dependencies.
-**meanDegree**: The average amount of imports per dependency.
-**meanDistance**: The average dependency layers between `r params$pkgPath` and all other recursive dependencies.
-```{r}
+- **countVertices**: The amount of recursive dependencies `r params$pkgPath` depends on.
+- **countEdges**: The total amount of imports of all dependencies.
+- **meanDegree**: The average amount of imports per dependency.
+- **meanDistance**: The average dependency layers between `r params$pkgPath` and all other recursive dependencies.
+```{r dependencyGraphStats, echo=params$showCode, message=FALSE, warning=FALSE}
 graphData <- getGraphData(path = params$pkgPath)
 
 DT::datatable(data.frame(
@@ -57,7 +57,7 @@ DT::datatable(data.frame(
   ))
 ```
 
-```{r}
+```{r farthestDependency, echo=params$showCode, message=FALSE, warning=FALSE, out.width="100%"}
 p <- igraph::all_simple_paths(
   graph = graphData,
   from = igraph::farthest.nodes(graphData)$vertices[1],
@@ -73,7 +73,6 @@ ggraph::ggraph(
       label = name)) +
   ggplot2::theme_void()
 ```
-
 
 ### Function use per dependency
 ```{r summariseFunctionUse, echo=params$showCode, message=FALSE, warning=FALSE}
@@ -118,8 +117,18 @@ ggplot2::ggplot(
 PaRe::pkgDiagram(pkgPath = params$pkgPath)
 ```
 
-
 ### Defined functions in the package
+```{r summaryDefFunStats, echo=params$showCode}
+DT::datatable(data.frame(
+  min = c(min(defFuns$nArgs, na.rm = TRUE), min(defFuns$cycloComp, na.rm = TRUE)),
+  max = c(max(defFuns$nArgs, na.rm = TRUE), max(defFuns$cycloComp, na.rm = TRUE)),
+  mean = c(round(mean(defFuns$nArgs, na.rm = TRUE), 2), round(mean(defFuns$cycloComp, na.rm = TRUE), 2)),
+  median = c(median(defFuns$nArgs, na.rm = TRUE), median(defFuns$cycloComp, na.rm = TRUE)),
+  sd = c(round(sd(defFuns$nArgs, na.rm = TRUE), 2), round(sd(defFuns$cycloComp, na.rm = TRUE), 2)),
+  row.names = c("Number of Arguments", "Cyclomatic Complexity")))
+```
+
+
 ```{r definedFunctions, echo=params$showCode}
 DT::datatable(defFuns)
 ```

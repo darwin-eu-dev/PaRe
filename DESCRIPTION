@@ -35,4 +35,5 @@ Imports:
 Suggests:
     ggplot2,
     igraph,
-    ggraph
+    ggraph,
+    DT
