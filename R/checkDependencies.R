@@ -73,7 +73,8 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #' if (interactive()) {
 #'   checkDependencies(system.file(package = "PaRe", "glue"))
 #' }
-checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Depends")) {
+checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Depends"),
+                              verbose = TRUE) {
   description <- desc::description$new(file = file.path(pkgPath, "DESCRIPTION"))
 
   dependencies <- description$get_deps() %>%
@@ -84,7 +85,13 @@ checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Dep
     string = dependencies$version,
     pattern = "[\\s>=<]+")
 
-  permittedPackages <- getDefaultPermittedPackages()
+  if (isTRUE(verbose)){
+    permittedPackages <- getDefaultPermittedPackages(verbose = verbose)
+  } else {
+    suppressMessages(
+      permittedPackages <- getDefaultPermittedPackages(verbose = verbose)
+    )
+  }
 
   notPermitted <- dependencies %>%
     dplyr::filter(.data$package != "R") %>%
