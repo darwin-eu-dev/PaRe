@@ -37,8 +37,8 @@ The complexity score is interpreted as follows:
 
 ## Dependency review
 ### Check dependencies against whitelist
-```{r checkDependencies, echo=params$showCode, message=FALSE, warning=FALSE}
-DT::datatable(PaRe::checkDependencies(pkgPath = params$pkgPath))
+```{r checkDependencies, echo=params$showCode, warning=FALSE}
+DT::datatable(PaRe::checkDependencies(pkgPath = params$pkgPath, verbose = FALSE))
 ```
 
 ### Dependency characteristics
