@@ -65,6 +65,7 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #'
 #' @param pkgPath Path to package
 #' @param dependencyType Types of dependencies to be included
+#' @param verbose TRUE or FALSE. If TRUE, progress will be reported.
 #'
 #' @return Returns a data.frame with all the packages that are now permitted.
 #' @export
@@ -86,10 +87,10 @@ checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Dep
     pattern = "[\\s>=<]+")
 
   if (isTRUE(verbose)){
-    permittedPackages <- getDefaultPermittedPackages(verbose = verbose)
+    permittedPackages <- getDefaultPermittedPackages()
   } else {
     suppressMessages(
-      permittedPackages <- getDefaultPermittedPackages(verbose = verbose)
+      permittedPackages <- getDefaultPermittedPackages()
     )
   }
 
