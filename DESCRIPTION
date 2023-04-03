@@ -34,6 +34,7 @@ Imports:
     here
 Suggests:
     ggplot2,
+    plotly,
     igraph,
     ggraph,
     DT
