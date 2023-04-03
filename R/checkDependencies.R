@@ -45,11 +45,11 @@ getVersionDf <- function(dependencies, permittedPackages) {
   permitted$version[permitted$version == "*"] <- "0.0.0"
 
   permitted <- permitted %>%
-    arrange(package)
+    dplyr::arrange(.data$package)
 
   permittedPackages <- permittedPackages[
     permittedPackages$package %in% permitted$package, ] %>%
-    arrange(package)
+    dplyr::arrange(.data$package)
 
   df <- cbind(
     permittedPackages,
