@@ -144,8 +144,8 @@ funsUsed
 
 ### getDefinedFunctionsPkg
 ```{r}
-PaRe::getDefinedFunctionsPkg(
-  path = system.file(package = "PaRe", "glue"))
+head(PaRe::getDefinedFunctionsPkg(
+  path = system.file(package = "PaRe", "glue")))
 ```
 Besides the location of each function being displayed, the number of arguments for each function, and the cyclometic complexity is also included in the result.
 
