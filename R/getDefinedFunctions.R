@@ -148,13 +148,15 @@ getBodyIndices <- function(line, lines) {
 goToBody <- function(line, lines) {
   startFun <- FALSE
   line <- line
-  while (startFun == FALSE) {
-    checkOpen <- stringr::str_detect(string = lines[line], "\\{")
 
-    if (is.na(checkOpen)) {
-      return(line)
-    }
-    if (checkOpen) {
+  bracOpen <- 0
+  bracClosed <- 0
+
+  while (!startFun) {
+    bracOpen <- bracOpen + stringr::str_count(string = lines[line], "\\(")
+    bracClosed <- bracClosed + stringr::str_count(string = lines[line], "\\)")
+
+    if (bracOpen == bracClosed & bracOpen > 0) {
       startFun <- TRUE
     } else {
       line <- line + 1
