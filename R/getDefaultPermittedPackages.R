@@ -55,8 +55,12 @@ getDefaultPermittedPackages <- function(base = TRUE) {
 
   permittedPackages <- dplyr::bind_rows(
     basePackages,
-    depList %>%
-      dplyr::select("package", version))
+    depList) %>%
+      dplyr::select("package", version)
+
+  permittedPackages <- permittedPackages %>%
+    group_by(package) %>%
+    summarise(version = min(as.numeric_version(version)))
 
   return(permittedPackages)
 }

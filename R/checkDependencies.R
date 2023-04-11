@@ -39,7 +39,6 @@ printMessage <- function(notPermitted, versionCheck) {
 #' @return Returns data.frame with all non permitted packages based on version.
 getVersionDf <- function(dependencies, permittedPackages) {
   permitted <- dependencies %>%
-    dplyr::filter(.data$package != "R") %>%
     dplyr::filter(.data$package %in% permittedPackages$package)
 
   permitted$version[permitted$version == "*"] <- "0.0.0"
@@ -82,6 +81,9 @@ checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Dep
     dplyr::filter(.data$type %in% dependencyType) %>%
     dplyr::select("package", "version")
 
+  dependencies <- dependencies %>%
+    dplyr::filter(.data$package != "R")
+
   dependencies$version <- stringr::str_remove(
     string = dependencies$version,
     pattern = "[\\s>=<]+")
@@ -95,11 +97,9 @@ checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Dep
   }
 
   notPermitted <- dependencies %>%
-    dplyr::filter(.data$package != "R") %>%
     dplyr::filter(!.data$package %in% permittedPackages$package)
 
   permitted <- dependencies %>%
-    dplyr::filter(.data$package != "R") %>%
     dplyr::filter(.data$package %in% permittedPackages$package)
 
   permitted$version[permitted$version == "*"] <- "0.0.0"
