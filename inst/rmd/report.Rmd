@@ -166,7 +166,7 @@ DT::datatable(data.frame(
 ```{r farthestDependency, echo=params$showCode, message=FALSE, warning=FALSE, out.width="100%"}
 p <- igraph::all_simple_paths(
   graph = graphData,
-  from = igraph::farthest.nodes(graphData)$vertices[1],
+  from = basename(params$pkgPath),
   to = igraph::farthest.nodes(graphData)$vertices[2])
 
 
