@@ -4,3 +4,4 @@
 ^inst/glue$
 ^extras$
 ^README\.Rmd$
+^docs$
