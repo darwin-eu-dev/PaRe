@@ -37,4 +37,5 @@ Suggests:
     plotly,
     igraph,
     ggraph,
-    DT
+    DT,
+    magick
