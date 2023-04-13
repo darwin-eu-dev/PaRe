@@ -18,8 +18,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Package overview
 ```{r packageDiagram, out.width="100%", echo=params$showCode, warning=FALSE}
-bitmap <- charToRaw(DiagrammeRsvg::export_svg(PaRe::pkgDiagram(pkgPath = params$pkgPath)))
-magick::image_read(bitmap)
+params$pkgPath %>%
+  PaRe::pkgDiagram() %>%
+  DiagrammeRsvg::export_svg() %>%
+  charToRaw() %>%
+  magick::image_read()
 ```
 
 ## Summary of package functions
