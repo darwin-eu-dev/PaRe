@@ -38,4 +38,6 @@ Suggests:
     igraph,
     ggraph,
     DT,
-    magick
+    magick,
+    withr
+VignetteBuilder: knitr
