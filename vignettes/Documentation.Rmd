@@ -14,6 +14,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r local_cache, echo=FALSE}
+withr::local_envvar(
+  R_USER_CACHE_DIR = tempfile()
+)
+```
+
 ```{r setup}
 library(PaRe)
 ```
@@ -26,7 +32,7 @@ For the examples in this vignette `glue` will be used as an example. `glue` vers
 `PaRe` includes a data frame which contains links to csv-files to be used in the `PaRe::checkDependencies` and `PaRe::getDefaultPermittedPackages` functions.
 
 By default the data frame contains the following information.
-```{r}
+```{r whiteList}
 PaRe::whiteList
 ```
 
@@ -92,11 +98,23 @@ PaRe::getDefaultPermittedPackages(base = TRUE)
 
 ### checkDependencies
 Now that we know what is included in the white list, we can make our first step into reviewing `glue`, which is to ensure the (suggested) dependencies `glue` uses are in our white list.
-```{r}
+```{r eval=FALSE}
 PaRe::checkDependencies(
   pkgPath = system.file(package = "PaRe", "glue"),
   dependencyType = c("Import", "Suggests"))
 ```
+```
+→ The following are not permitted: covr, microbenchmark, R.utils, rprintf, testthat                  
+→ Please open an issue here: https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues
+```
+|        package | version |
+| -------------- | ------- |
+|           covr |       * |		
+| microbenchmark |       * |
+| 	      R.utils|       * |
+|         rprintf|       * |
+|       testthat |   3.0.0 |
+
 Not all suggested dependencies are approved. The function prints a message and returns a data frame, containing all packages that are not listed in our white list.
 
 `checkDependecies` takes two parameters:
@@ -106,14 +124,14 @@ Not all suggested dependencies are approved. The function prints a message and r
 
 ### getGraphData
 glue depends on (suggested) dependencies. These dependencies in turn import other dependencies, and so on. We can investigate how these recursive dependencies depend on one another, by investigating it as a graph.
-```{r}
+```{r eval=FALSE}
 graphData <- PaRe::getGraphData(
   system.file(package = "PaRe", "glue"),
   package_types = c("imports", "suggests"))
 ```
 
 We can compute several statistics about our dependency graph
-```{r}
+```{r eval=FALSE}
 data.frame(
   countVertices = length(igraph::V(graphData)),
   countEdges = length(igraph::E(graphData)),
@@ -126,10 +144,15 @@ data.frame(
 - **meanDegree**: is the average amount of imports per dependency.
 - **meanDistance**: is the average amount of dependencies between `glue` and all other recursive dependencies.
 
+| countVertices | countEdges | meanDegree | meanDistance |
+| ------------- | ---------- | ---------- | ------------ |
+|            19 |         18 |       1.89 |          1.8 |
+
 We can then plot the graph.
-```{r warning=FALSE, out.width="100%", dpi=100}
+```{r eval=FALSE}
 plot(graphData)
 ```
+![glueGraph](img/glueGraph.png)
 
 ## Package wide function use
 `PaRe` allows you to get insight in the function usage in a package.
@@ -144,16 +167,20 @@ funsUsed
 
 ### getDefinedFunctionsPkg
 ```{r}
-head(PaRe::getDefinedFunctionsPkg(
-  path = system.file(package = "PaRe", "glue")))
+PaRe::getDefinedFunctionsPkg(
+  path = system.file(package = "PaRe", "glue"))
 ```
 Besides the location of each function being displayed, the number of arguments for each function, and the cyclometic complexity is also included in the result.
 
 
-```{r out.width="100%"}
-PaRe::pkgDiagram(
-  pkgPath = system.file(package = "PaRe", "glue"))
+```{r eval=FALSE}
+system.file(package = "PaRe", "glue") %>%
+  PaRe::pkgDiagram() %>%
+  DiagrammeRsvg::export_svg() %>%
+  charToRaw() %>%
+  magick::image_read()
 ```
+![glueDiagram](img/glueDiagram.svg)
 
 ## Lines of code
 ```{r}
@@ -165,15 +192,17 @@ PaRe::countPackageLines(
 
 
 ## Linting
-```{r}
+```{r eval=FALSE}
 PaRe::lintScore(
   lintFunction = PaRe::lintPackage,
   path = system.file(package = "PaRe", "glue"))
 ```
-
+|    type |  pct |
+| ------- | ---- |
+|   style | 8.13 |
+| warning | 0.16 |
 
 ```{r}
 head(as.data.frame(PaRe::lintPackage(
   path = system.file(package = "PaRe", "glue"))))
 ```
-
