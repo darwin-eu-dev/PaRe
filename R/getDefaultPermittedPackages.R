@@ -59,7 +59,7 @@ getDefaultPermittedPackages <- function(base = TRUE) {
       dplyr::select("package", version)
 
   permittedPackages <- permittedPackages %>%
-    group_by(package) %>%
+    group_by(.data$package) %>%
     summarise(version = min(as.numeric_version(version)))
 
   return(permittedPackages)

@@ -92,10 +92,14 @@ getBodyIndices <- function(line, lines) {
     cntOpen <- cntOpen + stringr::str_count(string = lines[endFunLine], "\\{")
     cntClosed <- cntClosed + stringr::str_count(string = lines[endFunLine], "\\}")
 
-    if (cntOpen == cntClosed & cntOpen > 0) {
-      switchOff <- FALSE
+    if (is.na(cntOpen) | is.null(cntOpen)) {
+      break
     } else {
-      endFunLine <- endFunLine + 1
+      if (cntOpen == cntClosed & cntOpen > 0) {
+        switchOff <- FALSE
+      } else {
+        endFunLine <- endFunLine + 1
+    }
     }
   }
 
