@@ -91,20 +91,32 @@ p <- defFuns %>%
 
 ## Function details
 ```{r definedFunctions, echo=params$showCode}
-DT::datatable(defFuns %>% 
-                dplyr::mutate(file_start = paste0(file, " (from line: ", start, ")")) %>% 
-                dplyr::select("fun", "nArgs", "size","cycloComp", "file_start") %>% 
-                dplyr::rename("Function" = "fun",
-                              "Number of arguments" = "nArgs",
-                              "Lines of code" = "size",
-                              "Cyclomatic complexity" = "cycloComp",
-                              "Location" = "file_start"),
-              rownames= FALSE)
+colours <- c("", "#DFDF00", "#AA3F40")
+argBreaks <- c(5, 7)
+complexBreaks <- c(20, 50)
+lineBreaks <- c(100, 200)
+
+DT::datatable(
+  defFuns %>% 
+    dplyr::mutate(file_start = paste0(file, " (from line: ", start, ")")) %>% 
+    dplyr::select("fun", "nArgs", "size","cycloComp", "file_start") %>% 
+    dplyr::rename(
+      "Function" = "fun",
+      "Number of arguments" = "nArgs",
+      "Lines of code" = "size",
+      "Cyclomatic complexity" = "cycloComp",
+      "Location" = "file_start"),
+  rownames = FALSE) %>%
+  DT::formatStyle("Number of arguments", backgroundColor = styleInterval(argBreaks, colours)) %>%
+  DT::formatStyle("Cyclomatic complexity", backgroundColor = styleInterval(complexBreaks, colours)) %>%
+  DT::formatStyle("Lines of code", backgroundColor = styleInterval(lineBreaks, colours))
 ```
 
-## Use of other programming languages (TO DO)
+## Use of other programming languages
 ```{r countLines, echo=params$showCode}
-# countPackageLines(path = params$pkgPath)
+DT::datatable(
+  countPackageLines(path = params$pkgPath),
+  rownames = "# lines of code")
 ```
 
 ## Style adherence, syntax errors and possible semantic issues
