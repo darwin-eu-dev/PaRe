@@ -41,7 +41,7 @@ countPackageLines <- function(
     }))
 
     if (length(pths) > 0) {
-      normalizePath(paste0(path, pths[!pths %in% dirsToIgnore]))
+      file.path(path, pths[!pths %in% dirsToIgnore])
     }
   })
 
@@ -49,5 +49,5 @@ countPackageLines <- function(
 
   dplyr::bind_rows(lapply(filesList, function(files) {
     countLines(files)
-  })) %>% mutate(package = basename(path))
+  })) %>% dplyr::mutate(package = basename(path))
 }

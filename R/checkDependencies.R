@@ -39,13 +39,19 @@ printMessage <- function(notPermitted, versionCheck) {
 #' @return Returns data.frame with all non permitted packages based on version.
 getVersionDf <- function(dependencies, permittedPackages) {
   permitted <- dependencies %>%
-    dplyr::filter(.data$package != "R") %>%
     dplyr::filter(.data$package %in% permittedPackages$package)
 
   permitted$version[permitted$version == "*"] <- "0.0.0"
 
+  permitted <- permitted %>%
+    dplyr::arrange(.data$package)
+
+  permittedPackages <- permittedPackages[
+    permittedPackages$package %in% permitted$package, ] %>%
+    dplyr::arrange(.data$package)
+
   df <- cbind(
-    permittedPackages[permittedPackages$package %in% permitted$package, ],
+    permittedPackages,
     allowed = permitted$version)
 
   return(df[
@@ -58,6 +64,7 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #'
 #' @param pkgPath Path to package
 #' @param dependencyType Types of dependencies to be included
+#' @param verbose TRUE or FALSE. If TRUE, progress will be reported.
 #'
 #' @return Returns a data.frame with all the packages that are now permitted.
 #' @export
@@ -66,21 +73,33 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #' if (interactive()) {
 #'   checkDependencies(system.file(package = "PaRe", "glue"))
 #' }
-checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Depends")) {
+checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Depends"),
+                              verbose = TRUE) {
   description <- desc::description$new(file = file.path(pkgPath, "DESCRIPTION"))
 
   dependencies <- description$get_deps() %>%
     dplyr::filter(.data$type %in% dependencyType) %>%
     dplyr::select("package", "version")
 
-  permittedPackages <- getDefaultPermittedPackages()
+  dependencies <- dependencies %>%
+    dplyr::filter(.data$package != "R")
+
+  dependencies$version <- stringr::str_remove(
+    string = dependencies$version,
+    pattern = "[\\s>=<]+")
+
+  if (isTRUE(verbose)){
+    permittedPackages <- getDefaultPermittedPackages()
+  } else {
+    suppressMessages(
+      permittedPackages <- getDefaultPermittedPackages()
+    )
+  }
 
   notPermitted <- dependencies %>%
-    dplyr::filter(.data$package != "R") %>%
     dplyr::filter(!.data$package %in% permittedPackages$package)
 
   permitted <- dependencies %>%
-    dplyr::filter(.data$package != "R") %>%
     dplyr::filter(.data$package %in% permittedPackages$package)
 
   permitted$version[permitted$version == "*"] <- "0.0.0"

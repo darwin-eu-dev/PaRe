@@ -4,12 +4,18 @@
 \alias{checkDependencies}
 \title{checkDependencies}
 \usage{
-checkDependencies(pkgPath = "./", dependencyType = c("Imports", "Depends"))
+checkDependencies(
+  pkgPath = "./",
+  dependencyType = c("Imports", "Depends"),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{pkgPath}{Path to package}
 
 \item{dependencyType}{Types of dependencies to be included}
+
+\item{verbose}{TRUE or FALSE. If TRUE, progress will be reported.}
 }
 \value{
 Returns a data.frame with all the packages that are now permitted.

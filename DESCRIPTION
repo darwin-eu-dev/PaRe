@@ -32,3 +32,12 @@ Imports:
     tidygraph,
     utils,
     here
+Suggests:
+    ggplot2,
+    plotly,
+    igraph,
+    ggraph,
+    DT,
+    magick,
+    withr
+VignetteBuilder: knitr

@@ -1,0 +1,208 @@
+---
+title: "Documentation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Documentation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r local_cache, echo=FALSE}
+withr::local_envvar(
+  R_USER_CACHE_DIR = tempfile()
+)
+```
+
+```{r setup}
+library(PaRe)
+```
+
+For the examples in this vignette `glue` will be used as an example. `glue` version *1.6.2.9000* is included in the system files of `PaRe` and is thus accessible even if these examples are ran offline.
+
+`PaRe` does fetch some online resources through the package `pak`. And by default online stored csv-files in the `PaRe::whiteList` data.frame. If no connection can be made, functions using these methods to reference these online resources will return `NULL`.
+
+## Whitelist Data Frame
+`PaRe` includes a data frame which contains links to csv-files to be used in the `PaRe::checkDependencies` and `PaRe::getDefaultPermittedPackages` functions.
+
+By default the data frame contains the following information.
+```{r whiteList}
+PaRe::whiteList
+```
+
+The data frame contains 4 columns:
+
+1. *source*: Source name.
+2. *link*: Link or path to the csv-file.
+3. *package*: Column name in the referenced csv-file that contains the package names.
+4. *version*: Column name in the referenced csv-file that contains the package versions.
+
+If you wish to alter the sources in just your R-session, you can either add, remove, or replace individual rows in the whiteList data frame.
+```{r}
+sessionWhiteList <- rbind(
+  whiteList,
+  list(
+    source = "dummySession",
+    link = "some/file.csv",
+    package = "package",
+    version = "version"))
+
+sessionWhiteList
+```
+You can overwrite the `whiteList` data frame to use your new sources during your R-session.
+```{r eval=FALSE}
+PaRe::whiteList <- sessionWhiteList
+```
+
+
+If you wish to make more permanent alterations to the `whiteList` data frame, you can edit the whiteList.csv file in the PaRe system files.
+```{r}
+fileWhiteList <- rbind(
+  read.csv(
+    system.file(
+      package = "PaRe",
+      "whiteList.csv")),
+  list(
+    source = "dummyFile",
+    link = "some/file.csv",
+    package = "package",
+    version = "version")
+)
+
+fileWhiteList
+```
+```{r eval=FALSE}
+write.csv(
+  fileWhiteList,
+  system.file(
+    package = "PaRe",
+    "whiteList.csv"))
+```
+
+## Dependency Review
+Before we start diving into the dependency usage of `glue` we should first establish what our dependency white list even looks like. We can retrieve our full list of whitelisted dependencies buy calling the `getDefaultPermittedPackages` function.
+
+### getDefaultPermittedPackages
+```{r message=FALSE, warning=FALSE}
+PaRe::getDefaultPermittedPackages(base = TRUE)
+```
+`getDefaultPermittedPackages` takes one parameter:
+
+1. **base** which is set to `TRUE` by default. Packages that listed as *base* packages will be included in the white list.
+
+### checkDependencies
+Now that we know what is included in the white list, we can make our first step into reviewing `glue`, which is to ensure the (suggested) dependencies `glue` uses are in our white list.
+```{r eval=FALSE}
+PaRe::checkDependencies(
+  pkgPath = system.file(package = "PaRe", "glue"),
+  dependencyType = c("Import", "Suggests"))
+```
+```
+→ The following are not permitted: covr, microbenchmark, R.utils, rprintf, testthat                  
+→ Please open an issue here: https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues
+```
+|        package | version |
+| -------------- | ------- |
+|           covr |       * |		
+| microbenchmark |       * |
+| 	      R.utils|       * |
+|         rprintf|       * |
+|       testthat |   3.0.0 |
+
+Not all suggested dependencies are approved. The function prints a message and returns a data frame, containing all packages that are not listed in our white list.
+
+`checkDependecies` takes two parameters:
+
+1. **pkgPath** which specifies the path to the pacakge.
+2. **dependencyType** a vector of character items which specify kinds of imports to look at.
+
+### getGraphData
+glue depends on (suggested) dependencies. These dependencies in turn import other dependencies, and so on. We can investigate how these recursive dependencies depend on one another, by investigating it as a graph.
+```{r eval=FALSE}
+graphData <- PaRe::getGraphData(
+  system.file(package = "PaRe", "glue"),
+  package_types = c("imports", "suggests"))
+```
+
+We can compute several statistics about our dependency graph
+```{r eval=FALSE}
+data.frame(
+  countVertices = length(igraph::V(graphData)),
+  countEdges = length(igraph::E(graphData)),
+  meanDegree = round(mean(igraph::degree(graphData)), 2),
+  meanDistance = round(mean(igraph::distances(graphData)), 2)
+  )
+```
+- **countVertices** resembles the amount of recursive dependencies `glue` depends on.
+- **countEdges**: are the total amount of imports of all dependencies.
+- **meanDegree**: is the average amount of imports per dependency.
+- **meanDistance**: is the average amount of dependencies between `glue` and all other recursive dependencies.
+
+| countVertices | countEdges | meanDegree | meanDistance |
+| ------------- | ---------- | ---------- | ------------ |
+|            19 |         18 |       1.89 |          1.8 |
+
+We can then plot the graph.
+```{r eval=FALSE}
+plot(graphData)
+```
+![glueGraph](img/glueGraph.png)
+
+## Package wide function use
+`PaRe` allows you to get insight in the function usage in a package.
+
+### summariseFunctionUse
+```{r summariseFunctionUse, message=FALSE, warning=FALSE}
+funsUsed <- PaRe::summariseFunctionUse(
+  r_files = list.files(file.path(system.file(package = "PaRe", "glue"), "R"), full.names = TRUE))
+
+funsUsed
+```
+
+### getDefinedFunctionsPkg
+```{r}
+PaRe::getDefinedFunctionsPkg(
+  path = system.file(package = "PaRe", "glue"))
+```
+Besides the location of each function being displayed, the number of arguments for each function, and the cyclometic complexity is also included in the result.
+
+
+```{r eval=FALSE}
+system.file(package = "PaRe", "glue") %>%
+  PaRe::pkgDiagram() %>%
+  DiagrammeRsvg::export_svg() %>%
+  charToRaw() %>%
+  magick::image_read()
+```
+![glueDiagram](img/glueDiagram.svg)
+
+## Lines of code
+```{r}
+PaRe::countPackageLines(
+  path = system.file(package = "PaRe", "glue"),
+  fileEx = c("R", "cpp", "java"))
+```
+`glue` contains 1056 lines of R-code, 0 lines of C++, and 0 lines of java.
+
+
+## Linting
+```{r eval=FALSE}
+PaRe::lintScore(
+  lintFunction = PaRe::lintPackage,
+  path = system.file(package = "PaRe", "glue"))
+```
+|    type |  pct |
+| ------- | ---- |
+|   style | 8.13 |
+| warning | 0.16 |
+
+```{r}
+head(as.data.frame(PaRe::lintPackage(
+  path = system.file(package = "PaRe", "glue"))))
+```

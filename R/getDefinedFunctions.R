@@ -57,7 +57,7 @@ getDefinedFunctionsFile <- function(filePath, verbose = FALSE) {
       df["fun"] <- funNames[i]
       df["size"] <- df["end"] - df["start"]
       df["file"] <- tail(unlist(stringr::str_split(filePath, "/")), 1)
-      df <- df %>% dplyr::select(.data$file, .data$start, .data$size, .data$fun, .data$nArgs, .data$cycloComp)
+      df <- df %>% dplyr::select("file", "start", "size", "fun", "nArgs", "cycloComp")
       return(df)
     }))
 }
@@ -73,8 +73,7 @@ getDefinedFunctionsFile <- function(filePath, verbose = FALSE) {
 #' @return Returns a data.frame with the start and end indices of lines.
 getBodyIndices <- function(line, lines) {
   # Parameters
-  switchOff <- FALSE
-
+  switchOff <- TRUE
   # Get start of body
   startFunLine <- goToBody(line, lines)
 
@@ -89,33 +88,18 @@ getBodyIndices <- function(line, lines) {
   cntOpen <- 0
   cntClosed <- 0
 
-  while (switchOff == FALSE) {
-    checkOpen <- stringr::str_detect(string = lines[endFunLine], "\\{")
-    checkClose <- stringr::str_detect(string = lines[endFunLine], "\\}")
+  while (switchOff) {
+    cntOpen <- cntOpen + stringr::str_count(string = lines[endFunLine], "\\{")
+    cntClosed <- cntClosed + stringr::str_count(string = lines[endFunLine], "\\}")
 
-    if (length(checkOpen) == 0 || length(checkClose) == 0) {
-      checkOpen <- FALSE
-      checkClose <- FALSE
-    }
-
-    if (is.na(checkOpen) || is.na(checkClose)) {
-      cntOpen <- max(c(cntOpen, cntClosed))
-      cntClosed <- max(c(cntOpen, cntClosed))
+    if (is.na(cntOpen) | is.null(cntOpen)) {
+      break
     } else {
-      if (checkOpen) {
-        cntOpen <- cntOpen + 1
-      }
-
-      if (checkClose) {
-        cntClosed <- cntClosed + 1
-      }
+      if (cntOpen == cntClosed & cntOpen > 0) {
+        switchOff <- FALSE
+      } else {
+        endFunLine <- endFunLine + 1
     }
-
-    if (cntOpen == cntClosed) {
-      endFunLine <- endFunLine
-      switchOff <- TRUE
-    } else {
-      endFunLine <- endFunLine + 1
     }
   }
 
@@ -147,18 +131,20 @@ getBodyIndices <- function(line, lines) {
 #' @return Returns a numeric index.
 goToBody <- function(line, lines) {
   startFun <- FALSE
-  line <- line
-  while (startFun == FALSE) {
-    checkOpen <- stringr::str_detect(string = lines[line], "\\{")
+  bodyLine <- line
 
-    if (is.na(checkOpen)) {
-      return(line)
-    }
-    if (checkOpen) {
+  bracOpen <- 0
+  bracClosed <- 0
+
+  while (!startFun) {
+    bracOpen <- bracOpen + stringr::str_count(string = lines[bodyLine], "\\(")
+    bracClosed <- bracClosed + stringr::str_count(string = lines[bodyLine], "\\)")
+
+    if (bracOpen == bracClosed & bracOpen > 0) {
       startFun <- TRUE
     } else {
-      line <- line + 1
+      bodyLine <- bodyLine + 1
     }
   }
-  return(line)
+  return(bodyLine)
 }
