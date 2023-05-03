@@ -31,7 +31,8 @@ Imports:
     stringr,
     tidygraph,
     utils,
-    here
+    here,
+    pkginfo
 Suggests:
     ggplot2,
     plotly,
@@ -39,5 +40,6 @@ Suggests:
     ggraph,
     DT,
     magick,
-    withr
+    withr,
+    htmltools
 VignetteBuilder: knitr

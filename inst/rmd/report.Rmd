@@ -230,6 +230,22 @@ ggplot2::ggplot(
     axis.text.x = (ggplot2::element_text(angle = 45, hjust = 1, vjust = 1)))
 ```
 
+## CRAN
+```{r cranSection, echo=params$showCode, message=FALSE, warning=FALSE}
+cranPackage <- PaRe::getCranPackage(params$pkgPath)
+if (is.null(cranPackage)) {
+  cat("This package it not on CRAN")
+} else {
+  htmltools::tagList(DT::datatable(cranPackage$get_authors(),
+                                   caption = "Authors",
+                                   rownames = FALSE,
+                                   options = list(dom = 't')),
+                     DT::datatable(cranPackage$get_downloads(),
+                                   caption = "Number of downloads",
+                                   rownames = FALSE,
+                                   options = list(dom = 't')))
+}
+```
 
 
 
