@@ -33,3 +33,13 @@ You can install the development version of DependencyReviewer like so:
 install.packages("remotes")
 remotes::install_github("darwin-eu/PaRe")
 ```
+
+## Make your report <a name="Make your report"></a>
+
+PaRe generates a report with all the metrics about your dependencies and
+code complexity. Just run the following line inside the working
+directory of your package.
+
+``` r
+PaRe::makeReport(pkgPath = "./", outputFile = "./Report.html")
+```
