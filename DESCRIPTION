@@ -31,7 +31,9 @@ Imports:
     stringr,
     tidygraph,
     utils,
-    here
+    here,
+    R6,
+    git2r
 Suggests:
     ggplot2,
     plotly,
