@@ -25,10 +25,12 @@ countLines <- function(files) {
 #'
 #' @examples
 #' countPackageLines("./")
-countPackageLines <- function(
-    path,
+R6countPackageLines <- function(
+    repo,
     fileEx = c("R", "cpp", "sql", "java"),
     ignoreDirs = c("tests", "extras")) {
+
+  path <- repo$getPath()
 
   filesList <- lapply(fileEx, function(ex) {
     pths <- list.files(

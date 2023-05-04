@@ -68,14 +68,10 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #'
 #' @return Returns a data.frame with all the packages that are now permitted.
 #' @export
-#'
-#' @examples
-#' if (interactive()) {
-#'   checkDependencies(system.file(package = "PaRe", "glue"))
-#' }
-checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Depends"),
-                              verbose = TRUE) {
-  description <- desc::description$new(file = file.path(pkgPath, "DESCRIPTION"))
+R6checkDependencies <- function(repo,
+                                dependencyType = c("Imports", "Depends"),
+                                verbose = TRUE) {
+  description <- repo$getDescription()
 
   dependencies <- description$get_deps() %>%
     dplyr::filter(.data$type %in% dependencyType) %>%
