@@ -18,6 +18,7 @@
 #' @import DiagrammeRsvg
 #' @import rsvg
 #' @import here
+#' @import git2r
 #' @importFrom desc description
 #' @importFrom magrittr %>%
 #' @importFrom cyclocomp cyclocomp
