@@ -238,9 +238,6 @@ cranPackage <- PaRe::getCranPackage(params$pkgPath)
 if (is.null(cranPackage)) {
   cat("This package it not on CRAN")
 } else {
-  createDataTable <- function(data, caption) {
-    DT::datatable(data, rownames = FALSE, options = list(dom = 't'))
-  }
   htmltools::tagList(htmltools::tags$a(href = glue::glue("https://CRAN.R-project.org/package={cranPackage$package_name}"),
                                        htmltools::tags$img(src = glue::glue("https://www.r-pkg.org/badges/version/{cranPackage$package_name}"), alt="CRANstatus")),
                      htmltools::tags$p(),
