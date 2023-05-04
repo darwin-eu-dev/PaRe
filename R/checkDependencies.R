@@ -68,7 +68,7 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #'
 #' @return Returns a data.frame with all the packages that are now permitted.
 #' @export
-R6checkDependencies <- function(repo,
+checkDependencies <- function(repo,
                                 dependencyType = c("Imports", "Depends"),
                                 verbose = TRUE) {
   description <- repo$getDescription()

@@ -1,9 +1,20 @@
+#' @title
+#' R6 File class
+#'
 #' @description
-#' R6 <File> class representing a file containging code.
+#' Class representing a file containing code.
 File <- R6::R6Class(
   classname = "File",
   inherit = Code,
+  # Public ----
   public = list(
+    #' @description
+    #' Initializer method
+    #'
+    #' @param path (`character()`)\cr
+    #' Path to file.
+    #'
+    #' @return (`invisible(self)`)\cr
     initialize = function(path) {
       private$path <- path
       private$name <- basename(path)
@@ -15,10 +26,15 @@ File <- R6::R6Class(
       return(invisible(self))
     },
 
+    #' @description
+    #' Get method to get a list of Function objects
+    #'
+    #' @return (`list()`) of \link[PaRe]{Function} objects.
     getFunctions = function() {
       return(private$functions)
     }
   ),
+  # Private ----
   private = list(
     path = "",
     functions = NULL,

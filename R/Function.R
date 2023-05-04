@@ -1,9 +1,26 @@
+#' @title
+#' R6 Function class.
+#'
 #' @description
-#' R6 <Function> class representing a function.
+#' Class representing a function.
 Function <- R6::R6Class(
   classname = "Function",
   inherit = Code,
+  # Public ----
   public = list(
+    #' @description
+    #' Initializer for Function object.
+    #'
+    #' @param name (`character()`)\cr
+    #' Name of Function.
+    #' @param lineStart (`numeric()`)\cr
+    #' Line number where function starts in File.
+    #' @param lineEnd (`numeric()`)\cr
+    #' Line number where function ends in File.
+    #' @param lines (`c()`) of type (`character()`)\cr
+    #' Lines of just the function in File.
+    #'
+    #' @return (`invisible(self)`)
     initialize = function(name, lineStart, lineEnd, lines) {
       private$name <- name
       private$lineStart <- lineStart
@@ -15,6 +32,13 @@ Function <- R6::R6Class(
       return(invisible(self))
     },
 
+
+    #' @description
+    #' Get method to get defined functions in a File object.
+    #'
+    #' @return (`data.frame()`)\cr
+    #' data.frame containing the function name, line start, line end, number
+    #' of arguments and cyclomatic complexity.
     getFunction = function() {
       return(data.frame(
         name = private$name,
@@ -25,6 +49,7 @@ Function <- R6::R6Class(
       ))
     }
   ),
+  # Private ----
   private = list(
     lineStart = 0,
     lineEnd = 0,

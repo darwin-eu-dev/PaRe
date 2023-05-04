@@ -1,5 +1,7 @@
+#' @title
+#' R6 Repository class.
 #' @description
-#' R6 <Repository> class representing the Repository
+#' Class representing the Repository
 #' @export
 Repository <- R6::R6Class(
   classname = "Repository",
@@ -21,38 +23,118 @@ Repository <- R6::R6Class(
       return(invisible(self))
     },
 
+    #' @description
+    #' Get method for name.
+    #'
+    #' @return (`character()`)\cr
+    #' Repository name
     getName = function() {
       return(private$name)
     },
 
+    #' @description
+    #' Get method fro path
+    #'
+    #' @return (`character()`)\cr
+    #' Path to Repository folder
     getPath = function() {
       return(private$path)
     },
 
+    #' @description
+    #' Get method to get a list of (`File`) objects.
+    #'
+    #' @return (`list()`)
+    #' List of File objects
     getFiles = function() {
       return(private$rFiles)
     },
 
+    #' @description
+    #' Get method to get the description of the package.
+    #' See: \link[desc]{description}.
+    #'
+    #' @return (`desc::description`)\cr
+    #' Description object
     getDescription = function() {
       return(private$description)
     },
 
-    getFunctionUse = function(...) {
-      getFunctionUse(private$rFiles, ...)
+    #' @description
+    #' Get method for functionUse, will check if functionUse has already been
+    #' fetched or not.
+    #'
+    #' @return (`data.frame()`)
+    #' data.frame containing function use.
+    getFunctionUse = function() {
+      if (is.null(private$funtionUse)) {
+        message("functionUse not yet fetched.")
+        input <- readline(
+          "Would you like to fetch now? (y/n)")
+        if (tolower(input) == "y") {
+          private$functionUse <- getFunctionUse(private$rFiles, verbose = TRUE)
+          return(private$functionUse)
+        } else {
+          message("You can use the `fetchFunctionUse()` method aswell.")
+        }
+      } else {
+        return(private$functionUse)
+      }
     },
 
+    #' @description
+    #' Fetch functionUse data.frame.
+    #'
+    #' @param ...
+    #' Further parameters for \link[PaRe]{getFunctionUse}
+    #'
+    #' @return (`invisible(self`)
+    fetchFunctionUse = function(...) {
+      private$functionUse <- getFunctionUse(private$rFiles, ...)
+      return(invisible(self))
+    },
+
+    #' @description
+    #' Check if used dependencies are in accordance with the specified PaRe
+    #' white list.
+    #'
+    #' @return (`invisible(self)`)
     checkDependencies = function() {
       R6checkDependencies(self)
+      return(invisible(self))
     },
 
+    #' @description
+    #' Counts lines per type of file.
+    #'
+    #' @param ...
+    #' Further parameters for \link[PaRe]{countPackageLines}
+    #'
+    #' @return (`data.frame()`)\cr
+    #' data.frame containing the amount of lines per file type.
     linesPerType = function(...) {
-      R6countPackageLines(self, ...)
+      return(countPackageLines(self, ...))
     },
 
-    gitBlame = function(...) {
-      PaRe::gitBlameRepo(repoPath = private$path, ...)
-    },
+    # #' @description
+    # #' Method to run 'git blame' on package files matched by a regex pattern.
+    # #'
+    # #' @param ... Parameters for \link[PaRe]{gitBlameRepo}
+    # #'
+    # #' @return (`data.frame()`)
+    # gitBlame = function(...) {
+    #   PaRe::gitBlameRepo(repoPath = private$path, ...)
+    #},
 
+    #' @description
+    #' Method to run 'git checkout <branch/commit hash>'
+    #'
+    #' @param branch (`character()`)\cr
+    #' Name of branch or a hash referencing a specific commit.
+    #' @param ...
+    #' Further parameters for \link[git2r]{checkout}
+    #'
+    #' @return (`invisible(self)`)
     gitCheckout = function(branch, ...) {
       tryCatch({
         git2r::checkout(object = private$path, branch = branch, ...)
@@ -63,13 +145,22 @@ Repository <- R6::R6Class(
         message(glue::glue("Availible branches: {paste(names(git2r::branches(private$path)), collapse = ', ')}"))
         stop(glue::glue("Branches: '{branch}' not found"))
       })
+      return(invisible(self))
     },
 
+    #' @description
+    #' Method to run 'git pull'
+    #'
+    #' @param ...
+    #' Further parameters for \link[git2r]{pull}
+    #'
+    #' @return (`invisible(self)`)
     gitPull = function(...) {
       message("Pulling latest")
       git2r::pull(repo = private$path, ...)
       message("Re-initializing")
       self$initialize(path = private$path)
+      return(invisible(self))
     }
   ),
   # Private ----
@@ -79,6 +170,7 @@ Repository <- R6::R6Class(
     rFiles = NULL,
     git = NULL,
     description = NULL,
+    functionUse = NULL,
 
     validate = function() {
       errorMessages <- checkmate::makeAssertCollection()

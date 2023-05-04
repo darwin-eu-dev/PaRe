@@ -1,8 +1,20 @@
+#' @title
+#' R6 Code class
 #' @description
-#' R6 <Code> class representing a piece of code.
+#' Class representing a piece of code.
 Code <- R6::R6Class(
   classname = "Code",
+  # Public ----
   public = list(
+    #' @description
+    #' Initializer method
+    #'
+    #' @param name
+    #' <character> Name of Code object.
+    #' @param lines
+    #' <character> Vector of lines Code object.
+    #'
+    #' @return invisible(self)
     initialize = function(name, lines) {
       private$name <- name
       private$lines <- lines
@@ -12,6 +24,14 @@ Code <- R6::R6Class(
       return(invisible(self))
     },
 
+    #' @description
+    #' Overload generic print, to print Code object.
+    #'
+    #' @param ...
+    #' further arguments passed to or from other methods.
+    #'
+    #' @return
+    #' invisible(self)
     print = function(...) {
       classTypes <- class(self)
       classTypes <- paste0(glue::glue("<{classTypes}>"), collapse = " ")
@@ -25,20 +45,37 @@ Code <- R6::R6Class(
         Comment symbols: {private$comment}"
         )
       )
+      return(invisible(self))
     },
 
+    #' @description
+    #' Get method for lines.
+    #'
+    #' @return
+    #' <character> Vector of lines in the Code object.
     getLines = function() {
       return(private$lines)
     },
 
+    #' @description
+    #' Get method for number of lines.
+    #'
+    #' @return
+    #' <numeric> Number of lines in the Code object.
     getNLines = function() {
       return(private$nLines)
     },
 
+    #' @description
+    #' Get method for Name.
+    #'
+    #' @return
+    #' <character> name of the Code object.
     getName = function() {
       return(private$name)
     }
   ),
+  # Private ----
   private = list(
     name = "",
     lines = c(),

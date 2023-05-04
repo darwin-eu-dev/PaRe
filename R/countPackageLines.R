@@ -25,7 +25,7 @@ countLines <- function(files) {
 #'
 #' @examples
 #' countPackageLines("./")
-R6countPackageLines <- function(
+countPackageLines <- function(
     repo,
     fileEx = c("R", "cpp", "sql", "java"),
     ignoreDirs = c("tests", "extras")) {

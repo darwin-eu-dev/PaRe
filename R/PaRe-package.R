@@ -7,11 +7,7 @@
 #' @import pak
 #' @import glue
 #' @import stringr
-#' @import dplyr
-#' @import cli
 #' @import knitr
-#' @import rlang
-#' @import tidygraph
 #' @import lintr
 #' @import rmarkdown
 #' @import DiagrammeR
@@ -19,7 +15,10 @@
 #' @import rsvg
 #' @import here
 #' @import R6
-#' @import git2r
+#' @importFrom cli style_bold col_yellow col_red col_magenta col_green col_blue cli_alert_warning cli_alert_info cli_alert_danger cli_alert
+#' @importFrom tidygraph as_tbl_graph
+#' @importFrom dplyr filter tibble arrange select bind_rows select tally summarise rename relocate mutate group_by
+#' @importFrom git2r pull tree hash is_empty
 #' @importFrom desc description
 #' @importFrom magrittr %>%
 #' @importFrom cyclocomp cyclocomp
