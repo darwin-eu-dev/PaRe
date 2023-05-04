@@ -231,18 +231,39 @@ ggplot2::ggplot(
 ```
 
 ## CRAN
+
+
 ```{r cranSection, echo=params$showCode, message=FALSE, warning=FALSE}
 cranPackage <- PaRe::getCranPackage(params$pkgPath)
 if (is.null(cranPackage)) {
   cat("This package it not on CRAN")
 } else {
-  htmltools::tagList(DT::datatable(cranPackage$get_authors(),
-                                   caption = "Authors",
-                                   rownames = FALSE,
+  createDataTable <- function(data, caption) {
+    DT::datatable(data, rownames = FALSE, options = list(dom = 't'))
+  }
+  htmltools::tagList(htmltools::tags$a(href = glue::glue("https://CRAN.R-project.org/package={cranPackage$package_name}"),
+                                       htmltools::tags$img(src = glue::glue("https://www.r-pkg.org/badges/version/{cranPackage$package_name}"), alt="CRANstatus")),
+                     htmltools::tags$p(),
+                     glue::glue("The current version of this package is {cranPackage$get_version()}, it has been been published on {cranPackage$get_publish_date()}."),
+                     htmltools::tags$h3("Description properties"),
+                     DT::datatable(data.frame(property = c("Title", "Description", "R version", "Imports", "Suggests"), 
+                                              value = c(cranPackage$get_title(),
+                                                        cranPackage$get_description(),
+                                                        cranPackage$get_r_dep(), 
+                                                        paste(cranPackage$get_imports(), collapse = ", "), 
+                                                        paste(cranPackage$get_suggests(), collapse = ", "))),
+                                   rownames = FALSE, 
                                    options = list(dom = 't')),
-                     DT::datatable(cranPackage$get_downloads(),
-                                   caption = "Number of downloads",
-                                   rownames = FALSE,
+                     htmltools::tags$h3("Authors"),
+                     DT::datatable(cranPackage$get_authors(), 
+                                   rownames = FALSE, 
+                                   options = list(dom = 't')),
+                     htmltools::tags$h3("Number of downloads"),
+                     DT::datatable(as.data.frame(t(cranPackage$get_downloads())) %>% 
+                                     dplyr::rename(amount = colnames(.)) %>% 
+                                     dplyr::mutate(timeframe = rownames(.)) %>% 
+                                     dplyr::select(timeframe, amount), 
+                                   rownames = FALSE, 
                                    options = list(dom = 't')))
 }
 ```
