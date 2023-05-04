@@ -29,11 +29,14 @@ makeReport <- function(pkgPath, outputFile, showCode = FALSE) {
     outputFile <- normalizePath(outputFile, mustWork = FALSE)
     writeLines("", con = outputFile)
 
+    desc <- desc::description$new(file = pkgPath)
+    pkgName <- glue::glue("{desc$get_field('Package')} [{desc$get_version()}]")
+
     # Render report.Rmd
     rmarkdown::render(
       input = system.file(package = "PaRe", "rmd", "report.Rmd"),
       output_file = outputFile,
-      params = list(pkgPath = pkgPath, showCode = showCode))
+      params = list(pkgName = pkgName, pkgPath = pkgPath, showCode = showCode))
   }
 }
 

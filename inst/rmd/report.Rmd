@@ -1,5 +1,5 @@
 ---
-title: "`r paste('PaRe Report:', basename(params$pkgPath))`"
+title: "`r paste('PaRe Report:', params$pkgName)`"
 author: "`r paste('PaRe', packageVersion('PaRe'))`"
 date: "`r Sys.Date()`"
 output:
@@ -8,6 +8,7 @@ output:
     toc_float: true
     theme: cosmo
 params:
+  pkgName: pkgName
   pkgPath: pkgPath
   showCode: showCode
 ---

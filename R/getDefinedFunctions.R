@@ -99,7 +99,7 @@ getBodyIndices <- function(line, lines) {
         switchOff <- FALSE
       } else {
         endFunLine <- endFunLine + 1
-    }
+      }
     }
   }
 
