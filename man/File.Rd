@@ -14,6 +14,7 @@ Class representing a file containing code.
 \itemize{
 \item \href{#method-File-new}{\code{File$new()}}
 \item \href{#method-File-getFunctions}{\code{File$getFunctions()}}
+\item \href{#method-File-getFunctionTable}{\code{File$getFunctionTable()}}
 \item \href{#method-File-clone}{\code{File$clone()}}
 }
 }
@@ -59,6 +60,19 @@ Get method to get a list of Function objects
 
 \subsection{Returns}{
 (`list()`) of \link[PaRe]{Function} objects.
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-File-getFunctionTable"></a>}}
+\if{latex}{\out{\hypertarget{method-File-getFunctionTable}{}}}
+\subsection{Method \code{getFunctionTable()}}{
+Get method to retrieve the function table.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{File$getFunctionTable()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+(`data.frame()`)
 }
 }
 \if{html}{\out{<hr>}}

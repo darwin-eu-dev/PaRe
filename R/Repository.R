@@ -17,6 +17,7 @@ Repository <- R6::R6Class(
       private$name <- basename(private$path)
       private$git <- git2r::in_repository(private$path)
       private$description <- desc::description$new(private$path)
+      private$functionUse <- NULL
       private$validate()
 
       private$fetchRFiles()
@@ -60,61 +61,39 @@ Repository <- R6::R6Class(
       return(private$description)
     },
 
-    #' @description
+    ##' @description
     #' Get method for functionUse, will check if functionUse has already been
     #' fetched or not.
     #'
     #' @return (`data.frame()`)
     #' data.frame containing function use.
     getFunctionUse = function() {
-      if (is.null(private$funtionUse)) {
-        message("functionUse not yet fetched.")
-        input <- readline(
-          "Would you like to fetch now? (y/n)")
-        if (tolower(input) == "y") {
-          private$functionUse <- getFunctionUse(private$rFiles, verbose = TRUE)
-          return(private$functionUse)
-        } else {
-          message("You can use the `fetchFunctionUse()` method aswell.")
-        }
-      } else {
-        return(private$functionUse)
-      }
+      return(private$functionUse)
     },
 
-    #' @description
-    #' Fetch functionUse data.frame.
-    #'
-    #' @param ...
-    #' Further parameters for \link[PaRe]{getFunctionUse}
-    #'
-    #' @return (`invisible(self`)
-    fetchFunctionUse = function(...) {
-      private$functionUse <- getFunctionUse(private$rFiles, ...)
-      return(invisible(self))
-    },
+    # #' @description
+    # #' Fetch functionUse data.frame.
+    # #'
+    # #' @param ...
+    # #' Further parameters for \link[PaRe]{getFunctionUse}
+    # #'
+    # #' @return (`invisible(self`)
+    # fetchFunctionUse = function(...) {
+    #   private$functionUse <- getFunctionUse(private$rFiles, ...)
+    #   return(invisible(self))
+    # },
 
-    #' @description
-    #' Check if used dependencies are in accordance with the specified PaRe
-    #' white list.
-    #'
-    #' @return (`invisible(self)`)
-    checkDependencies = function() {
-      R6checkDependencies(self)
-      return(invisible(self))
-    },
-
-    #' @description
-    #' Counts lines per type of file.
-    #'
-    #' @param ...
-    #' Further parameters for \link[PaRe]{countPackageLines}
-    #'
-    #' @return (`data.frame()`)\cr
-    #' data.frame containing the amount of lines per file type.
-    linesPerType = function(...) {
-      return(countPackageLines(self, ...))
-    },
+    # #' @description
+    # #' Counts lines per type of file.
+    # #'
+    # #' @param ...
+    # #' Further parameters for \link[PaRe]{countPackageLines}
+    # #'
+    # #' @return (`data.frame()`)\cr
+    # #' data.frame containing the amount of lines per file type.
+    # # linesPerType = function(...) {
+    # #   return(countPackageLines(self, ...))
+    # },
 
     # #' @description
     # #' Method to run 'git blame' on package files matched by a regex pattern.

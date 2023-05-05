@@ -56,7 +56,7 @@ Overload generic print, to print Code object.
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-invisible(self)
+(`character()`)
 }
 }
 \if{html}{\out{<hr>}}

@@ -19,8 +19,6 @@ Code <- R6::R6Class(
       private$name <- name
       private$lines <- lines
       private$nLines <- length(lines)
-      private$type <- stringr::str_split_i(string = private$name, pattern = "\\.", i = 2)
-      private$comment <- private$commentSwitch()
       return(invisible(self))
     },
 
@@ -30,8 +28,7 @@ Code <- R6::R6Class(
     #' @param ...
     #' further arguments passed to or from other methods.
     #'
-    #' @return
-    #' invisible(self)
+    #' @return (`character()`)
     print = function(...) {
       classTypes <- class(self)
       classTypes <- paste0(glue::glue("<{classTypes}>"), collapse = " ")
@@ -41,11 +38,8 @@ Code <- R6::R6Class(
         "{classTypes}
         Name: {private$name}
         # Lines: {private$nLines}
-        Code type: {private$type}
-        Comment symbols: {private$comment}"
-        )
+        ")
       )
-      return(invisible(self))
     },
 
     #' @description
@@ -79,20 +73,6 @@ Code <- R6::R6Class(
   private = list(
     name = "",
     lines = c(),
-    nLines = 0,
-    type = "",
-    comment = c(),
-
-    commentSwitch = function() {
-      return(
-        switch(
-          EXPR = private$type,
-          R = c("#"),
-          cpp = c("//"),
-          java = c("//"),
-          sql = c("#")
-        )
-      )
-    }
+    nLines = 0
   )
 )

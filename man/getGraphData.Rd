@@ -5,28 +5,22 @@
 \title{getGraphData}
 \usage{
 getGraphData(
-  path = "./",
-  excluded_packages = c(""),
-  package_types = c("imports", "depends")
+  repo,
+  excludePackages = c(""),
+  packageTypes = c("imports", "depends")
 )
 }
 \arguments{
+\item{packageTypes}{Types of packages to be included in the result. Default: c("imports", "depends")
+Available types are: "imports", "depends", "suggests", "enhances", "linkingto"}
+
 \item{path}{Path to package}
 
-\item{excluded_packages}{Packages to exclude}
-
-\item{package_types}{Types of packages to be included in the result. Default: c("imports", "depends")
-Available types are: "imports", "depends", "suggests", "enhances", "linkingto"}
+\item{excludedPackages}{Packages to exclude}
 }
 \value{
 net_data graph data
 }
 \description{
 getGraphData
-}
-\examples{
-# Only run in interactive session
-if (interactive()) {
-  graphData <- getGraphData()
-}
 }

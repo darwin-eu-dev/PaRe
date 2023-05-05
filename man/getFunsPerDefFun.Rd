@@ -7,14 +7,18 @@
 getFunsPerDefFun(files, allFuns, verbose)
 }
 \arguments{
-\item{files}{Vector of files to investigate.}
+\item{files}{(`list()`)
+List of files to investigate.}
 
-\item{allFuns}{allFunctions data.frame}
+\item{allFuns}{(`data.frame()`)
+Data.frame of allFunctions.}
 
-\item{verbose}{Verbose messages}
+\item{verbose}{(`logical()`)
+Logical to turn verbose messaging on/off.}
 }
 \value{
-returns data.frame of all functions per defined function of package.
+(`data.frame()`)
+  Data.frame of all functions per defined function of package.
 }
 \description{
 Gets all function calls per defined function in the package.

@@ -15,9 +15,6 @@ Class representing the Repository
 \item \href{#method-Repository-getFiles}{\code{Repository$getFiles()}}
 \item \href{#method-Repository-getDescription}{\code{Repository$getDescription()}}
 \item \href{#method-Repository-getFunctionUse}{\code{Repository$getFunctionUse()}}
-\item \href{#method-Repository-fetchFunctionUse}{\code{Repository$fetchFunctionUse()}}
-\item \href{#method-Repository-checkDependencies}{\code{Repository$checkDependencies()}}
-\item \href{#method-Repository-linesPerType}{\code{Repository$linesPerType()}}
 \item \href{#method-Repository-gitCheckout}{\code{Repository$gitCheckout()}}
 \item \href{#method-Repository-gitPull}{\code{Repository$gitPull()}}
 \item \href{#method-Repository-clone}{\code{Repository$clone()}}
@@ -110,61 +107,6 @@ fetched or not.
 \subsection{Returns}{
 (`data.frame()`)
 data.frame containing function use.
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Repository-fetchFunctionUse"></a>}}
-\if{latex}{\out{\hypertarget{method-Repository-fetchFunctionUse}{}}}
-\subsection{Method \code{fetchFunctionUse()}}{
-Fetch functionUse data.frame.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Repository$fetchFunctionUse(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{Further parameters for \link[PaRe]{getFunctionUse}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-(`invisible(self`)
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Repository-checkDependencies"></a>}}
-\if{latex}{\out{\hypertarget{method-Repository-checkDependencies}{}}}
-\subsection{Method \code{checkDependencies()}}{
-Check if used dependencies are in accordance with the specified PaRe
-white list.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Repository$checkDependencies()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-(`invisible(self)`)
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Repository-linesPerType"></a>}}
-\if{latex}{\out{\hypertarget{method-Repository-linesPerType}{}}}
-\subsection{Method \code{linesPerType()}}{
-Counts lines per type of file.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Repository$linesPerType(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{Further parameters for \link[PaRe]{countPackageLines}}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-(`data.frame()`)\cr
-data.frame containing the amount of lines per file type.
 }
 }
 \if{html}{\out{<hr>}}

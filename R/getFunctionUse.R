@@ -210,7 +210,9 @@ funsUsedInFile <- function(files, verbose = FALSE) {
 #' @return tibble
 #'
 #' @export
-getFunctionUse <- function(files, verbose = FALSE) {
+getFunctionUse <- function(repo, verbose = FALSE) {
+  files <- repo$getFiles()
+
   funUse <- funsUsedInFile(files, verbose)
 
   if (length(funUse) == 0) {

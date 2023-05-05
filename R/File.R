@@ -18,6 +18,8 @@ File <- R6::R6Class(
     initialize = function(path) {
       private$path <- path
       private$name <- basename(path)
+      private$type <- stringr::str_split_i(string = private$name, pattern = "\\.", i = 2)
+      private$comment <- private$commentSwitch()
       private$lines <- readLines(path)
 
       super$initialize(private$name, private$lines)
@@ -32,12 +34,24 @@ File <- R6::R6Class(
     #' @return (`list()`) of \link[PaRe]{Function} objects.
     getFunctions = function() {
       return(private$functions)
+    },
+
+    #' @description
+    #' Get method to retrieve the function table.
+    #'
+    #' @return (`data.frame()`)
+    getFunctionTable = function() {
+      return(private$functionTable)
     }
   ),
   # Private ----
   private = list(
     path = "",
+    type = "",
     functions = NULL,
+    comment = "",
+    fileFunctions = NULL,
+    functionTable = NULL,
 
     validate = function() {
       path <- normalizePath(private$path)
@@ -58,13 +72,24 @@ File <- R6::R6Class(
 
       private$functions <- lapply(X = seq_len(length(funStart)), FUN = function(i) {
           fun <- private$getBodyIndices(line = funStart[i])
-          Function$new(
+
+          # Create Function object
+          funObj <- Function$new(
             name = funNames[i],
             lineStart = fun$constructorStart,
             lineEnd = fun$bodyEnd,
             lines = private$lines[fun$constructorStart:fun$bodyEnd]
           )
+
+          # Update functionTable
+          private$functionTable <- dplyr::bind_rows(
+            private$functionTable,
+            funObj$getFunction()
+          )
+
+          return(funObj)
         })
+      return(invisible(self))
     },
 
     getBetween = function(line, patOpen, patClosed) {
@@ -130,6 +155,18 @@ File <- R6::R6Class(
         }
       }
       return(bodyLine)
+    },
+
+    commentSwitch = function() {
+      return(
+        switch(
+          EXPR = private$type,
+          R = c("#"),
+          cpp = c("//"),
+          java = c("//"),
+          sql = c("#")
+        )
+      )
     }
   )
 )

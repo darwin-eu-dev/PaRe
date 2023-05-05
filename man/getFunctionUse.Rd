@@ -4,7 +4,7 @@
 \alias{getFunctionUse}
 \title{summariseFunctionUse}
 \usage{
-getFunctionUse(files, verbose = FALSE)
+getFunctionUse(repo, verbose = FALSE)
 }
 \arguments{
 \item{verbose}{Default: FALSE; prints message to console which file is

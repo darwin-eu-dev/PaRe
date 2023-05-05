@@ -22,10 +22,9 @@ Function <- R6::R6Class(
     #'
     #' @return (`invisible(self)`)
     initialize = function(name, lineStart, lineEnd, lines) {
-      private$name <- name
+      super$initialize(name, lines)
       private$lineStart <- lineStart
       private$lineEnd <- lineEnd
-      private$lines <- lines
       private$nLines <- lineEnd - lineStart + 1
       private$nArgs <- private$getNArgs()
       private$cycloComp <- private$computeCycloComp()

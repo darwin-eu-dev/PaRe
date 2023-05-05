@@ -14,14 +14,3 @@ exportDiagram(diagram, fileName)
 \description{
 Exports the diagram from `pkgDiagram` to a PDF-file.
 }
-\examples{
-if (interactive()) {
-  diagram <- pkgDiagram(
-    pkgPath = "./",
-    verbose = TRUE)
-
-  exportDiagram(
-    diagram = diagram,
-    "diagram.pdf")
-}
-}
