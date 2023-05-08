@@ -17,7 +17,7 @@ library(dplyr)
 ## Objects
 ### Repository
 ```{r createRepo, warning=FALSE}
-repo <- PaRe::Repository$new("D:/Users/mvankessel/Documents/R-Packages/CohortMethod/")
+repo <- PaRe::Repository$new(system.file(package = "PaRe", "glue", "/"))
 ```
 
 #### Git management
@@ -27,7 +27,7 @@ repo$gitPull(credentials = git2r::cred_token())
 ```
 ```{r devBranch, warning=FALSE}
 dev <- repo$clone()
-dev$gitCheckout("391b499c9e162f9cbc7c273baeb17c9eb2fdf4a4")
+dev$gitCheckout("58aeb9d01820cb105bee9faf71ec39fd25363378")
 ```
 
 #### Repository properties
