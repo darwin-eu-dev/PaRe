@@ -3,10 +3,13 @@
 #' Prints messages dependening of the nrow of the number of rows of the
 #' notPermitted and versionCheck data.frames
 #'
-#' @param notPermitted notPermitted data.frame
-#' @param versionCheck versionCheck data.frame
+#' @param notPermitted
+#' <[base]{data.frame}> notPermitted
+#' @param versionCheck
+#' <[base]{data.frame}> versionCheck
 #'
-#' @return data.frame or NULL
+#' @return
+#' <\link[base]{data.frame}> or <\link[base]{NULL}>
 printMessage <- function(notPermitted, versionCheck) {
   if (nrow(notPermitted) > 0) {
     cli::cli_alert(glue::glue(
@@ -33,10 +36,13 @@ printMessage <- function(notPermitted, versionCheck) {
 #'
 #' Function to compare different versions.
 #'
-#' @param dependencies All dependencies of he package.
-#' @param permittedPackages data.frame of all permitted packages.
+#' @param dependencies
+#' <\link[base]{data.frame}> All dependencies of he package.
+#' @param permittedPackages
+#' <\link[base]{data.frame}> of all permitted packages.
 #'
-#' @return Returns data.frame with all non permitted packages based on version.
+#' @return
+#' <\link[base]{data.frame}> with all non permitted packages based on version.
 getVersionDf <- function(dependencies, permittedPackages) {
   permitted <- dependencies %>%
     dplyr::filter(.data$package %in% permittedPackages$package)
@@ -62,20 +68,21 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #'
 #' Check package dependencies
 #'
-#' @param pkgPath Path to package
-#' @param dependencyType Types of dependencies to be included
-#' @param verbose TRUE or FALSE. If TRUE, progress will be reported.
+#' @param repo
+#' <\link[PaRe]{Repository}> object.
+#' @param dependencyType
+#' <\link[base]{character}> Types of dependencies to be included
+#' @param verbose
+#' <\link[base]{logical}> TRUE or FALSE. If TRUE, progress will be reported.
 #'
-#' @return Returns a data.frame with all the packages that are now permitted.
+#' @return
+#' <\link[base]{data.frame}> with all the packages that are now permitted.
 #' @export
-#'
-#' @examples
-#' if (interactive()) {
-#'   checkDependencies(system.file(package = "PaRe", "glue"))
-#' }
-checkDependencies <- function(pkgPath = "./", dependencyType = c("Imports", "Depends"),
-                              verbose = TRUE) {
-  description <- desc::description$new(file = file.path(pkgPath, "DESCRIPTION"))
+checkDependencies <- function(
+    repo,
+    dependencyType = c("Imports", "Depends"),
+    verbose = TRUE) {
+  description <- repo$getDescription()
 
   dependencies <- description$get_deps() %>%
     dplyr::filter(.data$type %in% dependencyType) %>%

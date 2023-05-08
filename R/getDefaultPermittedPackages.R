@@ -2,18 +2,14 @@
 #'
 #' Gets permitted packages
 #'
-#' @param base Boolean if base package should be included
+#' @param base
+#' <\link[base]{logical}> if base package should be included
 #'
-#' @return tibble of two columns (package, version) with all 'allowed'
+#' @return
+#' <\link[dplyr]{tibble}> of two columns (package, version) with all 'allowed'
 #' packages.
 #'
 #' @export
-#' @examples
-#' # Run only in interactive session
-#' if (interactive()) {
-#'   getDefaultPermittedPackages()
-#' }
-#'
 getDefaultPermittedPackages <- function(base = TRUE) {
   # Custom list
   customWhiteList <- tryCatch({

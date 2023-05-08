@@ -5,26 +5,21 @@
 \title{checkDependencies}
 \usage{
 checkDependencies(
-  pkgPath = "./",
+  repo,
   dependencyType = c("Imports", "Depends"),
   verbose = TRUE
 )
 }
 \arguments{
-\item{pkgPath}{Path to package}
+\item{repo}{<\link[PaRe]{Repository}> object.}
 
-\item{dependencyType}{Types of dependencies to be included}
+\item{dependencyType}{<\link[base]{character}> Types of dependencies to be included}
 
-\item{verbose}{TRUE or FALSE. If TRUE, progress will be reported.}
+\item{verbose}{<\link[base]{logical}> TRUE or FALSE. If TRUE, progress will be reported.}
 }
 \value{
-Returns a data.frame with all the packages that are now permitted.
+<\link[base]{data.frame}> with all the packages that are now permitted.
 }
 \description{
 Check package dependencies
-}
-\examples{
-if (interactive()) {
-  checkDependencies(system.file(package = "PaRe", "glue"))
-}
 }

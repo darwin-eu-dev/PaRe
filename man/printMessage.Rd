@@ -7,12 +7,12 @@
 printMessage(notPermitted, versionCheck)
 }
 \arguments{
-\item{notPermitted}{notPermitted data.frame}
+\item{notPermitted}{<[base]{data.frame}> notPermitted}
 
-\item{versionCheck}{versionCheck data.frame}
+\item{versionCheck}{<[base]{data.frame}> versionCheck}
 }
 \value{
-data.frame or NULL
+<\link[base]{data.frame}> or <\link[base]{NULL}>
 }
 \description{
 Prints messages dependening of the nrow of the number of rows of the

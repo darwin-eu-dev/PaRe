@@ -4,10 +4,16 @@
     <loc>/404.html</loc>
   </url>
   <url>
+    <loc>/articles/ComparingBranches.html</loc>
+  </url>
+  <url>
     <loc>/articles/Documentation.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>/articles/Report.html</loc>
   </url>
   <url>
     <loc>/authors.html</loc>
@@ -22,6 +28,9 @@
     <loc>/reference/checkInstalled.html</loc>
   </url>
   <url>
+    <loc>/reference/Code.html</loc>
+  </url>
+  <url>
     <loc>/reference/countLines.html</loc>
   </url>
   <url>
@@ -29,6 +38,12 @@
   </url>
   <url>
     <loc>/reference/exportDiagram.html</loc>
+  </url>
+  <url>
+    <loc>/reference/File.html</loc>
+  </url>
+  <url>
+    <loc>/reference/Function.html</loc>
   </url>
   <url>
     <loc>/reference/funsUsedInFile.html</loc>
@@ -46,6 +61,9 @@
     <loc>/reference/getDefaultPermittedPackages.html</loc>
   </url>
   <url>
+    <loc>/reference/getDefinedFunctions.html</loc>
+  </url>
+  <url>
     <loc>/reference/getDefinedFunctionsFile.html</loc>
   </url>
   <url>
@@ -59,6 +77,9 @@
   </url>
   <url>
     <loc>/reference/getExportedFunctions.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getFunctionUse.html</loc>
   </url>
   <url>
     <loc>/reference/getFunsPerDefFun.html</loc>
@@ -83,6 +104,9 @@
   </url>
   <url>
     <loc>/reference/lintPackage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/lintRepo.html</loc>
   </url>
   <url>
     <loc>/reference/lintScore.html</loc>
@@ -110,6 +134,9 @@
   </url>
   <url>
     <loc>/reference/printMessage.html</loc>
+  </url>
+  <url>
+    <loc>/reference/Repository.html</loc>
   </url>
   <url>
     <loc>/reference/summariseFunctionUse.html</loc>
