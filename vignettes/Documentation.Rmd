@@ -9,14 +9,14 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r knitrOptions, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r local_cache, echo=FALSE}
+```{r localCache, echo=FALSE}
 withr::local_envvar(
   R_USER_CACHE_DIR = tempfile()
 )
@@ -46,7 +46,7 @@ The data frame contains 4 columns:
 4. *version*: Column name in the referenced csv-file that contains the package versions.
 
 If you wish to alter the sources in just your R-session, you can either add, remove, or replace individual rows in the whiteList data frame.
-```{r}
+```{r whiteListSession}
 sessionWhiteList <- rbind(
   whiteList,
   list(
@@ -57,14 +57,9 @@ sessionWhiteList <- rbind(
 
 sessionWhiteList
 ```
-You can overwrite the `whiteList` data frame to use your new sources during your R-session.
-```{r eval=FALSE}
-PaRe::whiteList <- sessionWhiteList
-```
-
 
 If you wish to make more permanent alterations to the `whiteList` data frame, you can edit the whiteList.csv file in the PaRe system files.
-```{r}
+```{r setupWhiteList}
 fileWhiteList <- rbind(
   read.csv(
     system.file(
@@ -79,7 +74,8 @@ fileWhiteList <- rbind(
 
 fileWhiteList
 ```
-```{r eval=FALSE}
+
+```{r writeWhiteList, eval=FALSE}
 write.csv(
   fileWhiteList,
   system.file(
@@ -91,19 +87,32 @@ write.csv(
 Before we start diving into the dependency usage of `glue` we should first establish what our dependency white list even looks like. We can retrieve our full list of whitelisted dependencies buy calling the `getDefaultPermittedPackages` function.
 
 ### getDefaultPermittedPackages
-```{r message=FALSE, warning=FALSE}
+```{r permittedPackages, message=FALSE, warning=FALSE}
 PaRe::getDefaultPermittedPackages(base = TRUE)
 ```
 `getDefaultPermittedPackages` takes one parameter:
 
 1. **base** which is set to `TRUE` by default. Packages that listed as *base* packages will be included in the white list.
 
+### Setting up a Repository object
+```{r cloneRepo}
+# Temp dir to clone repo to
+tempDir <- tempdir()
+pathToRepo <- file.path(tempDir, "glue")
+
+# Clone IncidencePrevalence to temp dir
+git2r::clone(
+  url = "https://github.com/tidyverse/glue.git",
+  local_path = pathToRepo)
+
+repo <- PaRe::Repository$new(path = pathToRepo)
+```
+
+
 ### checkDependencies
 Now that we know what is included in the white list, we can make our first step into reviewing `glue`, which is to ensure the (suggested) dependencies `glue` uses are in our white list.
-```{r eval=FALSE}
-PaRe::checkDependencies(
-  pkgPath = system.file(package = "PaRe", "glue"),
-  dependencyType = c("Import", "Suggests"))
+```{r checkDependencies, eval=FALSE}
+PaRe::checkDependencies(repo = repo)
 ```
 ```
 → The following are not permitted: covr, microbenchmark, R.utils, rprintf, testthat                  
@@ -126,58 +135,51 @@ Not all suggested dependencies are approved. The function prints a message and r
 
 ### getGraphData
 glue depends on (suggested) dependencies. These dependencies in turn import other dependencies, and so on. We can investigate how these recursive dependencies depend on one another, by investigating it as a graph.
-```{r eval=FALSE}
+```{r setupGrah}
 graphData <- PaRe::getGraphData(
-  system.file(package = "PaRe", "glue"),
-  package_types = c("imports", "suggests"))
+  repo = repo,
+  packageTypes = c("imports", "suggests")
+)
 ```
 
 We can compute several statistics about our dependency graph
-```{r eval=FALSE}
+```{r graphCharacteristics}
 data.frame(
   countVertices = length(igraph::V(graphData)),
   countEdges = length(igraph::E(graphData)),
   meanDegree = round(mean(igraph::degree(graphData)), 2),
   meanDistance = round(mean(igraph::distances(graphData)), 2)
-  )
+)
 ```
 - **countVertices** resembles the amount of recursive dependencies `glue` depends on.
 - **countEdges**: are the total amount of imports of all dependencies.
 - **meanDegree**: is the average amount of imports per dependency.
 - **meanDistance**: is the average amount of dependencies between `glue` and all other recursive dependencies.
 
-| countVertices | countEdges | meanDegree | meanDistance |
-| ------------- | ---------- | ---------- | ------------ |
-|            19 |         18 |       1.89 |          1.8 |
-
 We can then plot the graph.
-```{r eval=FALSE}
+```{r plotGraph}
 plot(graphData)
 ```
-![glueGraph](img/glueGraph.png)
 
 ## Package wide function use
 `PaRe` allows you to get insight in the function usage in a package.
 
 ### summariseFunctionUse
 ```{r summariseFunctionUse, message=FALSE, warning=FALSE}
-funsUsed <- PaRe::summariseFunctionUse(
-  r_files = list.files(file.path(system.file(package = "PaRe", "glue"), "R"), full.names = TRUE))
-
+funsUsed <- PaRe::getFunctionUse(repo = repo)
 funsUsed
 ```
 
-### getDefinedFunctionsPkg
-```{r}
-PaRe::getDefinedFunctionsPkg(
-  path = system.file(package = "PaRe", "glue"))
+### getDefinedFunctions
+```{r definedFunctions}
+defFuns <- PaRe::getDefinedFunctions(repo = repo)
+head(defFuns)
 ```
 Besides the location of each function being displayed, the number of arguments for each function, and the cyclometic complexity is also included in the result.
 
 
-```{r eval=FALSE}
-system.file(package = "PaRe", "glue") %>%
-  PaRe::pkgDiagram() %>%
+```{r pkgDiagram, eval=FALSE}
+PaRe::pkgDiagram(repo = repo) %>%
   DiagrammeRsvg::export_svg() %>%
   charToRaw() %>%
   magick::image_read()
@@ -185,26 +187,17 @@ system.file(package = "PaRe", "glue") %>%
 ![glueDiagram](img/glueDiagram.svg)
 
 ## Lines of code
-```{r}
-PaRe::countPackageLines(
-  path = system.file(package = "PaRe", "glue"),
-  fileEx = c("R", "cpp", "java"))
+```{r linesOfCode}
+PaRe::countPackageLines(repo = repo)
 ```
-`glue` contains 1056 lines of R-code, 0 lines of C++, and 0 lines of java.
-
+`glue` contains 1056 lines of R-code.
 
 ## Linting
-```{r eval=FALSE}
-PaRe::lintScore(
-  lintFunction = PaRe::lintPackage,
-  path = system.file(package = "PaRe", "glue"))
+```{r lintScore}
+messages <- PaRe::lintRepo(repo = repo)
+PaRe::lintScore(repo = repo, messages = messages)
 ```
-|    type |  pct |
-| ------- | ---- |
-|   style | 8.13 |
-| warning | 0.16 |
 
-```{r}
-head(as.data.frame(PaRe::lintPackage(
-  path = system.file(package = "PaRe", "glue"))))
+```{r lintMessages}
+head(messages)
 ```
