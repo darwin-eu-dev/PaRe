@@ -22,21 +22,19 @@
 #'
 #'   makeReport(pkgPath, outputFile)
 #' }
-makeReport <- function(pkgPath, outputFile, showCode = FALSE) {
-  if (checkInstalled(pkgPath)) {
-    # Normalize paths
-    pkgPath <- normalizePath(pkgPath)
+makeReport <- function(repo, outputFile, showCode = FALSE) {
+  if (checkInstalled()) {
     outputFile <- normalizePath(outputFile, mustWork = FALSE)
     writeLines("", con = outputFile)
 
-    desc <- desc::description$new(file = pkgPath)
+    desc <- repo$getDescription()
     pkgName <- glue::glue("{desc$get_field('Package')} [{desc$get_version()}]")
 
     # Render report.Rmd
     rmarkdown::render(
       input = system.file(package = "PaRe", "rmd", "report.Rmd"),
       output_file = outputFile,
-      params = list(pkgName = pkgName, pkgPath = pkgPath, showCode = showCode))
+      params = list(pkgName = pkgName, repo = repo, showCode = showCode))
   }
 }
 
@@ -47,7 +45,7 @@ makeReport <- function(pkgPath, outputFile, showCode = FALSE) {
 #' @param pkgPath Path to package
 #'
 #' @return Boolean depending if suggested packages are installed.
-checkInstalled <- function(pkgPath) {
+checkInstalled <- function() {
   desc <- desc::description$new(package = "PaRe")
 
   reqs <- desc$get_deps() %>%

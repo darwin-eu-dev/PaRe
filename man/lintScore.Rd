@@ -4,30 +4,17 @@
 \alias{lintScore}
 \title{lintScore}
 \usage{
-lintScore(lintFunction, ...)
+lintScore(messages)
 }
 \arguments{
-\item{lintFunction}{Lint function to use}
-
-\item{...}{Other parameters a Lint function might need (i.e. file name)}
+\item{messages}{(`data.frame()`)
+Data.frame containing lintr messages i.e. from \link[PaRe]{lintRepo}}
 }
 \value{
-A tibble of percentage scores per type of Lint message.
+(`data.frame()`)
+    A tibble of percentage scores per type of Lint message.
 }
 \description{
 Function that scores the lintr output as a percentage per message type
 (style, warning, error). Lintr messages / lines assessed * 100
-}
-\examples{
-# With file lintr
-lintScore(
-  lintFunction = lintFile,
-  system.file(package = "PaRe", "testScript.R")
-)
-
-# With standard package lintr
-lintScore(
-  lintFunction = lintr::lint_package,
-  system.file(package = "PaRe")
-)
 }

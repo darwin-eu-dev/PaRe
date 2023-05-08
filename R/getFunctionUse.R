@@ -211,7 +211,7 @@ funsUsedInFile <- function(files, verbose = FALSE) {
 #'
 #' @export
 getFunctionUse <- function(repo, verbose = FALSE) {
-  files <- repo$getFiles()
+  files <- repo$getRFiles()
 
   funUse <- funsUsedInFile(files, verbose)
 

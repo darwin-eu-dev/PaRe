@@ -21,6 +21,9 @@ Repository <- R6::R6Class(
       private$validate()
 
       private$fetchRFiles()
+      private$fetchCppFiles()
+      private$fetchJavaFiles()
+      private$fetchSqlFiles()
       return(invisible(self))
     },
 
@@ -48,6 +51,22 @@ Repository <- R6::R6Class(
     #' @return (`list()`)
     #' List of File objects
     getFiles = function() {
+      files <- list(
+        R = private$rFiles,
+        cpp = private$cppFiles,
+        o = private$oFiles,
+        h = private$hFiles,
+        java = private$javaFiles,
+        sql = private$sqlFiles
+      )
+      return(files)
+    },
+
+    #' @description
+    #' Get method to get only R-files.
+    #'
+    #' @return (`list()`) of (`File`) objects.
+    getRFiles = function() {
       return(private$rFiles)
     },
 
@@ -147,6 +166,11 @@ Repository <- R6::R6Class(
     name = "name",
     path = "",
     rFiles = NULL,
+    cppFiles = NULL,
+    oFiles = NULL,
+    hFiles = NULL,
+    sqlFiles = NULL,
+    javaFiles = NULL,
     git = NULL,
     description = NULL,
     functionUse = NULL,
@@ -169,12 +193,51 @@ Repository <- R6::R6Class(
     },
 
     fetchRFiles = function() {
-      paths <- list.files(file.path(private$path, "R"), full.names = TRUE)
+      paths <- list.files(file.path(private$path, "R"), full.names = TRUE, recursive = TRUE)
 
       private$rFiles <- unlist(lapply(paths, function(path) {
         File$new(path = path)
       }))
       return(invisible(self))
+    },
+
+    fetchCppFiles = function() {
+      paths <- list.files(file.path(private$path, "src"), full.names = TRUE, recursive = TRUE)
+
+      cpp <- paths[endsWith(paths, ".cpp")]
+      o <- paths[endsWith(paths, ".o")]
+      h <- paths[endsWith(paths, ".h")]
+
+      private$cppFiles <- lapply(cpp, function(path) {
+        File$new(path = path)
+      })
+
+      private$oFiles <- lapply(o, function(path) {
+        File$new(path = path)
+      })
+
+      private$hFiles <- lapply(h, function(path) {
+        File$new(path = path)
+      })
+    },
+
+    fetchJavaFiles = function() {
+      paths <- list.files(file.path(private$path, "java"), full.names = TRUE, recursive = TRUE)
+      paths <- paths[endsWith(paths, ".java")]
+
+      private$javaFiles <- lapply(paths, function(path) {
+        File$new(path = path)
+      })
+    },
+
+    fetchSqlFiles = function() {
+      paths <- list.files(file.path(private$path, "sql"), full.names = TRUE, recursive = TRUE)
+      paths <- append(paths, list.files(file.path(private$path, "inst", "sql"), full.names = TRUE, recursive = TRUE))
+      paths <- paths[endsWith(paths, ".sql")]
+
+      private$sqlFiles <- lapply(paths, function(path) {
+        File$new(path = path)
+      })
     }
   )
 )

@@ -13,6 +13,7 @@ Class representing the Repository
 \item \href{#method-Repository-getName}{\code{Repository$getName()}}
 \item \href{#method-Repository-getPath}{\code{Repository$getPath()}}
 \item \href{#method-Repository-getFiles}{\code{Repository$getFiles()}}
+\item \href{#method-Repository-getRFiles}{\code{Repository$getRFiles()}}
 \item \href{#method-Repository-getDescription}{\code{Repository$getDescription()}}
 \item \href{#method-Repository-getFunctionUse}{\code{Repository$getFunctionUse()}}
 \item \href{#method-Repository-gitCheckout}{\code{Repository$gitCheckout()}}
@@ -77,6 +78,19 @@ Get method to get a list of (`File`) objects.
 \subsection{Returns}{
 (`list()`)
 List of File objects
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Repository-getRFiles"></a>}}
+\if{latex}{\out{\hypertarget{method-Repository-getRFiles}{}}}
+\subsection{Method \code{getRFiles()}}{
+Get method to get only R-files.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Repository$getRFiles()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+(`list()`) of (`File`) objects.
 }
 }
 \if{html}{\out{<hr>}}

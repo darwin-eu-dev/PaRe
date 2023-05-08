@@ -15,6 +15,7 @@ Class representing a file containing code.
 \item \href{#method-File-new}{\code{File$new()}}
 \item \href{#method-File-getFunctions}{\code{File$getFunctions()}}
 \item \href{#method-File-getFunctionTable}{\code{File$getFunctionTable()}}
+\item \href{#method-File-getType}{\code{File$getType()}}
 \item \href{#method-File-clone}{\code{File$clone()}}
 }
 }
@@ -73,6 +74,19 @@ Get method to retrieve the function table.
 
 \subsection{Returns}{
 (`data.frame()`)
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-File-getType"></a>}}
+\if{latex}{\out{\hypertarget{method-File-getType}{}}}
+\subsection{Method \code{getType()}}{
+Gets type of file
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{File$getType()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+(`character()`)
 }
 }
 \if{html}{\out{<hr>}}

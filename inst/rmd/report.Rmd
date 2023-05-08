@@ -9,7 +9,7 @@ output:
     theme: cosmo
 params:
   pkgName: pkgName
-  pkgPath: pkgPath
+  repo: repo
   showCode: showCode
 ---
 
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Package overview
 ```{r packageDiagram, out.width="100%", echo=params$showCode, warning=FALSE}
-params$pkgPath %>%
+repo %>%
   PaRe::pkgDiagram() %>%
   DiagrammeRsvg::export_svg() %>%
   charToRaw() %>%
@@ -28,7 +28,10 @@ params$pkgPath %>%
 
 ## Summary of package functions
 ```{r getDefinedFunctionsPkg, echo=params$showCode, message=FALSE, warning=FALSE}
-defFuns <- PaRe::getDefinedFunctionsPkg(params$pkgPath)
+defFuns <- PaRe::getDefinedFunctions(repo)
+
+defFuns <- defFuns %>%
+  dplyr::mutate(size = lineEnd - lineStart + 1)
 ```
 
 ```{r summaryDefFunStats, echo=params$showCode}
@@ -78,7 +81,7 @@ cowplot::plot_grid(gg_nArgs, gg_size, gg_cycloComp, nrow = 3)
 
 ```{r, echo=params$showCode, warning=FALSE, message=FALSE}
 p <- defFuns %>% 
-  ggplot2::ggplot(aes(group=fun))+
+  ggplot2::ggplot(aes(group = name))+
   ggplot2::geom_point(aes(size, cycloComp, 
                           colour = nArgs),
                       size = 3)+
@@ -102,11 +105,11 @@ complexBreaks <- c(15, 30)
 lineBreaks <- c(100, 200)
 
 DT::datatable(
-  defFuns %>% 
-    dplyr::mutate(file_start = paste0(file, " (from line: ", start, ")")) %>% 
-    dplyr::select("fun", "nArgs", "size","cycloComp", "file_start") %>% 
+  defFuns %>%
+    dplyr::mutate(file_start = paste0(.data$fileName, " (from line: ", lineStart, ")")) %>% 
+    dplyr::select("name", "nArgs", "size","cycloComp", "file_start") %>% 
     dplyr::rename(
-      "Function" = "fun",
+      "Function" = "name",
       "Number of arguments" = "nArgs",
       "Lines of code" = "size",
       "Cyclomatic complexity" = "cycloComp",
@@ -120,23 +123,22 @@ DT::datatable(
 ## Use of other programming languages
 ```{r countLines, echo=params$showCode}
 DT::datatable(
-  countPackageLines(path = params$pkgPath),
+  PaRe::countPackageLines(repo),
   rownames = "# lines of code")
 ```
 
 ## Style adherence, syntax errors and possible semantic issues
 ### Summary
 ```{r lintScores, echo=params$showCode, message=FALSE, warning=FALSE}
-DT::datatable(PaRe::lintScore(PaRe::lintPackage, params$pkgPath) %>% 
+lintMsgs <- PaRe::lintRepo(repo)
+
+DT::datatable(PaRe::lintScore(repo, messages) %>% 
                 dplyr::rename("Percentage of lines assessed" = "pct"),
               rownames= FALSE)
 ```
 
 ### Warnings
 ```{r lintMessages warnings, echo=params$showCode, message=FALSE, warning=FALSE}
-lintMsgs <- data.frame(PaRe::lintPackage(params$pkgPath),
-              rownames= FALSE)
-
 DT::datatable(
   lintMsgs %>%
     dplyr::filter(type == "warning") %>% 
@@ -160,16 +162,16 @@ DT::datatable(
 ## Dependency review
 ### Check dependencies against whitelist
 ```{r checkDependencies, echo=params$showCode, warning=FALSE}
-DT::datatable(PaRe::checkDependencies(pkgPath = params$pkgPath, verbose = FALSE))
+DT::datatable(PaRe::checkDependencies(repo = repo, verbose = FALSE))
 ```
 
 ### Dependency characteristics
-- **countVertices**: The amount of recursive dependencies `r basename(params$pkgPath)` depends on.
+- **countVertices**: The amount of recursive dependencies `r repo$getName()` depends on.
 - **countEdges**: The total amount of imports of all dependencies.
 - **meanDegree**: The average amount of imports per dependency.
-- **meanDistance**: The average dependency layers between `r basename(params$pkgPath)` and all other recursive dependencies.
+- **meanDistance**: The average dependency layers between `r repo$getName()` and all other recursive dependencies.
 ```{r dependencyGraphStats, echo=params$showCode, message=FALSE, warning=FALSE}
-graphData <- getGraphData(path = params$pkgPath)
+graphData <- PaRe::getGraphData(repo = repo)
 
 DT::datatable(data.frame(
   countVertices = length(igraph::V(graphData)),
@@ -183,7 +185,7 @@ DT::datatable(data.frame(
 ```{r farthestDependency, echo=params$showCode, message=FALSE, warning=FALSE, out.width="100%"}
 p <- igraph::all_simple_paths(
   graph = graphData,
-  from = basename(params$pkgPath),
+  from = "CohortMethod",
   to = igraph::farthest.nodes(graphData)$vertices[2])
 
 
@@ -199,11 +201,11 @@ ggraph::ggraph(
 
 ### Function use per dependency
 ```{r summariseFunctionUse, echo=params$showCode, message=FALSE, warning=FALSE}
-funsUsed <- PaRe::summariseFunctionUse(
-  list.files(normalizePath(paste0(params$pkgPath, "/R")), full.names = TRUE))
+funsUsed <- PaRe::getFunctionUse(repo = repo)
 
-DT::datatable(funsUsed,
-              rownames= FALSE)
+DT::datatable(
+  funsUsed,
+  rownames = FALSE)
 ```
 
 ```{r plotFunctionUse, dpi=100, fig.height=25, out.width="100%", echo=params$showCode, message=FALSE, warning=FALSE}

@@ -110,7 +110,7 @@ pkgDiagram <- function(repo, verbose = FALSE, ...) {
 
   rPath <- file.path(path, "R")
 
-  files <- repo$getFiles()
+  files <- repo$getRFiles()
 
   expFuns <- getExportedFunctions(path)
 

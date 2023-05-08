@@ -1,55 +1,19 @@
-#' countLines
-#'
-#' Counts the lines of a list of files
-#'
-#' @param files List of files
-#'
-#' @return numeric
-countLines <- function(files) {
-  sum(unlist(lapply(files, function(file) {
-    length(readLines(file, warn = FALSE))
-  })))
-}
-
 #' countPackageLines
 #'
-#' Counts the lines of files ending with a specific extension.
+#' @param repo (`Repository`)
+#'   Repository object.
 #'
-#' @param path Path to package
-#' @param fileEx File extensions to search for, is case sensitive.
-#' @param ignoreDirs Directories to ignore when searching for files.
-#'
+#' @return (`data.frame()`)
+#'   Tibble containing the amount of lines per file in the Repository object.
 #' @export
-#'
-#' @return Tibble
-#'
-#' @examples
-#' countPackageLines("./")
-countPackageLines <- function(
-    repo,
-    fileEx = c("R", "cpp", "sql", "java"),
-    ignoreDirs = c("tests", "extras")) {
+countPackageLines <- function(repo) {
+  files <- repo$getFiles()
+  files <- Filter(Negate(is.null), files)
 
-  path <- repo$getPath()
-
-  filesList <- lapply(fileEx, function(ex) {
-    pths <- list.files(
-      path,
-      pattern = paste0("\\.", ex, "$"),
-      recursive = TRUE)
-
-    dirsToIgnore <- unlist(lapply(ignoreDirs, function(ig) {
-      pths[startsWith(pths, ig)]
-    }))
-
-    if (length(pths) > 0) {
-      file.path(path, pths[!pths %in% dirsToIgnore])
-    }
-  })
-
-  names(filesList) <- fileEx
-
-  dplyr::bind_rows(lapply(filesList, function(files) {
-    countLines(files)
-  })) %>% dplyr::mutate(package = basename(path))
+  data.frame(lapply(files, function(fileType) {
+    sum(unlist(lapply(fileType, function(file) {
+      file$getNLines()
+    })))
+  })) %>%
+    dplyr::tibble()
 }

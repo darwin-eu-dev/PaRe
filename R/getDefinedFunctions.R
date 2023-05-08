@@ -7,7 +7,7 @@
 #' data.frame
 #' @export
 getDefinedFunctions <- function(repo) {
-  files <- repo$getFiles()
+  files <- repo$getRFiles()
 
   dplyr::bind_rows(lapply(files, function(file) {
     df <- file$getFunctionTable()

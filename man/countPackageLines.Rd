@@ -4,25 +4,16 @@
 \alias{countPackageLines}
 \title{countPackageLines}
 \usage{
-countPackageLines(
-  repo,
-  fileEx = c("R", "cpp", "sql", "java"),
-  ignoreDirs = c("tests", "extras")
-)
+countPackageLines(repo)
 }
 \arguments{
-\item{fileEx}{File extensions to search for, is case sensitive.}
-
-\item{ignoreDirs}{Directories to ignore when searching for files.}
-
-\item{path}{Path to package}
+\item{repo}{(`Repository`)
+Repository object.}
 }
 \value{
-Tibble
+(`data.frame()`)
+  Tibble containing the amount of lines per file in the Repository object.
 }
 \description{
-Counts the lines of files ending with a specific extension.
-}
-\examples{
-countPackageLines("./")
+countPackageLines
 }

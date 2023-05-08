@@ -4,11 +4,7 @@
 \alias{getGraphData}
 \title{getGraphData}
 \usage{
-getGraphData(
-  repo,
-  excludePackages = c(""),
-  packageTypes = c("imports", "depends")
-)
+getGraphData(repo, packageTypes = c("Imports", "Suggests"))
 }
 \arguments{
 \item{packageTypes}{Types of packages to be included in the result. Default: c("imports", "depends")

@@ -24,7 +24,9 @@ File <- R6::R6Class(
 
       super$initialize(private$name, private$lines)
 
-      private$fetchDefinedFunctions()
+      if (private$type == "R") {
+        private$fetchDefinedFunctions()
+      }
       return(invisible(self))
     },
 
@@ -42,6 +44,14 @@ File <- R6::R6Class(
     #' @return (`data.frame()`)
     getFunctionTable = function() {
       return(private$functionTable)
+    },
+
+    #' @description
+    #' Gets type of file
+    #'
+    #' @return (`character()`)
+    getType = function() {
+      return(private$type)
     }
   ),
   # Private ----
