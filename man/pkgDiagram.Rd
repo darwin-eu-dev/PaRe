@@ -7,13 +7,11 @@
 pkgDiagram(repo, verbose = FALSE, ...)
 }
 \arguments{
-\item{verbose}{(`logical()`)
-Verbose messages}
+\item{repo}{<\link[PaRe]{Repository}> object.}
+
+\item{verbose}{<\link[base]{logical}> Verbose messages}
 
 \item{...}{Optional other parameters for \link[DiagrammeR]{grViz}.}
-
-\item{pkgPath}{(`character()`)
-Path to package}
 }
 \value{
 `htmlwidget`

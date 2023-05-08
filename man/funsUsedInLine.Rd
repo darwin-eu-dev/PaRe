@@ -7,17 +7,17 @@
 funsUsedInLine(lines, name, i, verbose = FALSE)
 }
 \arguments{
-\item{i}{line}
+\item{lines}{<\link[base]{c}> of <\link[base]{character}>}
 
-\item{verbose}{Prints message when no function found}
+\item{name}{<\link[base]{character}>}
 
-\item{file_txt}{file to use}
+\item{i}{<\link[base]{numeric}> line}
 
-\item{file_name}{name of file}
+\item{verbose}{<\link[base]{logical}> Prints message when no function found}
 }
 \value{
-data.frame of 3 colums: Package (pkg); Function (fun); Line in
-script (line)
+<\link[base]{data.frame}> of 3 colums: Package (pkg); Function (fun); Line
+in script (line)
 }
 \description{
 Support function for funsUsedInFile.

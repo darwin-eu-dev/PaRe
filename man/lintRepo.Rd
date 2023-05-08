@@ -7,12 +7,10 @@
 lintRepo(repo)
 }
 \arguments{
-\item{repo}{(`Repository`)
-Repository object.}
+\item{repo}{<\link[PaRe]{Repository}> object.}
 }
 \value{
-(`data.frame()`)
-  Data.frame containing lint messages.
+<\link[base]{data.frame}> containing lint messages.
 }
 \description{
 lintRepo

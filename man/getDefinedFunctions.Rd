@@ -7,12 +7,10 @@
 getDefinedFunctions(repo)
 }
 \arguments{
-\item{repo}{(`PaRe::Repository`)
-\link[PaRe]{Repository} object}
+\item{repo}{<\link[PaRe]{Repository}> object}
 }
 \value{
-(`data.frame()`)
-data.frame
+<\link[base]{data.frame}>
 }
 \description{
 getDefinedFunctions

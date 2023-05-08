@@ -7,13 +7,13 @@
 getFunctionUse(repo, verbose = FALSE)
 }
 \arguments{
-\item{verbose}{Default: FALSE; prints message to console which file is
-currently being worked on.}
+\item{repo}{<\link[PaRe]{Repository}> object.}
 
-\item{r_files}{Complete path(s) to files to be investigated}
+\item{verbose}{<\link[base]{logical}> Default: FALSE; prints message to console which file is
+currently being worked on.}
 }
 \value{
-tibble
+<\[dplyr]{tibble}>
 }
 \description{
 Summarise functions used in R package

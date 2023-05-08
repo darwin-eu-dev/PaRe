@@ -11,14 +11,14 @@ checkDependencies(
 )
 }
 \arguments{
-\item{dependencyType}{Types of dependencies to be included}
+\item{repo}{<\link[PaRe]{Repository}> object.}
 
-\item{verbose}{TRUE or FALSE. If TRUE, progress will be reported.}
+\item{dependencyType}{<\link[base]{character}> Types of dependencies to be included}
 
-\item{pkgPath}{Path to package}
+\item{verbose}{<\link[base]{logical}> TRUE or FALSE. If TRUE, progress will be reported.}
 }
 \value{
-Returns a data.frame with all the packages that are now permitted.
+<\link[base]{data.frame}> with all the packages that are now permitted.
 }
 \description{
 Check package dependencies

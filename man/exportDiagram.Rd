@@ -7,9 +7,12 @@
 exportDiagram(diagram, fileName)
 }
 \arguments{
-\item{diagram}{Graph object from the `pkgDiagram` function.}
+\item{diagram}{<\link[DiagrammeR]{grViz}> Graph object from the `pkgDiagram` function.}
 
-\item{fileName}{Path to file, where to save the diagram to.}
+\item{fileName}{<\link[base]{character}> Path to file, where to save the diagram to.}
+}
+\value{
+`NULL`
 }
 \description{
 Exports the diagram from `pkgDiagram` to a PDF-file.

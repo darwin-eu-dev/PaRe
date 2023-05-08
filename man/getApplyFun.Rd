@@ -7,12 +7,13 @@
 getApplyFun(line, lines)
 }
 \arguments{
-\item{line}{All lines}
+\item{line}{<\link[base]{numeric}> Current line number.}
 
-\item{lines}{Current line number}
+\item{lines}{<\link[base]{c}> of <\link[base]{character}> lines.}
 }
 \value{
-Returns function in (vsl)apply function call.
+<\link[base]{c}> of <\link[base]{character}> of functions found in
+\link[base]{apply} function call.
 }
 \description{
 getApplyFun

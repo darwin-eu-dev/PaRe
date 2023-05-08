@@ -6,11 +6,8 @@
 \usage{
 checkInstalled()
 }
-\arguments{
-\item{pkgPath}{Path to package}
-}
 \value{
-Boolean depending if suggested packages are installed.
+<\link[base]{logical}> Boolean depending if suggested packages are installed.
 }
 \description{
 Checks if suggested packages are installed.

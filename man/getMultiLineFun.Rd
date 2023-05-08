@@ -7,12 +7,12 @@
 getMultiLineFun(line, lines)
 }
 \arguments{
-\item{line}{Current line number}
+\item{line}{<\link[base]{numeric}> Current line number.}
 
-\item{lines}{All lines}
+\item{lines}{<\link[base]{c}> of <\link[base]{character}> lines.}
 }
 \value{
-Returns vector of functions found in do.call function call.
+<\link[base]{character}>
 }
 \description{
 getMultiLineFun

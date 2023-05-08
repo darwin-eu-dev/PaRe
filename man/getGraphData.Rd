@@ -7,15 +7,14 @@
 getGraphData(repo, packageTypes = c("Imports", "Suggests"))
 }
 \arguments{
-\item{packageTypes}{Types of packages to be included in the result. Default: c("imports", "depends")
-Available types are: "imports", "depends", "suggests", "enhances", "linkingto"}
+\item{repo}{\link[PaRe]{Repository} object.}
 
-\item{path}{Path to package}
-
-\item{excludedPackages}{Packages to exclude}
+\item{packageTypes}{<\link[base]{c}> of <\link[base]{character}> Types of packages to be
+included in the result. Default: c("imports", "depends") Available types
+are: "imports", "depends", "suggests", "enhances", "linkingto"}
 }
 \value{
-net_data graph data
+<\link[tidygraph]{as_tbl_graph}>
 }
 \description{
 getGraphData

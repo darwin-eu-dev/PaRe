@@ -7,12 +7,13 @@
 lintScore(repo, messages)
 }
 \arguments{
-\item{messages}{(`data.frame()`)
-Data.frame containing lintr messages i.e. from \link[PaRe]{lintRepo}}
+\item{repo}{<\link[PaRe]{Repository}> object.}
+
+\item{messages}{<\link[base]{data.frame}> containing lintr messages i.e. from
+\link[PaRe]{lintRepo}.}
 }
 \value{
-(`data.frame()`)
-    A tibble of percentage scores per type of Lint message.
+<\link[dplyr]{tibble}> of percentage scores per type of Lint message.
 }
 \description{
 Function that scores the lintr output as a percentage per message type

@@ -7,12 +7,11 @@
 countPackageLines(repo)
 }
 \arguments{
-\item{repo}{(`Repository`)
-Repository object.}
+\item{repo}{<\link[PaRe]{Repository}> object.}
 }
 \value{
-(`data.frame()`)
-  Tibble containing the amount of lines per file in the Repository object.
+<\link[dplyr]{tibble}> containing the amount of lines per file in the
+Repository object.
 }
 \description{
 countPackageLines

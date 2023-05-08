@@ -7,12 +7,12 @@
 funsUsedInFile(files, verbose = FALSE)
 }
 \arguments{
-\item{files}{Files to get functions from}
+\item{files}{<\link[base]{list}> of <\link[PaRe]{File}> objects.}
 
-\item{verbose}{Verbosity}
+\item{verbose}{<\link[base]{logical}>}
 }
 \value{
-table
+<\link[base]{list}>
 }
 \description{
 Support function
