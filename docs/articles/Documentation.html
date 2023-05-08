@@ -50,7 +50,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../articles/ComparingBranches.html">Comparing branches</a>
+    </li>
+    <li>
       <a href="../articles/Documentation.html">Documentation</a>
+    </li>
+    <li>
+      <a href="../articles/Report.html">Report: PaRe [0.1.0]</a>
     </li>
   </ul>
 </li>
@@ -65,12 +71,14 @@
 
       
 
-      </header><script src="Documentation_files/htmlwidgets-1.6.1/htmlwidgets.js"></script><script src="Documentation_files/viz-1.8.2/viz.js"></script><link href="Documentation_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
-<script src="Documentation_files/grViz-binding-1.0.9/grViz.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Documentation</h1>
+                        <h4 data-toc-skip class="author">Maarten van
+Kessel</h4>
             
+            <h4 data-toc-skip class="date">2023-05-08</h4>
       
       
       <div class="hidden name"><code>Documentation.Rmd</code></div>
@@ -138,14 +146,10 @@ frame.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hades        https://raw.githubusercontent.com/mvankessel-EMC… package version</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> tidyverse    https://raw.githubusercontent.com/mvankessel-EMC… package version</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> dummySession some/file.csv                                     package version</span></span></code></pre></div>
-<p>You can overwrite the <code>whiteList</code> data frame to use your
-new sources during your R-session.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="va"><a href="../reference/whiteList.html">whiteList</a></span> <span class="op">&lt;-</span> <span class="va">sessionWhiteList</span></span></code></pre></div>
 <p>If you wish to make more permanent alterations to the
 <code>whiteList</code> data frame, you can edit the whiteList.csv file
 in the PaRe system files.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fileWhiteList</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span></span>
@@ -174,7 +178,7 @@ in the PaRe system files.</p>
 <span><span class="co">#&gt; 2 package version</span></span>
 <span><span class="co">#&gt; 3 package version</span></span>
 <span><span class="co">#&gt; 4 package version</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/write.table.html" class="external-link">write.csv</a></span><span class="op">(</span></span>
 <span>  <span class="va">fileWhiteList</span>,</span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span></span>
@@ -191,22 +195,22 @@ calling the <code>getDefaultPermittedPackages</code> function.</p>
 <div class="section level3">
 <h3 id="getdefaultpermittedpackages">getDefaultPermittedPackages<a class="anchor" aria-label="anchor" href="#getdefaultpermittedpackages"></a>
 </h3>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/getDefaultPermittedPackages.html">getDefaultPermittedPackages</a></span><span class="op">(</span>base <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 250 × 2</span></span></span>
-<span><span class="co">#&gt;    package   version</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> base      4.2.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> boot      4.2.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> class     4.2.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> cluster   4.2.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> compiler  4.2.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> datasets  4.2.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> foreign   4.2.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> graphics  4.2.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> grDevices 4.2.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> grid      4.2.2  </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 240 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 240 × 2</span></span></span>
+<span><span class="co">#&gt;    package           version   </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;nmrc_vrs&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Andromeda         0.6.3     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> BH                1.81.0.1  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> BeastJar          1.10.6    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> BigKnn            1.0.2     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> CDMConnector      0.6.0     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Capr              2.0.2     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Characterization  0.1.1     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> CirceR            1.3.0     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> CohortDiagnostics 3.2.1     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> CohortExplorer    0.0.12    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 230 more rows</span></span></span></code></pre></div>
 <p><code>getDefaultPermittedPackages</code> takes one parameter:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -216,6 +220,36 @@ white list.</li>
 </ol>
 </div>
 <div class="section level3">
+<h3 id="setting-up-a-repository-object">Setting up a Repository object<a class="anchor" aria-label="anchor" href="#setting-up-a-repository-object"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Temp dir to clone repo to</span></span>
+<span><span class="va">tempDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">pathToRepo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tempDir</span>, <span class="st">"glue"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Clone IncidencePrevalence to temp dir</span></span>
+<span><span class="fu">git2r</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/git2r/reference/clone.html" class="external-link">clone</a></span><span class="op">(</span></span>
+<span>  url <span class="op">=</span> <span class="st">"https://github.com/tidyverse/glue.git"</span>,</span>
+<span>  local_path <span class="op">=</span> <span class="va">pathToRepo</span><span class="op">)</span></span>
+<span><span class="co">#&gt; cloning into 'C:\Users\MVANKE~1\AppData\Local\Temp\RtmpslRm4G/glue'...</span></span>
+<span><span class="co">#&gt; Receiving objects:   1% (50/4925),   63 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  11% (542/4925),  351 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  21% (1035/4925), 1976 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  31% (1527/4925), 2361 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  41% (2020/4925), 2753 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  51% (2512/4925), 2809 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  61% (3005/4925), 3233 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  71% (3497/4925), 3737 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  81% (3990/4925), 3849 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  91% (4482/4925), 4018 kb</span></span>
+<span><span class="co">#&gt; Receiving objects: 100% (4925/4925), 4891 kb, done.</span></span>
+<span><span class="co">#&gt; Local:    main C:/Users/mvankessel/AppData/Local/Temp/RtmpslRm4G/glue</span></span>
+<span><span class="co">#&gt; Remote:   main @ origin (https://github.com/tidyverse/glue.git)</span></span>
+<span><span class="co">#&gt; Head:     [cbac82a] 2023-03-17: Glue collapse should always return a single string (#295)</span></span>
+<span></span>
+<span><span class="va">repo</span> <span class="op">&lt;-</span> <span class="fu">PaRe</span><span class="fu">::</span><span class="va"><a href="../reference/Repository.html">Repository</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>path <span class="op">=</span> <span class="va">pathToRepo</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
 <h3 id="checkdependencies">checkDependencies<a class="anchor" aria-label="anchor" href="#checkdependencies"></a>
 </h3>
 <p>Now that we know what is included in the white list, we can make our
@@ -223,17 +257,37 @@ first step into reviewing <code>glue</code>, which is to ensure the
 (suggested) dependencies <code>glue</code> uses are in our white
 list.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/checkDependencies.html">checkDependencies</a></span><span class="op">(</span></span>
-<span>  pkgPath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"PaRe"</span>, <span class="st">"glue"</span><span class="op">)</span>,</span>
-<span>  dependencyType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Import"</span>, <span class="st">"Suggests"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; → <span style="color: #BB0000;">The following are not permitted: </span><span style="color: #BB0000; font-weight: bold;">covr, microbenchmark, R.utils, rprintf, testthat</span></span></span>
-<span><span class="co">#&gt; → Please open an issue here: <span style="font-weight: bold;">https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues</span></span></span>
-<span><span class="co">#&gt;          package version</span></span>
-<span><span class="co">#&gt; 1           covr       *</span></span>
-<span><span class="co">#&gt; 2 microbenchmark       *</span></span>
-<span><span class="co">#&gt; 3        R.utils       *</span></span>
-<span><span class="co">#&gt; 4        rprintf       *</span></span>
-<span><span class="co">#&gt; 5       testthat   3.0.0</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/checkDependencies.html">checkDependencies</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="va">repo</span><span class="op">)</span></span></code></pre></div>
+<pre><code>→ The following are not permitted: covr, microbenchmark, R.utils, rprintf, testthat                  
+→ Please open an issue here: https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues</code></pre>
+<table class="table">
+<thead><tr class="header">
+<th>package</th>
+<th>version</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>covr</td>
+<td>*</td>
+</tr>
+<tr class="even">
+<td>microbenchmark</td>
+<td>*</td>
+</tr>
+<tr class="odd">
+<td>R.utils</td>
+<td>*</td>
+</tr>
+<tr class="even">
+<td>rprintf</td>
+<td>*</td>
+</tr>
+<tr class="odd">
+<td>testthat</td>
+<td>3.0.0</td>
+</tr>
+</tbody>
+</table>
 <p>Not all suggested dependencies are approved. The function prints a
 message and returns a data frame, containing all packages that are not
 listed in our white list.</p>
@@ -254,20 +308,21 @@ specify kinds of imports to look at.</li>
 import other dependencies, and so on. We can investigate how these
 recursive dependencies depend on one another, by investigating it as a
 graph.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">graphData</span> <span class="op">&lt;-</span> <span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/getGraphData.html">getGraphData</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"PaRe"</span>, <span class="st">"glue"</span><span class="op">)</span>,</span>
-<span>  package_types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"imports"</span>, <span class="st">"suggests"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>We can compute several statistics about our dependency graph</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">graphData</span> <span class="op">&lt;-</span> <span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/getGraphData.html">getGraphData</a></span><span class="op">(</span></span>
+<span>  repo <span class="op">=</span> <span class="va">repo</span>,</span>
+<span>  packageTypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"imports"</span>, <span class="st">"suggests"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>We can compute several statistics about our dependency graph</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  countVertices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/V.html" class="external-link">V</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  countEdges <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/E.html" class="external-link">E</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  meanDegree <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/degree.html" class="external-link">degree</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
 <span>  meanDistance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/distances.html" class="external-link">distances</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
 <span><span class="co">#&gt;   countVertices countEdges meanDegree meanDistance</span></span>
-<span><span class="co">#&gt; 1            19         18       1.89          1.8</span></span></code></pre></div>
+<span><span class="co">#&gt; 1           165        653       7.92          2.7</span></span></code></pre></div>
 <ul>
 <li>
 <strong>countVertices</strong> resembles the amount of recursive
@@ -283,9 +338,9 @@ dependency.</li>
 between <code>glue</code> and all other recursive dependencies.</li>
 </ul>
 <p>We can then plot the graph.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Documentation_files/figure-html/unnamed-chunk-11-1.png" width="100%"></p>
+<p><img src="Documentation_files/figure-html/plotGraph-1.png" width="700"></p>
 </div>
 </div>
 <div class="section level2">
@@ -296,70 +351,67 @@ a package.</p>
 <div class="section level3">
 <h3 id="summarisefunctionuse">summariseFunctionUse<a class="anchor" aria-label="anchor" href="#summarisefunctionuse"></a>
 </h3>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">funsUsed</span> <span class="op">&lt;-</span> <span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/summariseFunctionUse.html">summariseFunctionUse</a></span><span class="op">(</span></span>
-<span>  r_files <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"PaRe"</span>, <span class="st">"glue"</span><span class="op">)</span>, <span class="st">"R"</span><span class="op">)</span>, full.names <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">funsUsed</span> <span class="op">&lt;-</span> <span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/getFunctionUse.html">getFunctionUse</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="va">repo</span><span class="op">)</span></span>
 <span><span class="va">funsUsed</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 419 × 4</span></span></span>
-<span><span class="co">#&gt;    r_file   line pkg     fun         </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 406 × 4</span></span></span>
+<span><span class="co">#&gt;    file     line pkg     fun         </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> color.R    58 base    function    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> color.R    58 base    parent.frame</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> color.R    59 unknown glue        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> color.R    64 base    function    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> color.R    64 base    parent.frame</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> color.R    65 unknown glue_data   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> color.R    68 base    function    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> color.R    69 base    function    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> color.R    69 base    parse       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> color.R    69 base    tryCatch    </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 409 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> color.R    59 base    function    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> color.R    59 base    parent.frame</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> color.R    60 unknown glue        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> color.R    65 base    function    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> color.R    65 base    parent.frame</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> color.R    66 unknown glue_data   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> color.R    69 base    function    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> color.R    70 base    function    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> color.R    70 base    parse       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> color.R    70 base    tryCatch    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 396 more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="getdefinedfunctionspkg">getDefinedFunctionsPkg<a class="anchor" aria-label="anchor" href="#getdefinedfunctionspkg"></a>
+<h3 id="getdefinedfunctions">getDefinedFunctions<a class="anchor" aria-label="anchor" href="#getdefinedfunctions"></a>
 </h3>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/getDefinedFunctionsPkg.html">getDefinedFunctionsPkg</a></span><span class="op">(</span></span>
-<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"PaRe"</span>, <span class="st">"glue"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                   file start size               fun nArgs cycloComp</span></span>
-<span><span class="co">#&gt; 1              color.R    58    2          glue_col     4         1</span></span>
-<span><span class="co">#&gt; 2              color.R    64    2     glue_data_col     5         1</span></span>
-<span><span class="co">#&gt; 3              color.R    68   30 color_transformer     2         8</span></span>
-<span><span class="co">#&gt; 4 compat-s3-register.R    47    3           .onLoad     1         1</span></span>
-<span><span class="co">#&gt; 5 compat-s3-register.R    53   69       s3_register     3         8</span></span>
-<span><span class="co">#&gt; 6 compat-s3-register.R    64    7    get_method_env     1         2</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">defFuns</span> <span class="op">&lt;-</span> <span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/getDefinedFunctions.html">getDefinedFunctions</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="va">repo</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">defFuns</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                name lineStart lineEnd nArgs cycloComp             fileName</span></span>
+<span><span class="co">#&gt; 1          glue_col        59      61     4         1              color.R</span></span>
+<span><span class="co">#&gt; 2     glue_data_col        65      67     5         1              color.R</span></span>
+<span><span class="co">#&gt; 3 color_transformer        69      99     2         8              color.R</span></span>
+<span><span class="co">#&gt; 4           .onLoad        47      50     1         1 compat-s3-register.R</span></span>
+<span><span class="co">#&gt; 5       s3_register        53     122     3         8 compat-s3-register.R</span></span>
+<span><span class="co">#&gt; 6    get_method_env        64      71     1         2 compat-s3-register.R</span></span></code></pre></div>
 <p>Besides the location of each function being displayed, the number of
 arguments for each function, and the cyclometic complexity is also
 included in the result.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/pkgDiagram.html">pkgDiagram</a></span><span class="op">(</span></span>
-<span>  pkgPath <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"PaRe"</span>, <span class="st">"glue"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-c0076d5571ca4e8b6a37" style="width:100%;height:432.632880098888px;"></div>
-<script type="application/json" data-for="htmlwidget-c0076d5571ca4e8b6a37">{"x":{"diagram":"digraph {\n  graph [layout = dot, rankdir = LR]subgraph cluster0 {node [style = filled fillcolor = lightgrey] label = <<B>Legend<\/B>> Exported -> Non_exported}subgraph cluster1 {node [style = filled fillcolor = lightgrey] Exported [fillcolor = white] label = <<B>glue<\/B>> as_glue [fillcolor = white]\nbacktick [fillcolor = white]\ndouble_quote [fillcolor = white]\nglue [fillcolor = white]\nglue_col [fillcolor = white]\nglue_collapse [fillcolor = white]\nglue_data [fillcolor = white]\nglue_data_col [fillcolor = white]\nglue_data_safe [fillcolor = white]\nglue_data_sql [fillcolor = white]\nglue_safe [fillcolor = white]\nglue_sql [fillcolor = white]\nglue_sql_collapse [fillcolor = white]\nidentity_transformer [fillcolor = white]\nsingle_quote [fillcolor = white]\ntrim [fillcolor = white]\"glue_col\" -> \"glue\"\n\"glue_data_col\" -> \"glue_data\"\n\"color_transformer\" -> \"glue_collapse\"\n\"color_transformer\" -> \"glue\"\n\"s3_register\" -> \"get_method_env\"\n\"s3_register\" -> \"get_method\"\n\"s3_register\" -> \".rlang_s3_register_compat\"\n\"s3_register\" -> \"register\"\n\"get_method\" -> \"get_method_env\"\n\"register\" -> \"get_method\"\n\"register\" -> \".rlang_s3_register_compat\"\n\"glue_collapse\" -> \"as_glue\"\n\"glue_collapse\" -> \"glue_collapse\"\n\"trim\" -> \"has_newline\"\n\"has_newline\" -> \"has_newline\"\n\"print.glue\" -> \"style_na\"\n\"as_glue.default\" -> \"as_glue\"\n\"eng_glue\" -> \"glue\"\n\"eng_glue_sql\" -> \"glue_sql\"\n\"glue_safe\" -> \"glue\"\n\"glue_data_safe\" -> \"glue_data\"\n\"glue_sql\" -> \"glue\"\n\"glue_sql\" -> \"sql_quote_transformer\"\n\"glue_data_sql\" -> \"glue_data\"\n\"glue_data_sql\" -> \"sql_quote_transformer\"\n\"glue_sql_collapse\" -> \"glue_collapse\"\n\"sql_quote_transformer\" -> \"glue_collapse\"\n\"bind_args\" -> \"delayed_assign\"\n\"style_na\" -> \"colour_na\"\n\"vec_cast.glue.character\" -> \"as_glue\"\n\".onLoad\" -> \"s3_register\"}}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/pkgDiagram.html">pkgDiagram</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="va">repo</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">DiagrammeRsvg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DiagrammeRsvg/man/export_svg.html" class="external-link">export_svg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">charToRaw</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">magick</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html" class="external-link">image_read</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="figure">
+<img src="img/glueDiagram.svg" alt=""><p class="caption">glueDiagram</p>
+</div>
 </div>
 </div>
 <div class="section level2">
 <h2 id="lines-of-code">Lines of code<a class="anchor" aria-label="anchor" href="#lines-of-code"></a>
 </h2>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/countPackageLines.html">countPackageLines</a></span><span class="op">(</span></span>
-<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"PaRe"</span>, <span class="st">"glue"</span><span class="op">)</span>,</span>
-<span>  fileEx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"R"</span>, <span class="st">"cpp"</span>, <span class="st">"java"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
-<span><span class="co">#&gt;       R   cpp  java package</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>056     0     0 glue</span></span></code></pre></div>
-<p><code>glue</code> contains 1056 lines of R-code, 0 lines of C++, and
-0 lines of java.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/countPackageLines.html">countPackageLines</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="va">repo</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 6</span></span></span>
+<span><span class="co">#&gt;       R   cpp     o     h  java   sql</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>118     0     0     0     0     0</span></span></code></pre></div>
+<p><code>glue</code> contains 1056 lines of R-code.</p>
 </div>
 <div class="section level2">
 <h2 id="linting">Linting<a class="anchor" aria-label="anchor" href="#linting"></a>
 </h2>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/lintScore.html">lintScore</a></span><span class="op">(</span></span>
-<span>  lintFunction <span class="op">=</span> <span class="fu">PaRe</span><span class="fu">::</span><span class="va"><a href="../reference/lintPackage.html">lintPackage</a></span>,</span>
-<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"PaRe"</span>, <span class="st">"glue"</span><span class="op">)</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">messages</span> <span class="op">&lt;-</span> <span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/lintRepo.html">lintRepo</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="va">repo</span><span class="op">)</span></span>
+<span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/lintScore.html">lintScore</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="va">repo</span>, messages <span class="op">=</span> <span class="va">messages</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: Returning more (or less) than 1 row per `summarise()` group was deprecated in</span></span>
 <span><span class="co">#&gt; dplyr 1.1.0.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `reframe()` instead.</span></span>
@@ -367,51 +419,41 @@ included in the result.</p>
 <span><span class="co">#&gt;   always returns an ungrouped data frame and adjust accordingly.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">PaRe</span> package.</span></span>
 <span><span class="co">#&gt;   Please report the issue to the authors.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> <span style="color: #0000BB;">style: 8.13% of lines of code have linting messages</span></span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> <span style="color: #BBBB00;">warning: 0.16% of lines of code have linting messages</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
 <span><span class="co">#&gt;   type      pct</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> style    8.13</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> warning  0.16</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/lintPackage.html">lintPackage</a></span><span class="op">(</span></span>
-<span>  path <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"PaRe"</span>, <span class="st">"glue"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;                                                                                                    filename</span></span>
-<span><span class="co">#&gt; 1 C:\\Users\\mvankessel\\AppData\\Local\\Temp\\RtmpiM9tZm\\temp_libpath61c8557d7235\\PaRe\\glue\\R\\color.R</span></span>
-<span><span class="co">#&gt; 2 C:\\Users\\mvankessel\\AppData\\Local\\Temp\\RtmpiM9tZm\\temp_libpath61c8557d7235\\PaRe\\glue\\R\\color.R</span></span>
-<span><span class="co">#&gt; 3 C:\\Users\\mvankessel\\AppData\\Local\\Temp\\RtmpiM9tZm\\temp_libpath61c8557d7235\\PaRe\\glue\\R\\color.R</span></span>
-<span><span class="co">#&gt; 4 C:\\Users\\mvankessel\\AppData\\Local\\Temp\\RtmpiM9tZm\\temp_libpath61c8557d7235\\PaRe\\glue\\R\\color.R</span></span>
-<span><span class="co">#&gt; 5 C:\\Users\\mvankessel\\AppData\\Local\\Temp\\RtmpiM9tZm\\temp_libpath61c8557d7235\\PaRe\\glue\\R\\color.R</span></span>
-<span><span class="co">#&gt; 6 C:\\Users\\mvankessel\\AppData\\Local\\Temp\\RtmpiM9tZm\\temp_libpath61c8557d7235\\PaRe\\glue\\R\\color.R</span></span>
-<span><span class="co">#&gt;   line_number column_number  type</span></span>
-<span><span class="co">#&gt; 1           8            81 style</span></span>
-<span><span class="co">#&gt; 2          14            81 style</span></span>
-<span><span class="co">#&gt; 3          58             1 style</span></span>
-<span><span class="co">#&gt; 4          58            81 style</span></span>
-<span><span class="co">#&gt; 5          59            81 style</span></span>
-<span><span class="co">#&gt; 6          64             1 style</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> style   10.2 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> warning  3.94</span></span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">messages</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   filename line_number column_number    type</span></span>
+<span><span class="co">#&gt; 1  color.R           8            81   style</span></span>
+<span><span class="co">#&gt; 2  color.R          14            81   style</span></span>
+<span><span class="co">#&gt; 3  color.R          59             1   style</span></span>
+<span><span class="co">#&gt; 4  color.R          59            81   style</span></span>
+<span><span class="co">#&gt; 5  color.R          60             3 warning</span></span>
+<span><span class="co">#&gt; 6  color.R          60            81   style</span></span>
 <span><span class="co">#&gt;                                                 message</span></span>
 <span><span class="co">#&gt; 1          Lines should not be more than 80 characters.</span></span>
 <span><span class="co">#&gt; 2          Lines should not be more than 80 characters.</span></span>
 <span><span class="co">#&gt; 3 Variable and function name style should be camelCase.</span></span>
 <span><span class="co">#&gt; 4          Lines should not be more than 80 characters.</span></span>
-<span><span class="co">#&gt; 5          Lines should not be more than 80 characters.</span></span>
-<span><span class="co">#&gt; 6 Variable and function name style should be camelCase.</span></span>
+<span><span class="co">#&gt; 5      no visible global function definition for 'glue'</span></span>
+<span><span class="co">#&gt; 6          Lines should not be more than 80 characters.</span></span>
 <span><span class="co">#&gt;                                                                                             line</span></span>
 <span><span class="co">#&gt; 1  #' Using the following syntax will apply the function [crayon::blue()] to the text 'foo bar'.</span></span>
 <span><span class="co">#&gt; 2              #' If you want an expression to be evaluated, simply place that in a normal brace</span></span>
 <span><span class="co">#&gt; 3             glue_col &lt;- function(..., .envir = parent.frame(), .na = "NA", .literal = FALSE) {</span></span>
 <span><span class="co">#&gt; 4             glue_col &lt;- function(..., .envir = parent.frame(), .na = "NA", .literal = FALSE) {</span></span>
 <span><span class="co">#&gt; 5   glue(..., .envir = .envir, .na = .na, .literal = .literal, .transformer = color_transformer)</span></span>
-<span><span class="co">#&gt; 6    glue_data_col &lt;- function(.x, ..., .envir = parent.frame(), .na = "NA", .literal = FALSE) {</span></span>
-<span><span class="co">#&gt;               linter</span></span>
-<span><span class="co">#&gt; 1 line_length_linter</span></span>
-<span><span class="co">#&gt; 2 line_length_linter</span></span>
-<span><span class="co">#&gt; 3 object_name_linter</span></span>
-<span><span class="co">#&gt; 4 line_length_linter</span></span>
-<span><span class="co">#&gt; 5 line_length_linter</span></span>
-<span><span class="co">#&gt; 6 object_name_linter</span></span></code></pre></div>
+<span><span class="co">#&gt; 6   glue(..., .envir = .envir, .na = .na, .literal = .literal, .transformer = color_transformer)</span></span>
+<span><span class="co">#&gt;                linter</span></span>
+<span><span class="co">#&gt; 1  line_length_linter</span></span>
+<span><span class="co">#&gt; 2  line_length_linter</span></span>
+<span><span class="co">#&gt; 3  object_name_linter</span></span>
+<span><span class="co">#&gt; 4  line_length_linter</span></span>
+<span><span class="co">#&gt; 5 object_usage_linter</span></span>
+<span><span class="co">#&gt; 6  line_length_linter</span></span></code></pre></div>
 </div>
   </div>
 

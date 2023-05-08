@@ -32,10 +32,13 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/ComparingBranches.html">Comparing branches</a>
+    </li>
+    <li>
       <a href="../articles/Documentation.html">Documentation</a>
     </li>
     <li>
-      <a href="../articles/report.html">`r paste('PaRe Report:', basename(params$pkgPath))`</a>
+      <a href="../articles/Report.html">Report: PaRe [0.1.0]</a>
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
@@ -57,39 +60,33 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pkgDiagram</span><span class="op">(</span><span class="va">pkgPath</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pkgDiagram</span><span class="op">(</span><span class="va">repo</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>pkgPath</dt>
-<dd><p>Path to package</p></dd>
+    <dl><dt>repo</dt>
+<dd><p>&lt;<a href="Repository.html">Repository</a>&gt; object.</p></dd>
 
 
 <dt>verbose</dt>
-<dd><p>Verbose messages</p></dd>
+<dd><p>&lt;<a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a>&gt; Verbose messages</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Optional other parameters for `DiagrammeR::grViz`.</p></dd>
+<dd><p>Optional other parameters for <a href="https://rdrr.io/pkg/DiagrammeR/man/grViz.html" class="external-link">grViz</a>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>diagram image</p>
+<p>`htmlwidget`
+  Diagram `htmlwidget` object. See <a href="https://rdrr.io/pkg/htmlwidgets/man/createWidget.html" class="external-link">createWidget</a></p>
+
+
     </div>
 
-    <div id="ref-examples">
-    <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu">pkgDiagram</span><span class="op">(</span></span></span>
-<span class="r-in"><span>    pkgPath <span class="op">=</span> <span class="st">"./"</span>,</span></span>
-<span class="r-in"><span>    verbose <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-</code></pre></div>
-    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
