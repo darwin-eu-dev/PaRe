@@ -39,5 +39,6 @@ Suggests:
     ggraph,
     DT,
     magick,
-    withr
+    withr,
+    cowplot
 VignetteBuilder: knitr
