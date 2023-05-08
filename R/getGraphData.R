@@ -42,9 +42,6 @@ getGraphData <- function(repo, packageTypes = c("Imports", "Suggests")) {
     dplyr::filter(tolower(.data$type) %in% tolower(packageTypes)) %>%
     dplyr::select(pkg, deps)
 
-  pkgDeps %>%
-    filter(pkg == "CohortMethod")
-
   # Convert tibble to graph
   netData <- tidygraph::as_tbl_graph(
     x = pkgDeps,
@@ -52,6 +49,3 @@ getGraphData <- function(repo, packageTypes = c("Imports", "Suggests")) {
   )
   return(netData)
 }
-
-graphData <- getGraphData(repo)
-"CohortMethod" %in% V(graphData)
