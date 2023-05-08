@@ -1,20 +1,20 @@
 #' getGraphData
 #'
-#' @param path
-#'     Path to package
-#' @param excludedPackages
-#'     Packages to exclude
+#' @param repo
+#' \link[PaRe]{Repository} object.
 #' @param packageTypes
-#'     Types of packages to be included in the result. Default: c("imports", "depends")
-#'     Available types are: "imports", "depends", "suggests", "enhances", "linkingto"
+#' <\link[base]{c}> of <\link[base]{character}> Types of packages to be
+#' included in the result. Default: c("imports", "depends") Available types
+#' are: "imports", "depends", "suggests", "enhances", "linkingto"
 #'
-#' @return net_data graph data
+#' @return
+#' <\link[tidygraph]{as_tbl_graph}>
 #'
 #' @export
 getGraphData <- function(repo, packageTypes = c("Imports", "Suggests")) {
   deps <- repo$getDescription()$get_deps() %>%
     dplyr::filter(tolower(.data$type) %in% tolower(packageTypes)) %>%
-    dplyr::pull(package)
+    dplyr::pull(.data$package)
 
   remoteRef <- repo$getDescription()$get_remotes()
   deps[deps %in% basename(remoteRef)] <- remoteRef[basename(remoteRef) %in% deps]
@@ -40,7 +40,7 @@ getGraphData <- function(repo, packageTypes = c("Imports", "Suggests")) {
 
   pkgDeps <- pkgDeps %>%
     dplyr::filter(tolower(.data$type) %in% tolower(packageTypes)) %>%
-    dplyr::select(pkg, deps)
+    dplyr::select("pkg", "deps")
 
   # Convert tibble to graph
   netData <- tidygraph::as_tbl_graph(

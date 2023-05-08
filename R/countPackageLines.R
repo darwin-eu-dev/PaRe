@@ -1,10 +1,11 @@
 #' countPackageLines
 #'
-#' @param repo (`Repository`)
-#'   Repository object.
+#' @param repo
+#' <\link[PaRe]{Repository}> object.
 #'
-#' @return (`data.frame()`)
-#'   Tibble containing the amount of lines per file in the Repository object.
+#' @return
+#' <\link[dplyr]{tibble}> containing the amount of lines per file in the
+#' Repository object.
 #' @export
 countPackageLines <- function(repo) {
   files <- repo$getFiles()

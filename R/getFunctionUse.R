@@ -1,9 +1,12 @@
 #' getMultiLineFun
 #'
-#' @param line Current line number
-#' @param lines All lines
+#' @param line
+#' <\link[base]{numeric}> Current line number.
+#' @param lines
+#' <\link[base]{c}> of <\link[base]{character}> lines.
 #'
-#' @return Returns vector of functions found in do.call function call.
+#' @return
+#' <\link[base]{character}>
 getMultiLineFun <- function(line, lines) {
   nLine <- line
 
@@ -30,10 +33,14 @@ getMultiLineFun <- function(line, lines) {
 
 #' getDlply
 #'
-#' @param line All lines
-#' @param lines Current line number
+#' @param line
+#' <\link[base]{numeric}> Current line number.
+#' @param lines
+#' <\link[base]{c}> of <\link[base]{character}> lines.
 #'
-#' @return Returns function in plyr::dlply function call.
+#' @return
+#' <\link[base]{c}> of <\link[base]{character}> of functions found in
+#' \link[plyr]{dlply} function call.
 getDlply <- function(line, lines) {
   funVec <- paste0(getMultiLineFun(line, lines), collapse = "")
 
@@ -49,10 +56,14 @@ getDlply <- function(line, lines) {
 
 #' getApplyFun
 #'
-#' @param line All lines
-#' @param lines Current line number
+#' @param line
+#' <\link[base]{numeric}> Current line number.
+#' @param lines
+#' <\link[base]{c}> of <\link[base]{character}> lines.
 #'
-#' @return Returns function in (vsl)apply function call.
+#' @return
+#' <\link[base]{c}> of <\link[base]{character}> of functions found in
+#' \link[base]{apply} function call.
 getApplyFun <- function(line, lines) {
   applyVec <- getMultiLineFun(line, lines)
 
@@ -71,10 +82,14 @@ getApplyFun <- function(line, lines) {
 
 #' getDoCallFun
 #'
-#' @param line Current line number
-#' @param lines All lines
+#' @param line
+#' <\link[base]{numeric}> Current line number.
+#' @param lines
+#' <\link[base]{c}> of <\link[base]{character}> lines.
 #'
-#' @return Returns function used in do.call function call.
+#' @return
+#' <\link[base]{c}> of <\link[base]{character}> of functions found in
+#' \link[base]{do.call} function call.
 getDoCallFun <- function(line, lines) {
   doCallVec <- getMultiLineFun(line, lines)
 
@@ -93,13 +108,18 @@ getDoCallFun <- function(line, lines) {
 #'
 #' Support function for funsUsedInFile.
 #'
-#' @param file_txt file to use
-#' @param file_name name of file
-#' @param i line
-#' @param verbose Prints message when no function found
+#' @param i
+#' <\link[base]{numeric}> line
+#' @param verbose
+#' <\link[base]{logical}> Prints message when no function found
+#' @param lines
+#' <\link[base]{c}> of <\link[base]{character}>
+#' @param name
+#' <\link[base]{character}>
 #'
-#' @return data.frame of 3 colums: Package (pkg); Function (fun); Line in
-#' script (line)
+#' @return
+#' <\link[base]{data.frame}> of 3 colums: Package (pkg); Function (fun); Line
+#' in script (line)
 funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
   line <- lines[i]
 
@@ -178,10 +198,13 @@ funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
 #'
 #' Support function
 #'
-#' @param files Files to get functions from
-#' @param verbose Verbosity
+#' @param files
+#' <\link[base]{list}> of <\link[PaRe]{File}> objects.
+#' @param verbose
+#' <\link[base]{logical}>
 #'
-#' @return table
+#' @return
+#' <\link[base]{list}>
 funsUsedInFile <- function(files, verbose = FALSE) {
   lapply(X = files, FUN = function(file) {
     if (verbose) {
@@ -203,11 +226,14 @@ funsUsedInFile <- function(files, verbose = FALSE) {
 #'
 #' Summarise functions used in R package
 #'
-#' @param r_files Complete path(s) to files to be investigated
-#' @param verbose Default: FALSE; prints message to console which file is
+#' @param repo
+#' <\link[PaRe]{Repository}> object.
+#' @param verbose
+#' <\link[base]{logical}> Default: FALSE; prints message to console which file is
 #' currently being worked on.
 #'
-#' @return tibble
+#' @return
+#' <\[dplyr]{tibble}>
 #'
 #' @export
 getFunctionUse <- function(repo, verbose = FALSE) {

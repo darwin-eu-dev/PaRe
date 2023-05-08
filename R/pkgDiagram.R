@@ -2,21 +2,18 @@
 #'
 #' Makes the graph
 #'
-#' @param funsPerDefFun (`data.frame()`)
-#'   Functions per defined function data.frame.
-#' @param pkgName (`character()`)
-#'   Name of package.
-#' @param expFuns (`data.frame()`)
-#'   Exported functinos data.frame.
+#' @param funsPerDefFun
+#' <\link[base]{data.frame}> Functions per defined function data.frame.
+#' @param pkgName
+#' <\link[base]{character}> Name of package.
+#' @param expFuns
+#' <\link[base]{data.frame}> Exported functinos data.frame.
 #' @param ...
 #'   Optional other parameters for \link[DiagrammeR]{grViz}.
 #'
-#' @return `htmlwidget`
-#'   Diagram of the package. See \link[DiagrammeR]{grViz}.
+#' @return
+#'   <`htmlwidget`> Diagram of the package. See \link[DiagrammeR]{grViz}.
 makeGraph <- function(funsPerDefFun, pkgName, expFuns, ...) {
-  # funsPerDefFun <- funsPerDefFun %>%
-  #   dplyr::filter(.data$name %in% .data$fun)
-
   graphSyntx <- unique(unlist(lapply(seq_len(nrow(funsPerDefFun)), function(i) {
     glue::glue("'{funsPerDefFun[i, ]$name}' -> '{funsPerDefFun[i, ]$fun}'")
   })))
@@ -39,14 +36,14 @@ makeGraph <- function(funsPerDefFun, pkgName, expFuns, ...) {
 #' Gets all function calls per defined function in the package.
 #'
 #' @param files (`list()`)
-#'   List of files to investigate.
-#' @param allFuns (`data.frame()`)
-#'   Data.frame of allFunctions.
-#' @param verbose (`logical()`)
-#'   Logical to turn verbose messaging on/off.
+#' <\link[base]{list}> of <\link[PaRe]{File}> objects to investigate.
+#' @param allFuns
+#' <\link[base]{data.frame}> of allFunctions.
+#' @param verbose
+#' <\link[base]{logical}> to turn verbose messaging on/off.
 #'
-#' @return (`data.frame()`)
-#'   Data.frame of all functions per defined function of package.
+#' @return
+#' <\link[base]{data.frame}> of all functions per defined function of package.
 getFunsPerDefFun <- function(files, allFuns, verbose) {
   dplyr::bind_rows(lapply(files, function(file) {
 
@@ -68,11 +65,11 @@ getFunsPerDefFun <- function(files, allFuns, verbose) {
 #'
 #' Gets all the exported functions of a package, from NAMESPACE.
 #'
-#' @param path (`character()`)
-#'   Path to package
+#' @param path
+#' <\link[base]{character}> Path to package
 #'
-#' @return (`c()`) of (`character()`)
-#'   vector of exported functions
+#' @return
+#' <\link[base]{c}> of <\link[base]{character}> vector of exported functions
 getExportedFunctions <- function(path) {
   expFuns <- readLines(glue::glue("{path}/NAMESPACE"))
 
@@ -95,10 +92,10 @@ getExportedFunctions <- function(path) {
 #'
 #' Creates a diagram of all defined functions in a package.
 #'
-#' @param pkgPath (`character()`)
-#'   Path to package
-#' @param verbose (`logical()`)
-#'   Verbose messages
+#' @param repo
+#' <\link[PaRe]{Repository}> object.
+#' @param verbose
+#'   <\link[base]{logical}> Verbose messages
 #' @param ...
 #'   Optional other parameters for \link[DiagrammeR]{grViz}.
 #'
@@ -126,10 +123,13 @@ pkgDiagram <- function(repo, verbose = FALSE, ...) {
 #'
 #' Exports the diagram from `pkgDiagram` to a PDF-file.
 #'
-#' @param diagram Graph object from the `pkgDiagram` function.
-#' @param fileName Path to file, where to save the diagram to.
+#' @param diagram
+#' <\link[DiagrammeR]{grViz}> Graph object from the `pkgDiagram` function.
+#' @param fileName
+#' <\link[base]{character}> Path to file, where to save the diagram to.
 #'
-#' @return NULL
+#' @return
+#' `NULL`
 #' @export
 exportDiagram <- function(diagram, fileName) {
   diagram %>%

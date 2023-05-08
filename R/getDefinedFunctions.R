@@ -1,10 +1,10 @@
 #' getDefinedFunctions
 #'
-#' @param repo (`PaRe::Repository`)
-#' \link[PaRe]{Repository} object
+#' @param repo
+#' <\link[PaRe]{Repository}> object
 #'
-#' @return (`data.frame()`)
-#' data.frame
+#' @return
+#' <\link[base]{data.frame}>
 #' @export
 getDefinedFunctions <- function(repo) {
   files <- repo$getRFiles()
