@@ -132,7 +132,7 @@ DT::datatable(
 ```{r lintScores, echo=params$showCode, message=FALSE, warning=FALSE}
 lintMsgs <- PaRe::lintRepo(repo)
 
-DT::datatable(PaRe::lintScore(repo, messages) %>% 
+DT::datatable(PaRe::lintScore(repo, lintMsgs) %>% 
                 dplyr::rename("Percentage of lines assessed" = "pct"),
               rownames= FALSE)
 ```
@@ -185,7 +185,7 @@ DT::datatable(data.frame(
 ```{r farthestDependency, echo=params$showCode, message=FALSE, warning=FALSE, out.width="100%"}
 p <- igraph::all_simple_paths(
   graph = graphData,
-  from = "CohortMethod",
+  from = pkgName,
   to = igraph::farthest.nodes(graphData)$vertices[2])
 
 
