@@ -1,0 +1,3 @@
+[submodule "inst/glue"]
+	path = inst/glue
+	url = https://github.com/tidyverse/glue.git
