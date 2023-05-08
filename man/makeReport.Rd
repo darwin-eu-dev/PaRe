@@ -4,14 +4,14 @@
 \alias{makeReport}
 \title{makeReport}
 \usage{
-makeReport(pkgPath, outputFile, showCode = FALSE)
+makeReport(repo, outputFile, showCode = FALSE)
 }
 \arguments{
-\item{pkgPath}{Path to package folder.}
-
 \item{outputFile}{Path to html-file.}
 
 \item{showCode}{Default: FALSE; Boolean to show code or not in the report.}
+
+\item{pkgPath}{Path to package folder.}
 }
 \description{
 Uses rmarkdown's render function to render a html-report of the given

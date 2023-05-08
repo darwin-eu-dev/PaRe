@@ -7,7 +7,7 @@
 Class representing a file containing code.
 }
 \section{Super class}{
-\code{PaRe::Code} -> \code{File}
+\code{\link[PaRe:Code]{PaRe::Code}} -> \code{File}
 }
 \section{Methods}{
 \subsection{Public methods}{

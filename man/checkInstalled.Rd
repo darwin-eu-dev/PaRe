@@ -4,7 +4,7 @@
 \alias{checkInstalled}
 \title{checkInstalled}
 \usage{
-checkInstalled(pkgPath)
+checkInstalled()
 }
 \arguments{
 \item{pkgPath}{Path to package}

@@ -4,7 +4,7 @@
 \alias{lintScore}
 \title{lintScore}
 \usage{
-lintScore(messages)
+lintScore(repo, messages)
 }
 \arguments{
 \item{messages}{(`data.frame()`)

@@ -14,10 +14,22 @@ library(dplyr)
 ```
 
 
+## git package
+```{r}
+tempDir <- tempdir()
+pathToRepo <- file.path(tempDir, "IncidencePrevalence")
+
+
+git2r::clone(
+  url = "https://github.com/darwin-eu/IncidencePrevalence.git",
+  local_path = pathToRepo)
+```
+
+
 ## Objects
 ### Repository
 ```{r createRepo, warning=FALSE}
-repo <- PaRe::Repository$new(system.file(package = "PaRe", "glue", "/"))
+repo <- PaRe::Repository$new(pathToRepo)
 ```
 
 #### Git management
@@ -27,7 +39,7 @@ repo$gitPull(credentials = git2r::cred_token())
 ```
 ```{r devBranch, warning=FALSE}
 dev <- repo$clone()
-dev$gitCheckout("58aeb9d01820cb105bee9faf71ec39fd25363378")
+dev$gitCheckout("4fb265d7632b3499b82b6bdabde32ebea7bdc1d6")
 ```
 
 #### Repository properties
@@ -95,7 +107,7 @@ tail(fun$getLines())
 ```{r packageLines}
 dplyr::bind_rows(
   PaRe::countPackageLines(repo) %>% mutate(branch = "main"),
-  PaRe::countPackageLines(dev) %>% mutate(branch = "V4.2.3")
+  PaRe::countPackageLines(dev) %>% mutate(branch = "V0.1.0")
 )
 ```
 
@@ -109,7 +121,7 @@ mainFunUse <- PaRe::getFunctionUse(repo) %>%
   mutate(branch = "main")
 
 devFunUse <- PaRe::getFunctionUse(dev) %>%
-  mutate(branch = "V4.2.3")
+  mutate(branch = "V0.1.0")
 
 pkgUse <- dplyr::bind_rows(
   mainFunUse,
@@ -133,7 +145,7 @@ devFuns <- PaRe::getDefinedFunctions(dev)
 
 defFuns <- bind_rows(
   mainFuns %>% mutate(branch = "main"),
-  devFuns %>% mutate(branch = "V4.2.3")
+  devFuns %>% mutate(branch = "V0.1.0")
 )
 
 ggplot(data = defFuns, mapping = aes(y = cycloComp, x = name, fill = branch)) +
@@ -170,7 +182,7 @@ devGraph <- PaRe::getGraphData(dev)
 library(igraph)
 
 data.frame(
-  branch = c("main", "V4.2.3"),
+  branch = c("main", "V0.1.0"),
   countVertices = c(length(igraph::V(mainGraph)), length(igraph::V(devGraph))),
   countEdges = c(length(igraph::E(mainGraph)), length(igraph::E(devGraph))),
   meanDegree = c(round(mean(igraph::degree(mainGraph)), 2), round(mean(igraph::degree(devGraph)), 2)),
@@ -180,9 +192,13 @@ data.frame(
 
 ```{r}
 messages <- PaRe::lintRepo(repo)
+messages2 <- PaRe::lintRepo(dev)
 head(messages)
 ```
 
 ```{r warning=FALSE}
-PaRe::lintScore(repo, messages)
+bind_rows(
+  PaRe::lintScore(repo, messages) %>% mutate(branch = "main"),
+  PaRe::lintScore(dev, messages) %>% mutate(branch = "v0.1.0")
+)
 ```
