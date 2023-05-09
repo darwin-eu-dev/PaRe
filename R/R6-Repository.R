@@ -12,6 +12,9 @@ Repository <- R6::R6Class(
     #'
     #' @param path
     #' <\link[base]{character}> Path to R package project
+    #'
+    #' @return
+    #' `invisible(self)`
     initialize = function(path) {
       private$path <- normalizePath(path)
       private$name <- basename(private$path)
@@ -162,10 +165,10 @@ Repository <- R6::R6Class(
     },
 
     fetchRFiles = function() {
-      paths <- list.files(file.path(private$path, "R"), full.names = TRUE, recursive = TRUE)
+      paths <- list.files(file.path(private$path, "R"), full.names = FALSE, recursive = TRUE)
 
       private$rFiles <- unlist(lapply(paths, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = file.path("R", path))
       }))
       return(invisible(self))
     },

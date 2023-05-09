@@ -11,23 +11,27 @@ File <- R6::R6Class(
     #' @description
     #' Initializer method
     #'
-    #' @param path
-    #' <\link[base]{character}> Path to file.
-    #'
+    #' @param repoPath
+    #' <\link[base]{character}> Path to repository.
+    #' @param filePath
+    #' <\link[base]{character}> Relative path to file
     #' @return
     #' `invisible(self)`
-    initialize = function(path) {
-      private$path <- path
-      private$name <- basename(path)
+    initialize = function(repoPath, filePath) {
+      private$repoPath <- repoPath
+      private$filePath <- filePath
+      private$name <- basename(filePath)
       private$type <- stringr::str_split_i(string = private$name, pattern = "\\.", i = 2)
       private$comment <- private$commentSwitch()
-      private$lines <- readLines(path)
+      private$lines <- readLines(file.path(repoPath, filePath))
 
       super$initialize(private$name, private$lines)
 
       if (private$type == "R") {
         private$fetchDefinedFunctions()
       }
+
+      private$gitBlame()
       return(invisible(self))
     },
 
@@ -56,23 +60,56 @@ File <- R6::R6Class(
     #' <\link[base]{character}>
     getType = function() {
       return(private$type)
+    },
+
+    #' @description
+    #' Gets relative file path
+    #'
+    #' @return
+    #' <\link[base]{character}>
+    getFilePath = function() {
+      return(private$filePath)
+    },
+
+    #' @description
+    #' Gets table of git blame
+    #'
+    #' @return
+    #' <\link[dplyr]{tibble}>
+    getBlameTable = function() {
+      return(private$blameTable)
     }
   ),
   # Private ----
   private = list(
-    path = "",
+    repoPath = "",
+    filePath = "",
     type = "",
     functions = NULL,
     comment = "",
     fileFunctions = NULL,
     functionTable = NULL,
+    blameTable = NULL,
 
     validate = function() {
-      path <- normalizePath(private$path)
+      path <- normalizePath(file.path(private$repoPath, private$filePath))
 
       errorMessages <- checkmate::makeAssertCollection()
-      checkmate::assertFileExists(private$path)
+      checkmate::assertFileExists(path)
       checkmate::reportAssertions(collection = errorMessages)
+      return(invisible(self))
+    },
+
+    gitBlame = function() {
+      b <- git2r::blame(repo = private$repoPath, path = private$filePath)
+      private$blameTable <- lapply(b$hunks, function(hunk) {
+        data.frame(
+          author = hunk$orig_signature$name,
+          file = basename(hunk$orig_path)
+        )
+      }) %>%
+        dplyr::bind_rows() %>%
+        dplyr::tibble()
       return(invisible(self))
     },
 
