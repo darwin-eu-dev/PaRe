@@ -44,7 +44,7 @@ repo <- PaRe::Repository$new(pathToRepo)
 #### Git management
 ```{r gitManagement, warning=FALSE}
 repo$gitCheckout("main")
-repo$gitPull(credentials = git2r::cred_token())
+repo$gitPull()
 ```
 ```{r devBranch, warning=FALSE}
 dev <- repo$clone()
