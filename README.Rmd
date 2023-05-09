@@ -14,7 +14,6 @@ knitr::opts_chunk$set(
 ```
 
 # PaRe
-
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/darwin-eu-dev/PaRe/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/darwin-eu-dev/PaRe/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
@@ -37,3 +36,9 @@ You can install the development version of DependencyReviewer like so:
 install.packages("remotes")
 remotes::install_github("darwin-eu/PaRe")
 ```
+
+## Latest changes:
+1. Using R6 objects
+2. Generalized function input to use R6 objects
+3. Minor efficiency changes
+4. Major vignette updates

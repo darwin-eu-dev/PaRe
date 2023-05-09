@@ -24,15 +24,14 @@ Imports:
     lintr,
     magrittr,
     pak,
-    readr,
-    rlang,
     rmarkdown,
     rsvg,
     stringr,
     tidygraph,
     utils,
-    here,
-    git2r
+    R6,
+    git2r,
+    checkmate
 Suggests:
     ggplot2,
     plotly,
@@ -40,5 +39,6 @@ Suggests:
     ggraph,
     DT,
     magick,
-    withr
+    withr,
+    cowplot
 VignetteBuilder: knitr
