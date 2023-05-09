@@ -5,3 +5,4 @@
 ^extras$
 ^README\.Rmd$
 ^docs$
+^dev$

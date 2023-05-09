@@ -32,10 +32,13 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/ComparingBranches.html">Comparing branches</a>
+    </li>
+    <li>
       <a href="../articles/Documentation.html">Documentation</a>
     </li>
     <li>
-      <a href="../articles/report.html">`r paste('PaRe Report:', basename(params$pkgPath))`</a>
+      <a href="../articles/Report.html">Report: PaRe [0.1.0]</a>
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
@@ -63,26 +66,17 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>base</dt>
-<dd><p>Boolean if base package should be included</p></dd>
+<dd><p>&lt;<a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a>&gt; if base package should be included</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>tibble of two columns (package, version) with all 'allowed'
+<p>&lt;<a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a>&gt; of two columns (package, version) with all 'allowed'
 packages.</p>
     </div>
 
-    <div id="ref-examples">
-    <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Run only in interactive session</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu">getDefaultPermittedPackages</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span></span></span>
-</code></pre></div>
-    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

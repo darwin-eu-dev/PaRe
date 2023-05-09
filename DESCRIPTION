@@ -24,14 +24,14 @@ Imports:
     lintr,
     magrittr,
     pak,
-    readr,
-    rlang,
     rmarkdown,
     rsvg,
     stringr,
     tidygraph,
     utils,
-    here
+    R6,
+    git2r,
+    checkmate
 Suggests:
     ggplot2,
     plotly,

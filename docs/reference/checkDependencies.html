@@ -32,10 +32,13 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
+      <a href="../articles/ComparingBranches.html">Comparing branches</a>
+    </li>
+    <li>
       <a href="../articles/Documentation.html">Documentation</a>
     </li>
     <li>
-      <a href="../articles/report.html">`r paste('PaRe Report:', basename(params$pkgPath))`</a>
+      <a href="../articles/Report.html">Report: PaRe [0.1.0]</a>
     </li>
   </ul></li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
@@ -58,7 +61,7 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">checkDependencies</span><span class="op">(</span></span>
-<span>  pkgPath <span class="op">=</span> <span class="st">"./"</span>,</span>
+<span>  <span class="va">repo</span>,</span>
 <span>  dependencyType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Imports"</span>, <span class="st">"Depends"</span><span class="op">)</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -66,32 +69,25 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>pkgPath</dt>
-<dd><p>Path to package</p></dd>
+    <dl><dt>repo</dt>
+<dd><p>&lt;<a href="Repository.html">Repository</a>&gt; object.</p></dd>
 
 
 <dt>dependencyType</dt>
-<dd><p>Types of dependencies to be included</p></dd>
+<dd><p>&lt;<a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>&gt; Types of dependencies to be included</p></dd>
 
 
 <dt>verbose</dt>
-<dd><p>TRUE or FALSE. If TRUE, progress will be reported.</p></dd>
+<dd><p>&lt;<a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a>&gt; TRUE or FALSE. If TRUE, progress will be reported.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>Returns a data.frame with all the packages that are now permitted.</p>
+<p>&lt;<a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>&gt; with all the packages that are now permitted.</p>
     </div>
 
-    <div id="ref-examples">
-    <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>  <span class="fu">checkDependencies</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"PaRe"</span>, <span class="st">"glue"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
-</code></pre></div>
-    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

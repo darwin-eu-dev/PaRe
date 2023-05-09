@@ -7,10 +7,10 @@
 getExportedFunctions(path)
 }
 \arguments{
-\item{path}{path to package}
+\item{path}{<\link[base]{character}> Path to package}
 }
 \value{
-vector of exported functions
+<\link[base]{c}> of <\link[base]{character}> vector of exported functions
 }
 \description{
 Gets all the exported functions of a package, from NAMESPACE.

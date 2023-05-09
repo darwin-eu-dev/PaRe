@@ -1,0 +1,214 @@
+---
+title: "Comparing branches"
+author: "Maarten van Kessel"
+date: "`r Sys.Date()`"
+output: html_document
+vignette: >
+  %\VignetteIndexEntry{Comparing branches}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r local_cache, echo=FALSE}
+withr::local_envvar(
+  R_USER_CACHE_DIR = tempfile()
+)
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+```
+
+
+## git package
+```{r}
+tempDir <- tempdir()
+pathToRepo <- file.path(tempDir, "IncidencePrevalence")
+
+git2r::clone(
+  url = "https://github.com/darwin-eu/IncidencePrevalence.git",
+  local_path = pathToRepo)
+```
+
+
+## Objects
+### Repository
+```{r createRepo, warning=FALSE}
+repo <- PaRe::Repository$new(pathToRepo)
+```
+
+#### Git management
+```{r gitManagement, warning=FALSE, eval = FALSE}
+repo$gitCheckout("main")
+repo$gitPull()
+```
+
+```{r devBranch, warning=FALSE}
+dev <- repo$clone()
+dev$gitCheckout("4fb265d7632b3499b82b6bdabde32ebea7bdc1d6")
+```
+
+#### Repository properties
+```{r}
+repo$getPath()
+repo$getName()
+```
+
+```{r}
+repo$getDescription()
+```
+
+### File
+```{r}
+files <- repo$getFiles()
+files
+```
+
+```{r}
+file <- files$R[[2]]
+file
+```
+
+#### File properties
+```{r}
+file$getName()
+file$getNLines()
+file$getType()
+```
+
+```{r}
+head(file$getLines())
+
+tail(file$getLines())
+```
+
+```{r}
+file$getFunctionTable()
+```
+
+### Function
+```{r}
+functions <- file$getFunctions()
+functions
+```
+
+```{r}
+fun <- functions[[1]]
+fun
+```
+#### Function properties
+```{r}
+fun$getName()
+fun$getNLines()
+```
+```{r}
+fun$getFunction()
+```
+
+```{r}
+head(fun$getLines())
+tail(fun$getLines())
+```
+## ComPaRing main to develop
+```{r packageLines}
+dplyr::bind_rows(
+  PaRe::countPackageLines(repo) %>% mutate(branch = "main"),
+  PaRe::countPackageLines(dev) %>% mutate(branch = "V0.1.0")
+)
+```
+
+```{r}
+PaRe::pkgDiagram(repo)
+PaRe::pkgDiagram(dev)
+```
+
+```{r}
+mainFunUse <- PaRe::getFunctionUse(repo) %>%
+  mutate(branch = "main")
+
+devFunUse <- PaRe::getFunctionUse(dev) %>%
+  mutate(branch = "V0.1.0")
+
+pkgUse <- dplyr::bind_rows(
+  mainFunUse,
+  devFunUse) %>%
+  group_by(pkg, branch) %>%
+  tally()
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(data = pkgUse, mapping = aes(x = pkg, y = n, fill = branch)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+```
+
+```{r}
+mainFuns <- PaRe::getDefinedFunctions(repo)
+devFuns <- PaRe::getDefinedFunctions(dev)
+
+defFuns <- bind_rows(
+  mainFuns %>% mutate(branch = "main"),
+  devFuns %>% mutate(branch = "V0.1.0")
+)
+
+ggplot(data = defFuns, mapping = aes(y = cycloComp, x = name, fill = branch)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  labs(title = "Cyclomatic Complexity per Function", x = "Function", y = "Cyclomatic Complexity")
+```
+```{r}
+ggplot(data = defFuns, mapping = aes(y = lineEnd - lineStart + 1, x = name, fill = branch)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  labs(title = "Number of Lines per Function", y = "Number of Lines", x = "Function")
+```
+
+```{r}
+effectiveCode <- defFuns %>%
+  group_by(fileName, branch) %>%
+  summarise(n = sum(lineEnd - lineStart + 1)) %>%
+  ungroup()
+
+ggplot(data = effectiveCode, mapping = aes(y = n, x = fileName, fill = branch)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  labs(title = "Functional code increase", y = "Number of Lines", x = "File")
+```
+
+```{r}
+mainGraph <- PaRe::getGraphData(repo)
+devGraph <- PaRe::getGraphData(dev)
+
+library(igraph)
+
+data.frame(
+  branch = c("main", "V0.1.0"),
+  countVertices = c(length(igraph::V(mainGraph)), length(igraph::V(devGraph))),
+  countEdges = c(length(igraph::E(mainGraph)), length(igraph::E(devGraph))),
+  meanDegree = c(round(mean(igraph::degree(mainGraph)), 2), round(mean(igraph::degree(devGraph)), 2)),
+  meanDistance = c(round(mean(igraph::distances(mainGraph)), 2), round(mean(igraph::distances(devGraph)), 2))
+  )
+```
+
+```{r}
+messages <- PaRe::lintRepo(repo)
+messages2 <- PaRe::lintRepo(dev)
+head(messages)
+```
+
+```{r warning=FALSE}
+bind_rows(
+  PaRe::lintScore(repo, messages) %>% mutate(branch = "main"),
+  PaRe::lintScore(dev, messages) %>% mutate(branch = "v0.1.0")
+)
+```

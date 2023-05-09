@@ -4,25 +4,19 @@
 \alias{pkgDiagram}
 \title{pkgDiagram}
 \usage{
-pkgDiagram(pkgPath, verbose = FALSE, ...)
+pkgDiagram(repo, verbose = FALSE, ...)
 }
 \arguments{
-\item{pkgPath}{Path to package}
+\item{repo}{<\link[PaRe]{Repository}> object.}
 
-\item{verbose}{Verbose messages}
+\item{verbose}{<\link[base]{logical}> Verbose messages}
 
-\item{...}{Optional other parameters for `DiagrammeR::grViz`.}
+\item{...}{Optional other parameters for \link[DiagrammeR]{grViz}.}
 }
 \value{
-diagram image
+`htmlwidget`
+  Diagram `htmlwidget` object. See \link[htmlwidgets]{createWidget}
 }
 \description{
 Creates a diagram of all defined functions in a package.
-}
-\examples{
-if (interactive()) {
-  pkgDiagram(
-    pkgPath = "./",
-    verbose = TRUE)
-}
 }
