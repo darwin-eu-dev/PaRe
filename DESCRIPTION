@@ -30,7 +30,8 @@ Imports:
     tidygraph,
     utils,
     R6,
-    git2r
+    git2r,
+    checkmate
 Suggests:
     ggplot2,
     plotly,
