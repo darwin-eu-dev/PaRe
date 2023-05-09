@@ -42,10 +42,11 @@ repo <- PaRe::Repository$new(pathToRepo)
 ```
 
 #### Git management
-```{r gitManagement, warning=FALSE}
+```{r gitManagement, warning=FALSE, eval = FALSE}
 repo$gitCheckout("main")
 repo$gitPull()
 ```
+
 ```{r devBranch, warning=FALSE}
 dev <- repo$clone()
 dev$gitCheckout("4fb265d7632b3499b82b6bdabde32ebea7bdc1d6")
