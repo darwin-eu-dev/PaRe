@@ -105,7 +105,8 @@ File <- R6::R6Class(
       private$blameTable <- lapply(b$hunks, function(hunk) {
         data.frame(
           author = hunk$orig_signature$name,
-          file = basename(hunk$orig_path)
+          file = basename(hunk$orig_path),
+          date = as.character(hunk$orig_signature$when)
         )
       }) %>%
         dplyr::bind_rows() %>%
