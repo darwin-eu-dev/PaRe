@@ -116,6 +116,9 @@ funDiagram <- function(funName, nodes, maxIter, n = 0) {
 #' <\link[base]{numeric}> (10) Maximum iterations specified by user.
 #'
 #' @return
+#' Diagram `htmlwidget` object. See \link[htmlwidgets]{createWidget}
+#'
+#' @export
 getFunctionDiagram <- function(repo, funName, maxIter = 10) {
   files <- repo$getRFiles()
   allFuns <- PaRe::getFunctionUse(repo)
