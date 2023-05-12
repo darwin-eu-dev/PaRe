@@ -178,13 +178,12 @@ head(defFuns)
 Besides the location of each function being displayed, the number of arguments for each function, and the cyclometic complexity is also included in the result.
 
 
-```{r pkgDiagram, eval=FALSE}
+```{r pkgDiagram}
 PaRe::pkgDiagram(repo = repo) %>%
   DiagrammeRsvg::export_svg() %>%
   charToRaw() %>%
   magick::image_read()
 ```
-![glueDiagram](img/glueDiagram.svg)
 
 ## Lines of code
 ```{r linesOfCode}
