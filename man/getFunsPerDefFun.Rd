@@ -2,21 +2,18 @@
 % Please edit documentation in R/pkgDiagram.R
 \name{getFunsPerDefFun}
 \alias{getFunsPerDefFun}
-\title{getFunsPerDefFun}
+\title{Title}
 \usage{
-getFunsPerDefFun(files, allFuns, verbose)
+getFunsPerDefFun(files, defFuns)
 }
 \arguments{
-\item{files}{(`list()`)
-<\link[base]{list}> of <\link[PaRe]{File}> objects to investigate.}
+\item{files}{<\link[base]{list}> of <\link[PaRe]{File}> objects.}
 
-\item{allFuns}{<\link[base]{data.frame}> of allFunctions.}
-
-\item{verbose}{<\link[base]{logical}> to turn verbose messaging on/off.}
+\item{defFuns}{<\link[base]{data.frame}>}
 }
 \value{
-<\link[base]{data.frame}> of all functions per defined function of package.
+<\link[base]{data.frame}>
 }
 \description{
-Gets all function calls per defined function in the package.
+Title
 }
