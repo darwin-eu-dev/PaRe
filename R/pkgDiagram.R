@@ -14,6 +14,8 @@
 #' @return
 #'   <`htmlwidget`> Diagram of the package. See \link[DiagrammeR]{grViz}.
 makeGraph <- function(funsPerDefFun, pkgName, expFuns, ...) {
+  syntax <- glue::glue("\'{funsPerDefFun$from}\' -> \'{funsPerDefFun$to}\'")
+
   DiagrammeR::grViz(
     diagram = paste0(
       "digraph {
@@ -21,136 +23,38 @@ makeGraph <- function(funsPerDefFun, pkgName, expFuns, ...) {
       "subgraph cluster0 {node [style = filled fillcolor = lightgrey] label = <<B>Legend</B>> Exported -> Non_exported}",
       "subgraph cluster1 {node [style = filled fillcolor = lightgrey] Exported [fillcolor = white] label = <<B>", pkgName, "</B>> ",
       paste0(paste0(expFuns, " [fillcolor = white]"), collapse = "\n"),
-      paste0(funsPerDefFun, collapse = "\n"), "}",
+      paste0(syntax, collapse = "\n"), "}",
       "}",
       collapse = "\n"),
     ...)
 }
 
-getDlplyCallFromLines <- function(lines) {
-  indices <- grep(pattern = "[plyr::]?dlply", lines)
-  lapply(indices, function(index) {
-    funCall <- paste0(getMultiLineFun(index, lines), collapse = " ")
-    funCall %>%
-      stringr::str_remove_all("\\s") %>%
-      stringr::str_split_i(pattern = "dlply\\(", i = 2) %>%
-      stringr::str_split_i(pattern = ",", i = 4) %>%
-      stringr::str_extract(pattern = "\\=\\w+") %>%
-      stringr::str_extract(pattern = "\\w+")
-  })
-}
-
-
-getDlplyCall <- function(fun, defFuns) {
-  dlplyFuns <- getDlplyCallFromLines(fun$getLines())
-  if (length(dlplyFuns) > 0) {
-    lapply(dlplyFuns, function(dcFun) {
-      if (dcFun %in% defFuns$name) {
-        glue::glue("\'{fun$getName()}\' -> \'{dcFun}\' [color = '#00000020']")
-      }
-    })
-  }
-}
-
-getApplyFromLines <- function(lines) {
-  pattern <- "[\\w+]?[Aa]pply\\("
-  indices <- grep(pattern, lines)
-  unlist(lapply(indices, function(index) {
-    funCall <- paste0(getMultiLineFun(index, lines), collapse = " ")
-    if (!stringr::str_detect(string = funCall, pattern = "function[ ]?\\(")) {
-      funCall <- funCall %>%
-        stringr::str_remove_all(pattern = "(\\s)")
-
-      if (grepl(pattern = "cluster", x = funCall)) {
-        pat <- ",(?=[FUN=]?\\w+?\\w+\\))"
-      } else {
-        pat <- ",(?=[FUN=]?\\w+?\\w+)"
-      }
-
-      funCall <- funCall %>%
-        stringr::str_split_i(pattern = pat, i = 2)
-
-      if (grepl(pattern = "=", x = funCall)) {
-        funCall <- funCall %>%
-          stringr::str_split_i(pattern = "=", i = 2)
-      }
-
-      funCall <- funCall %>%
-        stringr::str_remove_all(pattern = "[\\%\\(\\)\\\\>\\<]")
-      return(funCall)
-    }
-  }))
-}
-
-getApplyCall <- function(fun, defFuns) {
-  applyFuns <- getApplyFromLines(fun$getLines())
-  if (length(applyFuns) > 0) {
-    lapply(applyFuns, function(dcFun) {
-      if (dcFun %in% defFuns$name) {
-        glue::glue("\'{fun$getName()}\' -> \'{dcFun}\' [color = '#00000020']")
-      }
-    })
-  }
-}
-
-getDoCallFromLines <- function(lines) {
-  pattern <- "do\\.call\\("
-  indices <- grep(pattern, lines)
-
-  unlist(lapply(indices, function(index) {
-    funCall <- paste0(getMultiLineFun(index, lines), collapse = " ")
-
-    funCall <- funCall %>%
-      stringr::str_remove_all(pattern = "\\s") %>%
-      stringr::str_split_i(pattern = pattern, i = 2) %>%
-      stringr::str_split_i(pattern = ",", i = 1) %>%
-      stringr::str_remove_all(pattern = "[\"\'\\\\]")
-
-    if (grepl("=", funCall)) {
-      funCall <- funCall %>%
-        stringr::str_split_i(pattern = "=", i = 2)
-    }
-    return(funCall)
-  }))
-}
-
-getDoCall <- function(fun, defFuns) {
-  dcFuns <- getDoCallFromLines(fun$getLines())
-  if (length(dcFuns) > 0) {
-    lapply(dcFuns, function(dcFun) {
-      if (dcFun %in% defFuns$name) {
-        glue::glue("\'{fun$getName()}\' -> \'{dcFun}\' [color = '#00000020']")
-      }
-    })
-  }
-}
-
-getFunCall <- function(fun, defFuns) {
-  lapply(defFuns$name, function(name) {
-    indices <- grep(paste0(name, "\\("), fun$getLines())
-    if (length(indices) > 0) {
-      return(glue::glue("\'{fun$getName()}\' -> \'{name}\' [color = '#00000020']"))
-    }
-  })
-}
-
+#' Title
+#'
+#' @param files
+#' <\link[base]{list}> of <\link[PaRe]{File}> objects.
+#' @param defFuns
+#' <\link[base]{data.frame}>
+#'
+#' @return
+#' <\link[base]{data.frame}>
 getFunsPerDefFun <- function(files, defFuns) {
-  unique(unlist(lapply(files, function(file) {
+  dplyr::bind_rows(lapply(files, function(file) {
     funs <- file$getFunctions()
-    lapply(funs, function(fun) {
+    dplyr::bind_rows(lapply(funs, function(fun) {
 
       funCall <- getFunCall(fun = fun, defFuns = defFuns)
       doCall <- getDoCall(fun = fun, defFuns = defFuns)
       applyCall <- getApplyCall(fun = fun, defFuns = defFuns)
       dlplyCall <- getDlplyCall(fun = fun, defFuns = defFuns)
-      return(c(
+      return(dplyr::bind_rows(
         funCall,
         doCall,
         applyCall,
         dlplyCall
       ))
-    })
-  })))
+    }))
+  }))
 }
 
 #' getExportedFunctions
@@ -206,7 +110,7 @@ pkgDiagram <- function(repo, verbose = FALSE, ...) {
   defFuns <- getDefinedFunctions(repo)
 
   funsPerDefFun <- getFunsPerDefFun(files = files, defFuns = defFuns)
-
+  # print(funsPerDefFun, n = 300)
   makeGraph(funsPerDefFun, basename(path), expFuns, ...)
 }
 
