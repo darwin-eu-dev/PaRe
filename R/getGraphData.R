@@ -43,8 +43,8 @@ getGraphData <- function(repo, packageTypes = c("Imports", "Suggests")) {
     dplyr::select("pkg", "deps")
 
   # Convert tibble to graph
-  netData <- tidygraph::as_tbl_graph(
-    x = pkgDeps,
+  netData <- igraph::graph_from_data_frame(
+    d = pkgDeps,
     directed = TRUE
   )
   return(netData)
