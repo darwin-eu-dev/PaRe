@@ -6,3 +6,4 @@
 ^README\.Rmd$
 ^docs$
 ^dev$
+^vignettes/Report.Rmd$

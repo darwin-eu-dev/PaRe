@@ -38,5 +38,6 @@ Suggests:
     DT,
     magick,
     withr,
-    cowplot
+    cowplot,
+    knitr
 VignetteBuilder: knitr
