@@ -7,7 +7,7 @@
 Class representing a function.
 }
 \section{Super class}{
-\code{PaRe::Code} -> \code{Function}
+\code{\link[PaRe:Code]{PaRe::Code}} -> \code{Function}
 }
 \section{Methods}{
 \subsection{Public methods}{

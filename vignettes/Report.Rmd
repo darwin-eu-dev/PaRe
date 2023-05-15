@@ -23,7 +23,7 @@ library(dplyr)
 ```
 
 ```{r, echo=FALSE}
-repo <- PaRe::Repository$new("../")
+repo <- PaRe::Repository$new("../../PaRe/")
 ```
 
 ## Package overview
