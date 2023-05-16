@@ -7,19 +7,12 @@
 getDefaultPermittedPackages(base = TRUE)
 }
 \arguments{
-\item{base}{Boolean if base package should be included}
+\item{base}{<\link[base]{logical}> if base package should be included}
 }
 \value{
-tibble of two columns (package, version) with all 'allowed'
+<\link[dplyr]{tibble}> of two columns (package, version) with all 'allowed'
 packages.
 }
 \description{
 Gets permitted packages
-}
-\examples{
-# Run only in interactive session
-if (interactive()) {
-  getDefaultPermittedPackages()
-}
-
 }

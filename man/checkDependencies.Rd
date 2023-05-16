@@ -4,24 +4,22 @@
 \alias{checkDependencies}
 \title{checkDependencies}
 \usage{
-checkDependencies(packageName = NULL, dependencyType = c("Imports", "Depends"))
+checkDependencies(
+  repo,
+  dependencyType = c("Imports", "Depends"),
+  verbose = TRUE
+)
 }
 \arguments{
-\item{packageName}{Name of package to profile. If NULL current package}
+\item{repo}{<\link[PaRe]{Repository}> object.}
 
-\item{dependencyType}{Imports, depends, and/ or suggests}
+\item{dependencyType}{<\link[base]{character}> Types of dependencies to be included}
+
+\item{verbose}{<\link[base]{logical}> TRUE or FALSE. If TRUE, progress will be reported.}
 }
 \value{
-Returns value NULL
+<\link[base]{data.frame}> with all the packages that are now permitted.
 }
 \description{
 Check package dependencies
-}
-\examples{
-# Run only in interactive session
-if (interactive()) {
-  checkDependencies(packageName = "PaRe")
-
-  checkDependencies(packageName = "PaRe", c("Suggests"))
-}
 }

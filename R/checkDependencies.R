@@ -1,168 +1,117 @@
-# Copyright 2023 DARWIN EU®
-#
-# This file is part of PaRe
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
-#' getDiffVersions
+#' printMessage
 #'
-#' Helper function
+#' Prints messages dependening of the nrow of the number of rows of the
+#' notPermitted and versionCheck data.frames
 #'
-#' @param dependencies Dependencies
-#' @param permittedPackages permittedPackages
+#' @param notPermitted
+#' <[base]{data.frame}> notPermitted
+#' @param versionCheck
+#' <[base]{data.frame}> versionCheck
 #'
-#' @return versions of permitted packages
-getDiffVersions <- function(dependencies, permittedPackages) {
-  permittedPackages %>%
-    dplyr::filter(!is.na(version)) %>%
-    dplyr::rename("version_rec" = "version") %>%
-    dplyr::left_join(
-      dependencies,
-      by = c("package")
-    ) %>%
-    dplyr::filter("version_rec" != "version")
+#' @return
+#' <\link[base]{data.frame}> or <\link[base]{NULL}>
+printMessage <- function(notPermitted, versionCheck) {
+  if (nrow(notPermitted) > 0) {
+    cli::cli_alert(glue::glue(
+      cli::col_red("The following are not permitted: {cli::style_bold(paste0(notPermitted$package, collapse = ', '))}")))
+    cli::cli_alert(glue::glue(
+      "Please open an issue here: {cli::style_bold('https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues')}"
+    ))
+    return(notPermitted)
+  } else if (nrow(versionCheck) > 0) {
+    cli::cli_alert(glue::glue(
+      "The following versions are not of the right version: {cli::col_yellow(paste0(versionCheck$package, collapse = ', '))}"))
+    cli::cli_alert(glue::glue(
+      "Please open an issue here: {cli::style_bold('https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues')}"
+    ))
+    return(versionCheck)
+  } else {
+    cli::cli_alert(cli::col_green(cli::style_bold(
+      "All dependencies are approved.")))
+    return(NULL)
+  }
 }
 
-#' getNotPermitted
+#' getVersionDf
 #'
-#' Helper function
+#' Function to compare different versions.
 #'
-#' @param dependencies Dependencies
-#' @param permittedPackages Packages that are permitted as character vector
+#' @param dependencies
+#' <\link[base]{data.frame}> All dependencies of he package.
+#' @param permittedPackages
+#' <\link[base]{data.frame}> of all permitted packages.
 #'
-#' @return Returns vector of not permitted packages
-getNotPermitted <- function(dependencies, permittedPackages) {
-  # check if dependencies are permitted
-  not_permitted <- dependencies %>%
-    dplyr::filter(.data$package != "R") %>%
-    dplyr::anti_join(
-      permittedPackages,
-      by = "package"
-    ) %>%
-    dplyr::select(.data$package) %>%
-    dplyr::arrange(.data$package) %>%
-    dplyr::pull()
-}
+#' @return
+#' <\link[base]{data.frame}> with all non permitted packages based on version.
+getVersionDf <- function(dependencies, permittedPackages) {
+  permitted <- dependencies %>%
+    dplyr::filter(.data$package %in% permittedPackages$package)
 
-#' messagePermission
-#'
-#' Helper message function
-#'
-#' @param i iterator
-#' @param not_permitted Not permitted
-messagePermission <- function(i, not_permitted) {
-  cli::cli_alert("  {.pkg {i}) {not_permitted[i]}}")
-}
+  permitted$version[permitted$version == "*"] <- "0.0.0"
 
-#' messagePackageVersion
-#'
-#' Helper message function
-#'
-#' @import cli
-#'
-#' @param i iterator
-#' @param diffVersions different versions
-messagePackageVersion <- function(i, diffVersions) {
-  cli::cli_alert("  {.pkg {i}) {diffVersions[i]}}")
-  cli::cli_alert("    {.pkg currently required: {diffVersions$version[i]}}")
-  cli::cli_alert("    {.pkg should be: {diffVersions$version_rec[i]} }")
+  permitted <- permitted %>%
+    dplyr::arrange(.data$package)
+
+  permittedPackages <- permittedPackages[
+    permittedPackages$package %in% permitted$package, ] %>%
+    dplyr::arrange(.data$package)
+
+  df <- cbind(
+    permittedPackages,
+    allowed = permitted$version)
+
+  return(df[
+    !as.numeric_version(df$version) >= as.numeric_version(df$allowed), ])
 }
 
 #' checkDependencies
 #'
 #' Check package dependencies
 #'
-#' @param packageName Name of package to profile. If NULL current package
-#' @param dependencyType Imports, depends, and/ or suggests
+#' @param repo
+#' <\link[PaRe]{Repository}> object.
+#' @param dependencyType
+#' <\link[base]{character}> Types of dependencies to be included
+#' @param verbose
+#' <\link[base]{logical}> TRUE or FALSE. If TRUE, progress will be reported.
 #'
-#' @return Returns value NULL
-#'
+#' @return
+#' <\link[base]{data.frame}> with all the packages that are now permitted.
 #' @export
-#' @examples
-#' # Run only in interactive session
-#' if (interactive()) {
-#'   checkDependencies(packageName = "PaRe")
-#'
-#'   checkDependencies(packageName = "PaRe", c("Suggests"))
-#' }
-checkDependencies <- function(packageName = NULL,
-                              dependencyType = c("Imports", "Depends")) {
-  # find dependencies
-  if (is.null(packageName)) {
-    description <- desc::description$new(file = "./DESCRIPTION")
-  } else {
-    description <- desc::description$new(package = packageName)
-  }
+checkDependencies <- function(
+    repo,
+    dependencyType = c("Imports", "Depends"),
+    verbose = TRUE) {
+  description <- repo$getDescription()
 
   dependencies <- description$get_deps() %>%
-    dplyr::filter(.data$type %in% .env$dependencyType) %>%
+    dplyr::filter(.data$type %in% dependencyType) %>%
     dplyr::select("package", "version")
 
-  # dependencies that are permitted
-  permittedPackages <- PaRe::getDefaultPermittedPackages()
+  dependencies <- dependencies %>%
+    dplyr::filter(.data$package != "R")
 
-  not_permitted <- getNotPermitted(dependencies, permittedPackages)
+  dependencies$version <- stringr::str_remove(
+    string = dependencies$version,
+    pattern = "[\\s>=<]+")
 
-  n_not_permitted <- length(not_permitted)
-
-  # message
-  cli::cli_h2(
-    "Checking if package{?s} in {dependencyType} have been approved"
-  )
-
-  if (n_not_permitted == 0) {
-    cli::cli_alert_success(
-      "{.strong All package{?s} in {dependencyType} are  already approved}"
-    )
+  if (isTRUE(verbose)){
+    permittedPackages <- getDefaultPermittedPackages()
   } else {
-    cli::cli_div(theme = list(.alert = list(color = "red")))
-    cli::cli_alert_warning(
-      "Found {n_not_permitted} package{?s} in {dependencyType} that are not
-      approved"
+    suppressMessages(
+      permittedPackages <- getDefaultPermittedPackages()
     )
-    cli::cli_end()
-
-    sapply(
-      X = 1:n_not_permitted,
-      FUN = messagePermission,
-      not_permitted = not_permitted
-    )
-
-    # Example
-    example <-
-      dplyr::bind_rows(
-        lapply(
-          X = not_permitted,
-          FUN = function(pkg) {
-            dplyr::tibble(pak::pkg_search(pkg)) %>%
-              dplyr::filter(.data$package == pkg) %>%
-              dplyr::select(
-                .data$package, version, date, .data$downloads_last_month,
-                license, url
-              )
-          }
-        )
-      )
-
-    example$url <- stringr::str_replace_all(string = example$url, pattern = ",\\\n", replacement = " ")
-
-    cli::cli_alert_warning(
-      "{.emph Please create a new issue at https://github.com/mvankessel-EMC/PaReWhitelists/
-    to request approval for packages with the following message:}
-    "
-    )
-
-    cli::cli_alert(paste(knitr::kable(example), collapse = "\n"))
   }
-  return(not_permitted)
+
+  notPermitted <- dependencies %>%
+    dplyr::filter(!.data$package %in% permittedPackages$package)
+
+  permitted <- dependencies %>%
+    dplyr::filter(.data$package %in% permittedPackages$package)
+
+  permitted$version[permitted$version == "*"] <- "0.0.0"
+
+  return(printMessage(
+    notPermitted,
+    getVersionDf(dependencies, permittedPackages)))
 }

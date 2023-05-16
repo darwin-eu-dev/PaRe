@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# DependencyReviewer
+# PaRe <img src='man/figures/logo.png' align="right" height="139"/>
 
 <!-- badges: start -->
 
@@ -33,3 +33,10 @@ You can install the development version of DependencyReviewer like so:
 install.packages("remotes")
 remotes::install_github("darwin-eu/PaRe")
 ```
+
+## Latest changes:
+
+1.  Using R6 objects
+2.  Generalized function input to use R6 objects
+3.  Minor efficiency changes
+4.  Major vignette updates

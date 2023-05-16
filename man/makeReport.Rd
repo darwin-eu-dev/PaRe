@@ -4,27 +4,19 @@
 \alias{makeReport}
 \title{makeReport}
 \usage{
-makeReport(pkgPath, outputFile, showCode = FALSE)
+makeReport(repo, outputFile, showCode = FALSE)
 }
 \arguments{
-\item{pkgPath}{Path to package folder.}
+\item{repo}{<\link[PaRe]{Repository}> object.}
 
-\item{outputFile}{Path to html-file.}
+\item{outputFile}{<\link[base]{character}> Path to html-file.}
 
-\item{showCode}{Default: FALSE; Boolean to show code or not in the report.}
+\item{showCode}{<\link[base]{logical}> Default: FALSE; Boolean to show code or not in the report.}
+}
+\value{
+`NULL`
 }
 \description{
 Uses rmarkdown's render function to render a html-report of the given
 package.
-}
-\examples{
-if (interactive()) {
-  # Define pkgPath; Glue 1.6.2.9000 comes with the package.
-  pkgPath <- system.file(package = "PaRe", "glue")
-
-  # Define outputFile as a temp file.
-  outputFile <- tempfile(fileext = ".html")
-
-  makeReport(pkgPath, outputFile)
-}
 }
