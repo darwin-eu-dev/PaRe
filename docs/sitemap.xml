@@ -46,10 +46,19 @@
     <loc>/reference/Function.html</loc>
   </url>
   <url>
+    <loc>/reference/functionUseGraph.html</loc>
+  </url>
+  <url>
     <loc>/reference/funsUsedInFile.html</loc>
   </url>
   <url>
     <loc>/reference/funsUsedInLine.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getApplyCall.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getApplyFromLines.html</loc>
   </url>
   <url>
     <loc>/reference/getApplyFun.html</loc>
@@ -73,10 +82,28 @@
     <loc>/reference/getDlply.html</loc>
   </url>
   <url>
+    <loc>/reference/getDlplyCall.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getDlplyCallFromLines.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getDoCall.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getDoCallFromLines.html</loc>
+  </url>
+  <url>
     <loc>/reference/getDoCallFun.html</loc>
   </url>
   <url>
     <loc>/reference/getExportedFunctions.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getFunCall.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getFunctionDiagram.html</loc>
   </url>
   <url>
     <loc>/reference/getFunctionUse.html</loc>
@@ -95,6 +122,9 @@
   </url>
   <url>
     <loc>/reference/goToBody.html</loc>
+  </url>
+  <url>
+    <loc>/reference/graphToDot.html</loc>
   </url>
   <url>
     <loc>/reference/index.html</loc>
