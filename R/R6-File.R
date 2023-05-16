@@ -104,9 +104,11 @@ File <- R6::R6Class(
       b <- git2r::blame(repo = private$repoPath, path = private$filePath)
       private$blameTable <- lapply(b$hunks, function(hunk) {
         data.frame(
+          repository = basename(private$repoPath),
           author = hunk$orig_signature$name,
           file = basename(hunk$orig_path),
-          date = as.character(hunk$orig_signature$when)
+          date = as.character(hunk$orig_signature$when),
+          lines = hunk$lines_in_hunk
         )
       }) %>%
         dplyr::bind_rows() %>%
