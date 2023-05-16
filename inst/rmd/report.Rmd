@@ -182,23 +182,6 @@ DT::datatable(data.frame(
               rownames= FALSE)
 ```
 
-```{r farthestDependency, echo=params$showCode, message=FALSE, warning=FALSE, out.width="100%"}
-p <- igraph::all_simple_paths(
-  graph = graphData,
-  from = pkgName,
-  to = igraph::farthest.nodes(graphData)$vertices[2])
-
-
-ggraph::ggraph(
-  graph = igraph::induced_subgraph(graphData, p[[1]]),
-  layout = "tree") +
-  ggraph::geom_edge_link() +
-  ggraph::geom_node_label(
-    mapping = ggplot2::aes(
-      label = name)) +
-  ggplot2::theme_void()
-```
-
 ### Function use per dependency
 ```{r summariseFunctionUse, echo=params$showCode, message=FALSE, warning=FALSE}
 funsUsed <- PaRe::getFunctionUse(repo = repo)
