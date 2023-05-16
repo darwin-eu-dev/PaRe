@@ -16,7 +16,7 @@
 #' @import igraph
 #' @importFrom cli style_bold col_yellow col_red col_magenta col_green col_blue cli_alert_warning cli_alert_info cli_alert_danger cli_alert
 #' @importFrom dplyr filter tibble arrange select bind_rows select tally summarise rename relocate mutate group_by
-#' @importFrom git2r pull tree hash is_empty
+#' @importFrom git2r pull tree hash is_empty blame
 #' @importFrom desc description
 #' @importFrom magrittr %>%
 #' @importFrom cyclocomp cyclocomp
