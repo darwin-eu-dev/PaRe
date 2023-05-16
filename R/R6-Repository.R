@@ -131,6 +131,14 @@ Repository <- R6::R6Class(
       message("Re-initializing")
       self$initialize(path = private$path)
       return(invisible(self))
+    },
+
+    gitBlame = function() {
+      files <- unlist(self$getFiles())
+
+      dplyr::bind_rows(lapply(files, function(file) {
+        file$getBlameTable()
+      }))
     }
   ),
   # Private ----
