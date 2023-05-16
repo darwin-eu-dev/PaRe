@@ -69,7 +69,7 @@ files
 ```
 
 ```{r}
-file <- files$R[[1]]
+file <- files[[1]]
 file
 ```
 
@@ -97,7 +97,11 @@ functions
 ```
 
 ```{r}
-fun <- functions[[1]]
+funs <- unlist(lapply(files$R, function(file) {
+  file$getFunctions()
+}))
+
+fun <- funs[[1]]
 fun
 ```
 #### Function properties
