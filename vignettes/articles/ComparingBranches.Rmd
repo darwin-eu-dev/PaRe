@@ -27,10 +27,10 @@ library(dplyr)
 ## git package
 ```{r}
 tempDir <- tempdir()
-pathToRepo <- file.path(tempDir, "IncidencePrevalence")
+pathToRepo <- file.path(tempDir, "CDMConnector")
 
 git2r::clone(
-  url = "https://github.com/darwin-eu/IncidencePrevalence.git",
+  url = "https://github.com/darwin-eu/CDMConnector.git",
   local_path = pathToRepo)
 ```
 
@@ -49,7 +49,7 @@ repo$gitPull()
 
 ```{r devBranch, warning=FALSE}
 dev <- repo$clone()
-dev$gitCheckout("4fb265d7632b3499b82b6bdabde32ebea7bdc1d6")
+dev$gitCheckout("75e7333cb2d9f8ec7f7a77ae21fb611f8141ef0e")
 ```
 
 #### Repository properties
@@ -69,7 +69,7 @@ files
 ```
 
 ```{r}
-file <- files$R[[2]]
+file <- files[[1]]
 file
 ```
 
@@ -97,7 +97,11 @@ functions
 ```
 
 ```{r}
-fun <- functions[[1]]
+funs <- unlist(lapply(files$R, function(file) {
+  file$getFunctions()
+}))
+
+fun <- funs[[1]]
 fun
 ```
 #### Function properties
@@ -105,6 +109,7 @@ fun
 fun$getName()
 fun$getNLines()
 ```
+
 ```{r}
 fun$getFunction()
 ```

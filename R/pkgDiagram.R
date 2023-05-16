@@ -14,9 +14,7 @@
 #' @return
 #'   <`htmlwidget`> Diagram of the package. See \link[DiagrammeR]{grViz}.
 makeGraph <- function(funsPerDefFun, pkgName, expFuns, ...) {
-  graphSyntx <- unique(unlist(lapply(seq_len(nrow(funsPerDefFun)), function(i) {
-    glue::glue("'{funsPerDefFun[i, ]$name}' -> '{funsPerDefFun[i, ]$fun}'")
-  })))
+  syntax <- glue::glue("\'{funsPerDefFun$from}\' -> \'{funsPerDefFun$to}\'")
 
   DiagrammeR::grViz(
     diagram = paste0(
@@ -25,39 +23,37 @@ makeGraph <- function(funsPerDefFun, pkgName, expFuns, ...) {
       "subgraph cluster0 {node [style = filled fillcolor = lightgrey] label = <<B>Legend</B>> Exported -> Non_exported}",
       "subgraph cluster1 {node [style = filled fillcolor = lightgrey] Exported [fillcolor = white] label = <<B>", pkgName, "</B>> ",
       paste0(paste0(expFuns, " [fillcolor = white]"), collapse = "\n"),
-      paste0(graphSyntx, collapse = "\n"), "}",
+      paste0(syntax, collapse = "\n"), "}",
       "}",
       collapse = "\n"),
     ...)
 }
 
-#' getFunsPerDefFun
+#' Title
 #'
-#' Gets all function calls per defined function in the package.
-#'
-#' @param files (`list()`)
-#' <\link[base]{list}> of <\link[PaRe]{File}> objects to investigate.
-#' @param allFuns
-#' <\link[base]{data.frame}> of allFunctions.
-#' @param verbose
-#' <\link[base]{logical}> to turn verbose messaging on/off.
+#' @param files
+#' <\link[base]{list}> of <\link[PaRe]{File}> objects.
+#' @param defFuns
+#' <\link[base]{data.frame}>
 #'
 #' @return
-#' <\link[base]{data.frame}> of all functions per defined function of package.
-getFunsPerDefFun <- function(files, allFuns, verbose) {
+#' <\link[base]{data.frame}>
+getFunsPerDefFun <- function(files, defFuns) {
   dplyr::bind_rows(lapply(files, function(file) {
+    funs <- file$getFunctions()
+    dplyr::bind_rows(lapply(funs, function(fun) {
 
-    defFuns <- file$getFunctionTable()
-    if (!is.null(nrow(defFuns))) {
-      dplyr::bind_rows(lapply(seq_len(nrow(defFuns)), function(i) {
-        x <- allFuns %>%
-          dplyr::filter(.data$fun %in% defFuns$name) %>%
-          dplyr::filter(
-            .data$line >= defFuns$lineStart[i] &
-              .data$line <= defFuns$lineEnd[i]) %>%
-          dplyr::mutate(name = defFuns$name[i])
-        return(x)
-      }))}
+      funCall <- getFunCall(fun = fun, defFuns = defFuns)
+      doCall <- getDoCall(fun = fun, defFuns = defFuns)
+      applyCall <- getApplyCall(fun = fun, defFuns = defFuns)
+      dlplyCall <- getDlplyCall(fun = fun, defFuns = defFuns)
+      return(dplyr::bind_rows(
+        funCall,
+        doCall,
+        applyCall,
+        dlplyCall
+      ))
+    }))
   }))
 }
 
@@ -111,10 +107,10 @@ pkgDiagram <- function(repo, verbose = FALSE, ...) {
 
   expFuns <- getExportedFunctions(path)
 
-  allFuns <- PaRe::getFunctionUse(repo)
+  defFuns <- getDefinedFunctions(repo)
 
-  funsPerDefFun <- getFunsPerDefFun(files = files, allFuns = allFuns)
-
+  funsPerDefFun <- getFunsPerDefFun(files = files, defFuns = defFuns)
+  # print(funsPerDefFun, n = 300)
   makeGraph(funsPerDefFun, basename(path), expFuns, ...)
 }
 

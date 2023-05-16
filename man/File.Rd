@@ -16,6 +16,8 @@ Class representing a file containing code.
 \item \href{#method-File-getFunctions}{\code{File$getFunctions()}}
 \item \href{#method-File-getFunctionTable}{\code{File$getFunctionTable()}}
 \item \href{#method-File-getType}{\code{File$getType()}}
+\item \href{#method-File-getFilePath}{\code{File$getFilePath()}}
+\item \href{#method-File-getBlameTable}{\code{File$getBlameTable()}}
 \item \href{#method-File-clone}{\code{File$clone()}}
 }
 }
@@ -35,13 +37,15 @@ Class representing a file containing code.
 \subsection{Method \code{new()}}{
 Initializer method
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{File$new(path)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{File$new(repoPath, filePath)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{path}}{<\link[base]{character}> Path to file.}
+\item{\code{repoPath}}{<\link[base]{character}> Path to repository.}
+
+\item{\code{filePath}}{<\link[base]{character}> Relative path to file}
 }
 \if{html}{\out{</div>}}
 }
@@ -86,6 +90,32 @@ Gets type of file
 
 \subsection{Returns}{
 <\link[base]{character}>
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-File-getFilePath"></a>}}
+\if{latex}{\out{\hypertarget{method-File-getFilePath}{}}}
+\subsection{Method \code{getFilePath()}}{
+Gets relative file path
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{File$getFilePath()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+<\link[base]{character}>
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-File-getBlameTable"></a>}}
+\if{latex}{\out{\hypertarget{method-File-getBlameTable}{}}}
+\subsection{Method \code{getBlameTable()}}{
+Gets table of git blame
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{File$getBlameTable()}\if{html}{\out{</div>}}
+}
+
+\subsection{Returns}{
+<\link[dplyr]{tibble}>
 }
 }
 \if{html}{\out{<hr>}}

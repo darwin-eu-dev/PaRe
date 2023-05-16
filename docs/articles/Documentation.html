@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Documentation • PaRe</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -13,6 +19,7 @@
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Documentation">
 <meta property="og:description" content="PaRe">
+<meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -33,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.5</span>
       </span>
     </div>
 
@@ -78,7 +85,7 @@
                         <h4 data-toc-skip class="author">Maarten van
 Kessel</h4>
             
-            <h4 data-toc-skip class="date">2023-05-08</h4>
+            <h4 data-toc-skip class="date">2023-05-16</h4>
       
       
       <div class="hidden name"><code>Documentation.Rmd</code></div>
@@ -88,7 +95,9 @@ Kessel</h4>
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">PaRe</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">PaRe</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: replacing previous import 'igraph::tree' by 'git2r::tree' when loading</span></span>
+<span><span class="co">#&gt; 'PaRe'</span></span></code></pre></div>
 <p>For the examples in this vignette <code>glue</code> will be used as
 an example. <code>glue</code> version <em>1.6.2.9000</em> is included in
 the system files of <code>PaRe</code> and is thus accessible even if
@@ -197,7 +206,7 @@ calling the <code>getDefaultPermittedPackages</code> function.</p>
 </h3>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/getDefaultPermittedPackages.html">getDefaultPermittedPackages</a></span><span class="op">(</span>base <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 240 × 2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 241 × 2</span></span></span>
 <span><span class="co">#&gt;    package           version   </span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;nmrc_vrs&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Andromeda         0.6.3     </span></span>
@@ -209,8 +218,8 @@ calling the <code>getDefaultPermittedPackages</code> function.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Characterization  0.1.1     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> CirceR            1.3.0     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> CohortDiagnostics 3.2.1     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> CohortExplorer    0.0.12    </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 230 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> CohortExplorer    0.0.13    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 231 more rows</span></span></span></code></pre></div>
 <p><code>getDefaultPermittedPackages</code> takes one parameter:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -231,19 +240,19 @@ white list.</li>
 <span><span class="fu">git2r</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/git2r/reference/clone.html" class="external-link">clone</a></span><span class="op">(</span></span>
 <span>  url <span class="op">=</span> <span class="st">"https://github.com/tidyverse/glue.git"</span>,</span>
 <span>  local_path <span class="op">=</span> <span class="va">pathToRepo</span><span class="op">)</span></span>
-<span><span class="co">#&gt; cloning into 'C:\Users\MVANKE~1\AppData\Local\Temp\RtmpslRm4G/glue'...</span></span>
+<span><span class="co">#&gt; cloning into 'C:\Users\MVANKE~1\AppData\Local\Temp\RtmpuCevBD/glue'...</span></span>
 <span><span class="co">#&gt; Receiving objects:   1% (50/4925),   63 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  11% (542/4925),  351 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  21% (1035/4925), 1976 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  31% (1527/4925), 2361 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  41% (2020/4925), 2753 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  51% (2512/4925), 2809 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  61% (3005/4925), 3233 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  71% (3497/4925), 3737 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  81% (3990/4925), 3849 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  91% (4482/4925), 4018 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  11% (542/4925),  352 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  21% (1035/4925), 1808 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  31% (1527/4925), 2369 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  41% (2020/4925), 2761 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  51% (2512/4925), 2817 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  61% (3005/4925), 3209 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  71% (3497/4925), 3770 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  81% (3990/4925), 3826 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  91% (4482/4925), 4050 kb</span></span>
 <span><span class="co">#&gt; Receiving objects: 100% (4925/4925), 4891 kb, done.</span></span>
-<span><span class="co">#&gt; Local:    main C:/Users/mvankessel/AppData/Local/Temp/RtmpslRm4G/glue</span></span>
+<span><span class="co">#&gt; Local:    main C:/Users/mvankessel/AppData/Local/Temp/RtmpuCevBD/glue</span></span>
 <span><span class="co">#&gt; Remote:   main @ origin (https://github.com/tidyverse/glue.git)</span></span>
 <span><span class="co">#&gt; Head:     [cbac82a] 2023-03-17: Glue collapse should always return a single string (#295)</span></span>
 <span></span>
@@ -390,9 +399,7 @@ included in the result.</p>
 <span>  <span class="fu">DiagrammeRsvg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DiagrammeRsvg/man/export_svg.html" class="external-link">export_svg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">charToRaw</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">magick</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html" class="external-link">image_read</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<div class="figure">
-<img src="img/glueDiagram.svg" alt=""><p class="caption">glueDiagram</p>
-</div>
+<p><img src="../docs/articles/Documentation_files/figure-html/pkgDiagram-1.png" width="1050"></p>
 </div>
 </div>
 <div class="section level2">

@@ -6,7 +6,6 @@
 #' @import pak
 #' @import glue
 #' @import stringr
-#' @import knitr
 #' @import lintr
 #' @import rmarkdown
 #' @import DiagrammeR
@@ -14,10 +13,10 @@
 #' @import rsvg
 #' @import R6
 #' @import checkmate
+#' @importFrom igraph graph_from_data_frame V write_graph all_simple_paths induced_subgraph graph_from_data_frame
 #' @importFrom cli style_bold col_yellow col_red col_magenta col_green col_blue cli_alert_warning cli_alert_info cli_alert_danger cli_alert
-#' @importFrom tidygraph as_tbl_graph
 #' @importFrom dplyr filter tibble arrange select bind_rows select tally summarise rename relocate mutate group_by
-#' @importFrom git2r pull tree hash is_empty
+#' @importFrom git2r pull tree hash is_empty blame
 #' @importFrom desc description
 #' @importFrom magrittr %>%
 #' @importFrom cyclocomp cyclocomp
