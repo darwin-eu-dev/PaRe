@@ -1,109 +1,3 @@
-#' getMultiLineFun
-#'
-#' @param line
-#' <\link[base]{numeric}> Current line number.
-#' @param lines
-#' <\link[base]{c}> of <\link[base]{character}> lines.
-#'
-#' @return
-#' <\link[base]{character}>
-getMultiLineFun <- function(line, lines) {
-  nLine <- line
-
-  # Init
-  doCallVec <- c()
-  bracOpen <- 0
-  bracClose <- 0
-
-  while (bracOpen != bracClose || bracOpen < 1 && bracClose < 1) {
-    if (!is.na(lines[nLine])) {
-      bracOpen <- bracOpen + stringr::str_count(string = lines[nLine], pattern = "\\(")
-      bracClose <- bracClose + stringr::str_count(string = lines[nLine], pattern = "\\)")
-
-      doCallVec <- append(doCallVec, lines[nLine])
-    }
-    nLine <- nLine + 1
-
-    if (nLine > length(lines)) {
-      break
-    }
-  }
-  return(doCallVec)
-}
-
-#' getDlply
-#'
-#' @param line
-#' <\link[base]{numeric}> Current line number.
-#' @param lines
-#' <\link[base]{c}> of <\link[base]{character}> lines.
-#'
-#' @return
-#' <\link[base]{c}> of <\link[base]{character}> of functions found in
-#' \link[plyr]{dlply} function call.
-getDlply <- function(line, lines) {
-  funVec <- paste0(getMultiLineFun(line, lines), collapse = "")
-
-  fun <- unlist(stringr::str_remove_all(string = funVec, pattern = "\\s"))
-  fun <- unlist(stringr::str_split(fun, "dlply"))[2]
-  fun <- unlist(stringr::str_split(fun, ","))[4]
-  fun <- unlist(stringr::str_extract(fun, "\\=\\w+"))
-  fun <- unlist(stringr::str_extract(fun, "\\w+"))
-
-  return(fun)
-}
-
-
-#' getApplyFun
-#'
-#' @param line
-#' <\link[base]{numeric}> Current line number.
-#' @param lines
-#' <\link[base]{c}> of <\link[base]{character}> lines.
-#'
-#' @return
-#' <\link[base]{c}> of <\link[base]{character}> of functions found in
-#' \link[base]{apply} function call.
-getApplyFun <- function(line, lines) {
-  applyVec <- getMultiLineFun(line, lines)
-
-  applyFun <- unlist(stringr::str_split(
-    string = paste0(applyVec, collapse = ""),
-    pattern = "[\\w]+?[Aa]pply"))[2]
-
-  applyFun <- applyFun[!stringr::str_detect(string = applyFun, pattern = "function[ ]?\\(")]
-  applyFun <- unlist(stringr::str_remove_all(string = applyFun, pattern = "\\s"))
-  applyFun <- unlist(stringr::str_remove_all(string = applyFun, pattern = ",\\w+=\\w+"))
-  applyFun <- unlist(stringr::str_extract_all(string = applyFun, pattern = "[\\w\\.]+(::)?[\\w\\.]+\\)"))
-  applyFun <- stringr::str_extract_all(string = applyFun, pattern = "[\\w\\.]+(::)?[\\w\\.]+")
-  return(applyFun)
-}
-
-
-#' getDoCallFun
-#'
-#' @param line
-#' <\link[base]{numeric}> Current line number.
-#' @param lines
-#' <\link[base]{c}> of <\link[base]{character}> lines.
-#'
-#' @return
-#' <\link[base]{c}> of <\link[base]{character}> of functions found in
-#' \link[base]{do.call} function call.
-getDoCallFun <- function(line, lines) {
-  doCallVec <- getMultiLineFun(line, lines)
-
-  doCallFun <- unlist(stringr::str_split(
-    string = paste0(doCallVec, collapse = ""),
-    pattern = "do\\.call"))[2]
-
-  fun <- unlist(stringr::str_remove_all(string = doCallFun, pattern = "\\s"))
-  fun <- unlist(stringr::str_extract_all(string = fun, pattern = "\\([\\w\\.]+(::)?[\\w\\.]+"))
-  fun <- stringr::str_extract_all(string = fun, pattern = "[\\w\\.]+(::)?[\\w\\.]+")
-  return(fun)
-}
-
-
 #' funsUsedInLine
 #'
 #' Support function for funsUsedInFile.
@@ -147,15 +41,15 @@ funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
     )
 
     if ("do.call" %in% funVec) {
-      funVec <- append(funVec, getDoCallFun(i, lines))
+      funVec <- append(funVec, getDoCallFromLines(lines))
     }
 
     if (any(stringr::str_detect(string = funVec, pattern = "[\\w]+?[Aa]pply"))) {
-      funVec <- append(funVec, getApplyFun(i, lines))
+      funVec <- append(funVec, getApplyFromLines(lines))
     }
 
     if ("plyr::dlply" %in% funVec) {
-      funVec <- append(funVec, getDlply(i, lines))
+      funVec <- append(funVec, getDlplyCallFromLines(lines))
     }
 
     funVec <- stringr::str_split(

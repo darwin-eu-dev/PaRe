@@ -1,3 +1,37 @@
+#' getMultiLineFun
+#'
+#' @param line
+#' <\link[base]{numeric}> Current line number.
+#' @param lines
+#' <\link[base]{c}> of <\link[base]{character}> lines.
+#'
+#' @return
+#' <\link[base]{character}>
+getMultiLineFun <- function(line, lines) {
+  nLine <- line
+
+  # Init
+  doCallVec <- c()
+  bracOpen <- 0
+  bracClose <- 0
+
+  while (bracOpen != bracClose || bracOpen < 1 && bracClose < 1) {
+    if (!is.na(lines[nLine])) {
+      bracOpen <- bracOpen + stringr::str_count(string = lines[nLine], pattern = "\\(")
+      bracClose <- bracClose + stringr::str_count(string = lines[nLine], pattern = "\\)")
+
+      doCallVec <- append(doCallVec, lines[nLine])
+    }
+    nLine <- nLine + 1
+
+    if (nLine > length(lines)) {
+      break
+    }
+  }
+  return(doCallVec)
+}
+
+
 #' getDlplyCallFromLines
 #'
 #' @param lines
