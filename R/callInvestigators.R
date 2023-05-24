@@ -164,6 +164,7 @@ getDoCallFromLines <- function(lines) {
   }))
 }
 
+
 #' getDoCall
 #'
 #' @param fun
