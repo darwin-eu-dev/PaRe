@@ -2,18 +2,17 @@
 #'
 #' Support function for funsUsedInFile.
 #'
-#' @param i
-#' <\link[base]{numeric}> line
-#' @param verbose
-#' <\link[base]{logical}> Prints message when no function found
-#' @param lines
-#' <\link[base]{c}> of <\link[base]{character}>
-#' @param name
-#' <\link[base]{character}>
+#' @param lines (\link[base]{c}) of (\link[base]{character})\cr
+#' @param name (\link[base]{character})\cr
+#' @param i (\link[base]{numeric})\cr
+#' @param verbose (\link[base]{logical}: FALSE)\cr
 #'
-#' @return
-#' <\link[base]{data.frame}> of 3 colums: Package (pkg); Function (fun); Line
-#' in script (line)
+#' @return (\link[base]{data.frame})\cr
+#' \enumerate{
+#'   \item (\link[base]{character}) pkg
+#'   \item (\link[base]{character}) fun
+#'   \item (\link[base]{numeric}) line
+#' }
 funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
   line <- lines[i]
 
@@ -75,12 +74,13 @@ funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
       df <- df %>%
         dplyr::mutate(
           file = name,
-        line = i) %>%
+          line = i
+        ) %>%
         dplyr::tibble()
 
       return(df)
     } else {
-      if(verbose == TRUE) {
+      if (verbose == TRUE) {
         message(paste0("No functions found for line: ", i))
       }
     }
@@ -92,13 +92,10 @@ funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
 #'
 #' Support function
 #'
-#' @param files
-#' <\link[base]{list}> of <\link[PaRe]{File}> objects.
-#' @param verbose
-#' <\link[base]{logical}>
+#' @param files (\link[base]{list}) of (\link[PaRe]{File})\cr
+#' @param verbose (\link[base]{logical})\cr
 #'
-#' @return
-#' <\link[base]{list}>
+#' @return (\link[base]{list})\cr
 funsUsedInFile <- function(files, verbose = FALSE) {
   lapply(X = files, FUN = function(file) {
     if (verbose) {
@@ -118,18 +115,55 @@ funsUsedInFile <- function(files, verbose = FALSE) {
 
 #' summariseFunctionUse
 #'
-#' Summarise functions used in R package
-#'
-#' @param repo
-#' <\link[PaRe]{Repository}> object.
-#' @param verbose
-#' <\link[base]{logical}> Default: FALSE; prints message to console which file is
-#' currently being worked on.
-#'
-#' @return
-#' <\[dplyr]{tibble}>
+#' Summarise functions used in R package.
 #'
 #' @export
+#'
+#' @param repo (\link[PaRe]{Repository})\cr
+#' Repository object.
+#' @param verbose (\link[base]{logical}: FALSE)\cr
+#' Prints message to console which file is currently being worked on.
+#'
+#' @return (\link[dplyr]{tibble})\cr
+#' \describe{
+#'   \item{file}{(\link[base]{character}) Name of file.}
+#'   \item{line}{(\link[base]{integer}) Line where function was found.}
+#'   \item{pkg}{(\link[base]{character}) Package where function belongs to.}
+#'   \item{fun}{(\link[base]{character}) Function name.}
+#' }
+#' @examples
+#' fetchedRepo <- tryCatch(
+#'   {
+#'     # Set dir to clone repository to.
+#'     tempDir <- tempdir()
+#'     pathToRepo <- file.path(tempDir, "glue")
+#'
+#'     # Clone repo
+#'     git2r::clone(
+#'       url = "https://github.com/tidyverse/glue.git",
+#'       local_path = pathToRepo
+#'     )
+#'
+#'     # Create instance of Repository object.
+#'     repo <- PaRe::Repository$new(path = pathToRepo)
+#'
+#'     # Set fetchedRepo to TRUE if all goes well.
+#'     TRUE
+#'   },
+#'   error = function(e) {
+#'     # Set fetchedRepo to FALSE if an error is encountered.
+#'     FALSE
+#'   },
+#'   warning = function(w) {
+#'     # Set fetchedRepo to FALSE if a warning is encountered.
+#'     FALSE
+#'   }
+#' )
+#'
+#' if (fetchedRepo) {
+#'   # Run getFunctionUse on the Repository object.
+#'   getFunctionUse(repo = repo, verbose = TRUE)
+#' }
 getFunctionUse <- function(repo, verbose = FALSE) {
   files <- repo$getRFiles()
 

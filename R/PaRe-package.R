@@ -61,6 +61,7 @@ NULL
 #'   getDefaultPermittedPackages()
 #' }
 whiteList <- dplyr::tibble(read.csv(
-  system.file(package = "PaRe", "whiteList.csv")))
+  system.file(package = "PaRe", "whiteList.csv")
+))
 
 utils::globalVariables(".data")
