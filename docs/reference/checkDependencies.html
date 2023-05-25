@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
       </span>
     </div>
 
@@ -35,12 +35,15 @@
       <a href="../articles/ComparingBranches.html">Comparing branches</a>
     </li>
     <li>
-      <a href="../articles/Documentation.html">Documentation</a>
-    </li>
-    <li>
       <a href="../articles/Report.html">Report: PaRe [0.1.0]</a>
     </li>
+    <li>
+      <a href="../articles/Documentation.html">Documentation</a>
+    </li>
   </ul></li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -70,24 +73,94 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>repo</dt>
-<dd><p>&lt;<a href="Repository.html">Repository</a>&gt; object.</p></dd>
+<dd><p>(<a href="Repository.html">Repository</a>)<br>
+Repository object.</p></dd>
 
 
 <dt>dependencyType</dt>
-<dd><p>&lt;<a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>&gt; Types of dependencies to be included</p></dd>
+<dd><p>(<a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>)<br>
+Types of dependencies to be included</p></dd>
 
 
 <dt>verbose</dt>
-<dd><p>&lt;<a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a>&gt; TRUE or FALSE. If TRUE, progress will be reported.</p></dd>
+<dd><p>(<a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a>: TRUE)
+TRUE or FALSE. If TRUE, progress will be reported.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>&lt;<a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>&gt; with all the packages that are now permitted.</p>
-    </div>
+<p>(<a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>)<br></p>
 
+
+<p>Data frame with all the packages that are now permitted.</p>
+
+
+<ol><li><p>(<a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>) package</p></li>
+<li><p>(<a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>) version</p></li>
+</ol></div>
+
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set cahce, usually not required.</span></span></span>
+<span class="r-in"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_envvar.html" class="external-link">local_envvar</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  R_USER_CACHE_DIR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">fetchedRepo</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/conditions.html" class="external-link">tryCatch</a></span><span class="op">(</span><span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Set dir to clone repository to.</span></span></span>
+<span class="r-in"><span>  <span class="va">tempDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">pathToRepo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">tempDir</span>, <span class="st">"glue"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Clone repo</span></span></span>
+<span class="r-in"><span>  <span class="fu">git2r</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/git2r/reference/clone.html" class="external-link">clone</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    url <span class="op">=</span> <span class="st">"https://github.com/tidyverse/glue.git"</span>,</span></span>
+<span class="r-in"><span>    local_path <span class="op">=</span> <span class="va">pathToRepo</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Create instance of Repository object.</span></span></span>
+<span class="r-in"><span>  <span class="va">repo</span> <span class="op">&lt;-</span> <span class="fu">PaRe</span><span class="fu">::</span><span class="va"><a href="Repository.html">Repository</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>path <span class="op">=</span> <span class="va">pathToRepo</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># Set fetchedRepo to TRUE if all goes well.</span></span></span>
+<span class="r-in"><span>  <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">}</span>, error <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Set fetchedRepo to FALSE if an error is encountered.</span></span></span>
+<span class="r-in"><span>  <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">}</span>, warning <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">w</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Set fetchedRepo to FALSE if a warning is encountered.</span></span></span>
+<span class="r-in"><span>  <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cloning into 'C:\Users\MVANKE~1\AppData\Local\Temp\RtmpoPyiVY/glue'...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects:   1% (50/4925),   63 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects:  11% (542/4925),  464 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects:  21% (1035/4925), 2033 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects:  31% (1527/4925), 2369 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects:  41% (2020/4925), 2761 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects:  51% (2512/4925), 2817 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects:  61% (3005/4925), 3209 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects:  71% (3497/4925), 3770 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects:  81% (3990/4925), 3826 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects:  91% (4482/4925), 4050 kb</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Receiving objects: 100% (4925/4925), 4886 kb, done.</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">fetchedRepo</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Use checkDependencies on the Repository object.</span></span></span>
+<span class="r-in"><span>  <span class="fu">checkDependencies</span><span class="op">(</span><span class="va">repo</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">checkDependencies</span><span class="op">(</span><span class="va">repo</span>, dependencyType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Imports"</span>, <span class="st">"Suggests"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading metadata database</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Loading metadata database</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Loading metadata database ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> <span style="color: #00BB00;">✔</span> Loading metadata database ... done</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → <span style="color: #00BB00; font-weight: bold;">All dependencies are approved.</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → <span style="color: #BB0000;">The following are not permitted: </span><span style="color: #BB0000; font-weight: bold;">testthat</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> → Please open an issue here: <span style="font-weight: bold;">https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    package version</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 testthat   3.0.0</span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

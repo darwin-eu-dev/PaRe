@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
       </span>
     </div>
 
@@ -35,12 +35,15 @@
       <a href="../articles/ComparingBranches.html">Comparing branches</a>
     </li>
     <li>
-      <a href="../articles/Documentation.html">Documentation</a>
-    </li>
-    <li>
       <a href="../articles/Report.html">Report: PaRe [0.1.0]</a>
     </li>
+    <li>
+      <a href="../articles/Documentation.html">Documentation</a>
+    </li>
   </ul></li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -66,19 +69,30 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>files</dt>
-<dd><p>&lt;<a href="https://rdrr.io/r/base/list.html" class="external-link">list</a>&gt; of &lt;<a href="File.html">File</a>&gt; objects.</p></dd>
+<dd><p>(<a href="https://rdrr.io/r/base/list.html" class="external-link">list</a>)<br>
+List of <a href="File.html">File</a> objects.</p></dd>
 
 
 <dt>defFuns</dt>
-<dd><p>&lt;<a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>&gt;</p></dd>
+<dd><p>(<a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>)<br>
+See <a href="getDefinedFunctions.html">getDefinedFunctions</a>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>&lt;<a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>&gt;</p>
-    </div>
+<p><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></p>
+
+
+<dl><dt>from</dt>
+<dd><p>Name of function that the function is being called from.</p></dd>
+
+  <dt>to</dt>
+<dd><p>Name of function called.</p></dd>
+
+
+</dl></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
