@@ -7,9 +7,11 @@
 getMultiLineFun(line, lines)
 }
 \arguments{
-\item{line}{(\link[base]{numeric}) Current line number.}
+\item{line}{(\link[base]{numeric})\cr
+Current line number.}
 
-\item{lines}{(\link[base]{c}) of (\link[base]{character}) lines.}
+\item{lines}{(\link[base]{c})\cr
+Vector of (\link[base]{character}) lines.}
 }
 \value{
 (\link[base]{character})

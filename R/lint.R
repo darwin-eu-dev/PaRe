@@ -4,18 +4,18 @@
 #'
 #' @export
 #'
-#' @param repo (\link[PaRe]{Repository})\cr
+#' @param repo (\link[PaRe]{Repository})
 #'
-#' @return (\link[base]{data.frame})\cr
-#' \describe{
-#'   \item{filename}{(\link[base]{character}) Name of the file.}
-#'   \item{line_number}{(\link[base]{double}) Line in which the message was found.}
-#'   \item{column_number}{(\link[base]{double}) Column in which the message was found.}
-#'   \item{type}{(\link[base]{character}) Type of message.}
-#'   \item{message}{(\link[base]{character}) Style, warning, or error message.}
-#'   \item{line}{(\link[base]{character}) Line of code in which the message was found.}
-#'   \item{linter}{(\link[base]{character}) Linter used.}
-#' }
+#' @return (\link[base]{data.frame})
+#' |        column |              data type | description                                 |
+#' | ------------- | ---------------------- | ------------------------------------------- |
+#' |      filename | \link[base]{character} | Name of the file                            |
+#' |   line_number |    \link[base]{double} | Line in which the message was found         |
+#' | column_number |    \link[base]{double} | Column in which the message was found       |
+#' |          type | \link[base]{character} | Type of message                             |
+#' |       message | \link[base]{character} | Style, warning, or error message            |
+#' |          line | \link[base]{character} | Line of code in which the message was found |
+#' |        linter | \link[base]{character} | Linter used                                 |
 #'
 #' @examples
 #' fetchedRepo <- tryCatch(

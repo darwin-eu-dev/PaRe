@@ -2,17 +2,17 @@
 #'
 #' Makes the graph
 #'
-#' @param funsPerDefFun
-#' <\link[base]{data.frame}> Functions per defined function data.frame.
-#' @param pkgName
-#' <\link[base]{character}> Name of package.
-#' @param expFuns
-#' <\link[base]{data.frame}> Exported functinos data.frame.
+#' @param funsPerDefFun (\link[base]{data.frame})\cr
+#' Functions per defined function data.frame.
+#' @param pkgName (\link[base]{character})\cr
+#' Name of package.
+#' @param expFuns (\link[base]{data.frame})\cr
+#' Exported functinos data.frame.
 #' @param ...
-#'   Optional other parameters for \link[DiagrammeR]{grViz}.
+#' Optional other parameters for \link[DiagrammeR]{grViz}.
 #'
-#' @return
-#'   <`htmlwidget`> Diagram of the package. See \link[DiagrammeR]{grViz}.
+#' @return (`htmlwidget`)\cr
+#' Diagram of the package. See \link[DiagrammeR]{grViz}.
 makeGraph <- function(funsPerDefFun, pkgName, expFuns, ...) {
   syntax <- glue::glue("\'{funsPerDefFun$from}\' -> \'{funsPerDefFun$to}\'")
 
@@ -31,7 +31,7 @@ makeGraph <- function(funsPerDefFun, pkgName, expFuns, ...) {
   )
 }
 
-#' Title
+#' getFunsPerDefFun
 #'
 #' @param files (\link[base]{list})\cr
 #' List of \link[PaRe]{File} objects.
@@ -39,10 +39,10 @@ makeGraph <- function(funsPerDefFun, pkgName, expFuns, ...) {
 #' See \link[PaRe]{getDefinedFunctions}.
 #'
 #' @return \link[base]{data.frame}
-#' \describe{
-#'   \item{from}{Name of function that the function is being called from.}
-#'   \item{to}{Name of function called.}
-#' }
+#' | column |              data type |
+#' | ------ | ---------------------- |
+#' |   from | \link[base]{character} |
+#' |     to | \link[base]{character} |
 getFunsPerDefFun <- function(files, defFuns) {
   dplyr::bind_rows(lapply(files, function(file) {
     funs <- file$getFunctions()
@@ -68,8 +68,8 @@ getFunsPerDefFun <- function(files, defFuns) {
 #' @param path (\link[base]{character})\cr
 #' Path to package
 #'
-#' @return (\link[base]{c})\cr
-#' Vector of <\link[base]{character}>  exported functions.
+#' @return (\link[base]{c})
+#' Vector of \link[base]{character}  exported functions.
 getExportedFunctions <- function(path) {
   expFuns <- readLines(glue::glue("{path}/NAMESPACE"))
 
@@ -101,10 +101,10 @@ getExportedFunctions <- function(path) {
 #' Repository object.
 #' @param verbose (\link[base]{logical})\cr
 #' Turn verbose messages on or off.
-#' @param ... \cr
+#' @param ...
 #' Optional other parameters for \link[DiagrammeR]{grViz}.
 #'
-#' @return `htmlwidget`\cr
+#' @return (`htmlwidget`)\cr
 #' Diagram `htmlwidget` object. See \link[htmlwidgets]{createWidget}
 #'
 #' @examples
@@ -168,7 +168,7 @@ pkgDiagram <- function(repo, verbose = FALSE, ...) {
 #' @param fileName (\link[base]{character})\cr
 #' Path to save the diagram to, as PDF.
 #'
-#' @return `NULL`\cr
+#' @return (`NULL`)
 #'
 #' @examples
 #' fetchedRepo <- tryCatch(

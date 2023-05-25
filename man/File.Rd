@@ -7,28 +7,33 @@
 Class representing a file containing code.
 }
 \examples{
-fetchedRepo <- tryCatch({
-  # Set dir to clone repository to.
-  tempDir <- tempdir()
-  pathToRepo <- file.path(tempDir, "glue")
+fetchedRepo <- tryCatch(
+  {
+    # Set dir to clone repository to.
+    tempDir <- tempdir()
+    pathToRepo <- file.path(tempDir, "glue")
 
-  # Clone repo
-  git2r::clone(
-    url = "https://github.com/tidyverse/glue.git",
-    local_path = pathToRepo)
+    # Clone repo
+    git2r::clone(
+      url = "https://github.com/tidyverse/glue.git",
+      local_path = pathToRepo
+    )
 
-  # Create instance of Repository object.
-  repo <- PaRe::Repository$new(path = pathToRepo)
+    # Create instance of Repository object.
+    repo <- PaRe::Repository$new(path = pathToRepo)
 
-  # Set fetchedRepo to TRUE if all goes well.
-  TRUE
-}, error = function(e) {
-  # Set fetchedRepo to FALSE if an error is encountered.
-  FALSE
-}, warning = function(w) {
-  # Set fetchedRepo to FALSE if a warning is encountered.
-  FALSE
-})
+    # Set fetchedRepo to TRUE if all goes well.
+    TRUE
+  },
+  error = function(e) {
+    # Set fetchedRepo to FALSE if an error is encountered.
+    FALSE
+  },
+  warning = function(w) {
+    # Set fetchedRepo to FALSE if a warning is encountered.
+    FALSE
+  }
+)
 
 if (fetchedRepo) {
   files <- repo$getRFiles()
@@ -88,7 +93,7 @@ Relative path to file}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`invisible(self)`\cr
+\code{invisible(self)}
 }
 }
 \if{html}{\out{<hr>}}
@@ -115,13 +120,13 @@ Get method to retrieve the function table.
 }
 
 \subsection{Returns}{
-(\link[base]{data.frame})\cr
-\describe{
-  \item{name}{(\link[base]{character})}
-  \item{lineStart}{(\link[base]{integer})}
-  \item{lineEnd}{(\link[base]{numeric})}
-  \item{nArgs}{(\link[base]{integer})}
-  \item{cycloComp}{(\link[base]{integer})}
+(\link[base]{data.frame})\tabular{ll}{
+   column \tab data type \cr
+   name \tab \link[base]{character} \cr
+   lineStart \tab \link[base]{integer} \cr
+   lineEnd \tab \link[base]{numeric} \cr
+   nArgs \tab \link[base]{integer} \cr
+   cycloComp \tab \link[base]{integer} \cr
 }
 }
 }
@@ -135,7 +140,7 @@ Gets type of file
 }
 
 \subsection{Returns}{
-(\link[base]{character})\cr
+(\link[base]{character})
 }
 }
 \if{html}{\out{<hr>}}
@@ -148,7 +153,7 @@ Gets relative file path
 }
 
 \subsection{Returns}{
-(\link[base]{character})\cr
+(\link[base]{character})
 }
 }
 \if{html}{\out{<hr>}}
@@ -161,7 +166,7 @@ Gets table of git blame
 }
 
 \subsection{Returns}{
-(\link[dplyr]{tibble})\cr
+(\link[dplyr]{tibble})
 }
 }
 \if{html}{\out{<hr>}}

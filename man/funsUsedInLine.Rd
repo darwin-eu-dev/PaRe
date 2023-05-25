@@ -7,20 +7,20 @@
 funsUsedInLine(lines, name, i, verbose = FALSE)
 }
 \arguments{
-\item{lines}{(\link[base]{c}) of (\link[base]{character})\cr}
+\item{lines}{(\link[base]{c}) of (\link[base]{character})}
 
-\item{name}{(\link[base]{character})\cr}
+\item{name}{(\link[base]{character})}
 
-\item{i}{(\link[base]{numeric})\cr}
+\item{i}{(\link[base]{numeric})}
 
-\item{verbose}{(\link[base]{logical}: FALSE)\cr}
+\item{verbose}{(\link[base]{logical}: FALSE)}
 }
 \value{
-(\link[base]{data.frame})\cr
-\enumerate{
-  \item (\link[base]{character}) pkg
-  \item (\link[base]{character}) fun
-  \item (\link[base]{numeric}) line
+(\link[base]{data.frame})\tabular{ll}{
+   column \tab data type \cr
+   pkg \tab \link[base]{character} \cr
+   fun \tab \link[base]{character} \cr
+   line \tab \link[base]{numeric} \cr
 }
 }
 \description{

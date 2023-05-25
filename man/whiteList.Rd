@@ -16,24 +16,26 @@ white-listed dependencies.
 }
 \details{
 By default three csv's are listed:
-1. darwin
-2. hades
-3. tidyverse
+\enumerate{
+\item darwin
+\item hades
+\item tidyverse
+}
 
 The data.frame is locally fetched under:
-`system.file(package = "PaRe", "whiteList.csv")`
+\code{system.file(package = "PaRe", "whiteList.csv")}
 
 Manual insertions into this data.frame can be made, or the data.frame can
 be overwritten entirely.
 
-The data.frame itself has the following structure:
-`data.frame(source = c(), link = c(), package = c(), version = c())`
-`source` is the name of the source
-`link` is the link or path to the csv-file
-`package` is the columnname of the package name column in the csv-file being
-linked to.
-`version` is the columnname of the version column in the csv-file being
-linked to.
+The data.frame itself has the following structure:\tabular{lll}{
+   column \tab data type \tab description \cr
+   source \tab \link[base]{character} \tab name of the source \cr
+   link \tab \link[base]{character} \tab link or path to the csv-file \cr
+   package \tab \link[base]{character} \tab columnname of the package name column in the csv-file being linked to \cr
+   version \tab \link[base]{character} \tab columnname of the version column in the csv-file being linked to \cr
+}
+
 
 The csv-files that are being pointed to should have the following structure:
 }

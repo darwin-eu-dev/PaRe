@@ -13,39 +13,43 @@ Repository object.}
 \item{verbose}{(\link[base]{logical})\cr
 Turn verbose messages on or off.}
 
-\item{...}{\cr
-Optional other parameters for \link[DiagrammeR]{grViz}.}
+\item{...}{Optional other parameters for \link[DiagrammeR]{grViz}.}
 }
 \value{
-`htmlwidget`\cr
-Diagram `htmlwidget` object. See \link[htmlwidgets]{createWidget}
+(\code{htmlwidget})\cr
+Diagram \code{htmlwidget} object. See \link[htmlwidgets]{createWidget}
 }
 \description{
 Creates a diagram of all defined functions in a package.
 }
 \examples{
-fetchedRepo <- tryCatch({
-  # Set dir to clone repository to.
-  tempDir <- tempdir()
-  pathToRepo <- file.path(tempDir, "glue")
+fetchedRepo <- tryCatch(
+  {
+    # Set dir to clone repository to.
+    tempDir <- tempdir()
+    pathToRepo <- file.path(tempDir, "glue")
 
-  # Clone repo
-  git2r::clone(
-    url = "https://github.com/tidyverse/glue.git",
-    local_path = pathToRepo)
+    # Clone repo
+    git2r::clone(
+      url = "https://github.com/tidyverse/glue.git",
+      local_path = pathToRepo
+    )
 
-  # Create instance of Repository object.
-  repo <- PaRe::Repository$new(path = pathToRepo)
+    # Create instance of Repository object.
+    repo <- PaRe::Repository$new(path = pathToRepo)
 
-  # Set fetchedRepo to TRUE if all goes well.
-  TRUE
-}, error = function(e) {
-  # Set fetchedRepo to FALSE if an error is encountered.
-  FALSE
-}, warning = function(w) {
-  # Set fetchedRepo to FALSE if a warning is encountered.
-  FALSE
-})
+    # Set fetchedRepo to TRUE if all goes well.
+    TRUE
+  },
+  error = function(e) {
+    # Set fetchedRepo to FALSE if an error is encountered.
+    FALSE
+  },
+  warning = function(w) {
+    # Set fetchedRepo to FALSE if a warning is encountered.
+    FALSE
+  }
+)
 
 if (fetchedRepo) {
   # Run pkgDiagram on the Repository object.

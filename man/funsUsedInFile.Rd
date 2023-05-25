@@ -7,12 +7,12 @@
 funsUsedInFile(files, verbose = FALSE)
 }
 \arguments{
-\item{files}{(\link[base]{list}) of (\link[PaRe]{File})\cr}
+\item{files}{(\link[base]{list}) of (\link[PaRe]{File})}
 
-\item{verbose}{(\link[base]{logical})\cr}
+\item{verbose}{(\link[base]{logical})}
 }
 \value{
-(\link[base]{list})\cr
+(\link[base]{list})
 }
 \description{
 Support function

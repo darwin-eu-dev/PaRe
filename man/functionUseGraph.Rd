@@ -7,10 +7,10 @@
 functionUseGraph(repo)
 }
 \arguments{
-\item{repo}{(\link[PaRe]{Repository})\cr}
+\item{repo}{(\link[PaRe]{Repository})}
 }
 \value{
-(\link[igraph]{graph})\cr
+(\link[igraph]{graph})
 }
 \description{
 functionUseGraph

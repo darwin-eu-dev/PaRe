@@ -7,23 +7,23 @@
 getVersionDf(dependencies, permittedPackages)
 }
 \arguments{
-\item{dependencies}{(\link[base]{data.frame})\cr
-\enumerate{
-  \item (\link[base]{character}) package
-  \item (\link[base]{character}) version
+\item{dependencies}{(\link[base]{data.frame})\tabular{ll}{
+   column \tab data type \cr
+   package \tab \link[base]{character} \cr
+   version \tab \link[base]{character} \cr
 }}
 
-\item{permittedPackages}{(\link[base]{data.frame})\cr
-\enumerate{
-  \item (\link[base]{character}) package
-  \item (\link[base]{character}) version
+\item{permittedPackages}{(\link[base]{data.frame})\tabular{ll}{
+   column \tab data type \cr
+   package \tab \link[base]{character} \cr
+   version \tab \link[base]{character} \cr
 }}
 }
 \value{
-(\link[base]{data.frame})\cr
-\enumerate{
-  \item (\link[base]{character}) package
-  \item (\link[base]{character}) version
+(\link[base]{data.frame})\tabular{ll}{
+   column \tab data type \cr
+   package \tab \link[base]{character} \cr
+   version \tab \link[base]{character} \cr
 }
 }
 \description{

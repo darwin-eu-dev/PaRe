@@ -10,47 +10,54 @@ getGraphData(repo, packageTypes = c("Imports"))
 \item{repo}{(\link[PaRe]{Repository})\cr
 Repository object.}
 
-\item{packageTypes}{(\link[base]{c}: `c("Imports")`) of (\link[base]{character})\cr
+\item{packageTypes}{(\link[base]{c}: \code{c("Imports")}) of (\link[base]{character})
 Any of the following options may be included in a vector: \itemize{
-  \item "imports"
-  \item "depends"
-  \item "suggests"
-  \item "enhances"
-  \item "linkingto"
+\item "imports"
+\item "depends"
+\item "suggests"
+\item "enhances"
+\item "linkingto"
 }}
 }
 \value{
-(\link[tidygraph]{as_tbl_graph})\cr
+(\link[tidygraph]{as_tbl_graph})
 }
 \description{
 Get the dependency interactions as a graph representation.
 }
 \examples{
-fetchedRepo <- tryCatch({
-  # Set dir to clone repository to.
-  tempDir <- tempdir()
-  pathToRepo <- file.path(tempDir, "glue")
+fetchedRepo <- tryCatch(
+  {
+    # Set dir to clone repository to.
+    tempDir <- tempdir()
+    pathToRepo <- file.path(tempDir, "glue")
 
-  # Clone repo
-  git2r::clone(
-    url = "https://github.com/tidyverse/glue.git",
-    local_path = pathToRepo)
+    # Clone repo
+    git2r::clone(
+      url = "https://github.com/tidyverse/glue.git",
+      local_path = pathToRepo
+    )
 
-  # Create instance of Repository object.
-  repo <- PaRe::Repository$new(path = pathToRepo)
+    # Create instance of Repository object.
+    repo <- PaRe::Repository$new(path = pathToRepo)
 
-  # Set fetchedRepo to TRUE if all goes well.
-  TRUE
-}, error = function(e) {
-  # Set fetchedRepo to FALSE if an error is encountered.
-  FALSE
-}, warning = function(w) {
-  # Set fetchedRepo to FALSE if a warning is encountered.
-  FALSE
-})
+    # Set fetchedRepo to TRUE if all goes well.
+    TRUE
+  },
+  error = function(e) {
+    # Set fetchedRepo to FALSE if an error is encountered.
+    FALSE
+  },
+  warning = function(w) {
+    # Set fetchedRepo to FALSE if a warning is encountered.
+    FALSE
+  }
+)
 
 if (fetchedRepo) {
   # Run getGraphData on the Repository object.
-  getGraphData(repo = repo, packageTypes = c("Imports"))
+  if (interactive()) {
+    getGraphData(repo = repo, packageTypes = c("Imports"))
+  }
 }
 }

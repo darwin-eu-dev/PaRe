@@ -22,11 +22,10 @@ TRUE or FALSE. If TRUE, progress will be reported.}
 }
 \value{
 (\link[base]{data.frame})\cr
-Data frame with all the packages that are now permitted.
-
-\enumerate{
-  \item (\link[base]{character}) package
-  \item (\link[base]{character}) version
+Data frame with all the packages that are now permitted.\tabular{ll}{
+   column \tab data type \cr
+   package \tab \link[base]{character} \cr
+   version \tab \link[base]{character} \cr
 }
 }
 \description{
@@ -38,28 +37,33 @@ withr::local_envvar(
   R_USER_CACHE_DIR = tempfile()
 )
 
-fetchedRepo <- tryCatch({
-  # Set dir to clone repository to.
-  tempDir <- tempdir()
-  pathToRepo <- file.path(tempDir, "glue")
+fetchedRepo <- tryCatch(
+  {
+    # Set dir to clone repository to.
+    tempDir <- tempdir()
+    pathToRepo <- file.path(tempDir, "glue")
 
-  # Clone repo
-  git2r::clone(
-    url = "https://github.com/tidyverse/glue.git",
-    local_path = pathToRepo)
+    # Clone repo
+    git2r::clone(
+      url = "https://github.com/tidyverse/glue.git",
+      local_path = pathToRepo
+    )
 
-  # Create instance of Repository object.
-  repo <- PaRe::Repository$new(path = pathToRepo)
+    # Create instance of Repository object.
+    repo <- PaRe::Repository$new(path = pathToRepo)
 
-  # Set fetchedRepo to TRUE if all goes well.
-  TRUE
-}, error = function(e) {
-  # Set fetchedRepo to FALSE if an error is encountered.
-  FALSE
-}, warning = function(w) {
-  # Set fetchedRepo to FALSE if a warning is encountered.
-  FALSE
-})
+    # Set fetchedRepo to TRUE if all goes well.
+    TRUE
+  },
+  error = function(e) {
+    # Set fetchedRepo to FALSE if an error is encountered.
+    FALSE
+  },
+  warning = function(w) {
+    # Set fetchedRepo to FALSE if a warning is encountered.
+    FALSE
+  }
+)
 
 if (fetchedRepo) {
   # Use checkDependencies on the Repository object.

@@ -7,15 +7,15 @@
 #' @param repo (\link[PaRe]{Repository})\cr
 #' Repository object.
 #'
-#' @return (\link[base]{data.frame})\cr
-#' \enumerate{
-#'   \item (\link[base]{character}) name
-#'   \item (\link[base]{integer}) lineStart
-#'   \item (\link[base]{numeric}) lineEnd
-#'   \item (\link[base]{integer}) nArgs
-#'   \item (\link[base]{integer}) cycloComp
-#'   \item (\link[base]{character}) fileName
-#' }
+#' @return (\link[base]{data.frame})
+#' |    column |              data type |
+#' | --------- | ---------------------- |
+#' |      name | \link[base]{character} |
+#' | lineStart |   \link[base]{integer} |
+#' |   lineEnd |   \link[base]{numeric} |
+#' |     nArgs |   \link[base]{integer} |
+#' | cycloComp |   \link[base]{integer} |
+#' |  fileName | \link[base]{character} |
 #'
 #' @examples
 #' fetchedRepo <- tryCatch(

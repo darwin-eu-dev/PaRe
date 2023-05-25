@@ -4,17 +4,17 @@
 #'
 #' @export
 #'
-#' @param base (\link[base]{logical}: TRUE)\cr
+#' @param base (\link[base]{logical}: TRUE)
 #' \describe{
 #'   \item{TRUE}{Base packages will be included.}
 #'   \item{FALSE}{Base packages will be ignored.}
 #' }
 #'
-#' @return (\link[dplyr]{tibble})\cr
-#' \enumerate{
-#'   \item (\link[base]{character}) package
-#'   \item (\link[base]{character}) version
-#' }
+#' @return (\link[dplyr]{tibble})
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
 #'
 #' @examples
 #' # Set cache
@@ -22,7 +22,9 @@
 #'   R_USER_CACHE_DIR = tempfile()
 #' )
 #'
-#' getDefaultPermittedPackages()
+#' if (interactive()) {
+#'   getDefaultPermittedPackages()
+#' }
 getDefaultPermittedPackages <- function(base = TRUE) {
   # Custom list
   tryCatch(

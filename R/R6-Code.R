@@ -18,7 +18,7 @@ Code <- R6::R6Class(
     #' @param lines (\link[base]{character})\cr
     #' Vector of lines Code object.
     #'
-    #' @return `invisible(self)`\cr
+    #' @return `invisible(self)`
     initialize = function(name, lines) {
       private$name <- name
       private$lines <- lines
@@ -29,10 +29,10 @@ Code <- R6::R6Class(
     #' @description
     #' Overload generic print, to print Code object.
     #'
-    #' @param ... \cr
+    #' @param ...
     #' further arguments passed to or from other methods. See \link[base]{print}.
     #'
-    #' @return ([base]{character})\cr
+    #' @return ([base]{character})
     print = function(...) {
       classTypes <- class(self)
       classTypes <- paste0(glue::glue("<{classTypes}>"), collapse = " ")

@@ -7,15 +7,15 @@
 printMessage(notPermitted, versionCheck)
 }
 \arguments{
-\item{notPermitted}{([base]{data.frame})\cr}
+\item{notPermitted}{([base]{data.frame})}
 
-\item{versionCheck}{([base]{data.frame})\cr}
+\item{versionCheck}{([base]{data.frame})}
 }
 \value{
-(\link[base]{data.frame}) or (\link[base]{NULL})\cr
-\enumerate{
-  \item (\link[base]{character}) package
-  \item (\link[base]{character}) version
+(\link[base]{data.frame})\tabular{ll}{
+   column \tab data type \cr
+   package \tab \link[base]{character} \cr
+   version \tab \link[base]{character} \cr
 }
 }
 \description{

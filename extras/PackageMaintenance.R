@@ -25,6 +25,9 @@ OhdsiRTools::updateCopyrightYearFolder()
 devtools::spell_check()
 
 # Create manual and vignettes -------------------------------------------------
+unlink("extras/PaRe.pdf")
+shell("R CMD Rd2pdf ./ --output=extras/PaRe.pdf --no-clean")
+
 pkgdown::build_site()
 
 # Release package -------------------------------------------------------------

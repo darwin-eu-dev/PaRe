@@ -7,10 +7,10 @@
 graphToDot(graph)
 }
 \arguments{
-\item{graph}{(\link[igraph]{graph})\cr}
+\item{graph}{(\link[igraph]{graph})}
 }
 \value{
-`htmlwidgets`\cr
+\code{htmlwidgets}\cr
 See \link[DiagrammeR]{grViz}.
 }
 \description{

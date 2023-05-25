@@ -7,9 +7,10 @@
 getDlplyCall(fun, defFuns)
 }
 \arguments{
-\item{fun}{(\link[PaRe]{Function}) Function object.}
+\item{fun}{(\link[PaRe]{Function})\cr
+Function object.}
 
-\item{defFuns}{(\link[base]{data.frame})
+\item{defFuns}{(\link[base]{data.frame})\cr
 See \link[PaRe]{getDefinedFunctions}}
 }
 \value{

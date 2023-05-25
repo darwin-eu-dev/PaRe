@@ -7,17 +7,17 @@
 getDefaultPermittedPackages(base = TRUE)
 }
 \arguments{
-\item{base}{(\link[base]{logical}: TRUE)\cr
+\item{base}{(\link[base]{logical}: TRUE)
 \describe{
-  \item{TRUE}{Base packages will be included.}
-  \item{FALSE}{Base packages will be ignored.}
+\item{TRUE}{Base packages will be included.}
+\item{FALSE}{Base packages will be ignored.}
 }}
 }
 \value{
-(\link[dplyr]{tibble})\cr
-\enumerate{
-  \item (\link[base]{character}) package
-  \item (\link[base]{character}) version
+(\link[dplyr]{tibble})\tabular{ll}{
+   column \tab data type \cr
+   package \tab \link[base]{character} \cr
+   version \tab \link[base]{character} \cr
 }
 }
 \description{
@@ -29,5 +29,7 @@ withr::local_envvar(
   R_USER_CACHE_DIR = tempfile()
 )
 
-getDefaultPermittedPackages()
+if (interactive()) {
+  getDefaultPermittedPackages()
+}
 }

@@ -64,7 +64,7 @@ Function <- R6::R6Class(
     #' @param lines (\link[base]{c})\cr
     #' Vector of type \link[base]{character} Lines of just the function in File.
     #'
-    #' @return `invisible(self)`\cr
+    #' @return `invisible(self)`
     initialize = function(name, lineStart, lineEnd, lines) {
       super$initialize(name, lines)
       private$lineStart <- lineStart
@@ -79,14 +79,14 @@ Function <- R6::R6Class(
     #' @description
     #' Get method to get defined functions in a File object.
     #'
-    #' @return (\link[base]{data.frame})\cr
-    #' \describe{
-    #'   \item{name}{(\link[base]{character})}
-    #'   \item{lineStart}{(\link[base]{integer})}
-    #'   \item{lineEnd}{(\link[base]{numeric})}
-    #'   \item{nArgs}{(\link[base]{integer})}
-    #'   \item{cycloComp}{(\link[base]{integer})}
-    #' }
+    #' @return (\link[base]{data.frame})
+    #' |    column |                data type |
+    #' | --------- | ------------------------ |
+    #' |      name | (\link[base]{character}) |
+    #' | lineStart |   (\link[base]{integer}) |
+    #' |   lineEnd |   (\link[base]{numeric}) |
+    #' |     nArgs |   (\link[base]{integer}) |
+    #' | cycloComp |   (\link[base]{integer}) |
     getFunction = function() {
       return(data.frame(
         name = private$name,

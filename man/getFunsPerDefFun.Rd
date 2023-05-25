@@ -2,7 +2,7 @@
 % Please edit documentation in R/pkgDiagram.R
 \name{getFunsPerDefFun}
 \alias{getFunsPerDefFun}
-\title{Title}
+\title{getFunsPerDefFun}
 \usage{
 getFunsPerDefFun(files, defFuns)
 }
@@ -14,12 +14,12 @@ List of \link[PaRe]{File} objects.}
 See \link[PaRe]{getDefinedFunctions}.}
 }
 \value{
-\link[base]{data.frame}
-\describe{
-  \item{from}{Name of function that the function is being called from.}
-  \item{to}{Name of function called.}
+\link[base]{data.frame}\tabular{ll}{
+   column \tab data type \cr
+   from \tab \link[base]{character} \cr
+   to \tab \link[base]{character} \cr
 }
 }
 \description{
-Title
+getFunsPerDefFun
 }

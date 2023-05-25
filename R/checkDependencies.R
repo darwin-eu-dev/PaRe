@@ -3,14 +3,14 @@
 #' Prints messages dependening of the nrow of the number of rows of the
 #' notPermitted and versionCheck data.frames
 #'
-#' @param notPermitted ([base]{data.frame})\cr
-#' @param versionCheck ([base]{data.frame})\cr
+#' @param notPermitted ([base]{data.frame})
+#' @param versionCheck ([base]{data.frame})
 #'
-#' @return (\link[base]{data.frame}) or (\link[base]{NULL})\cr
-#' \enumerate{
-#'   \item (\link[base]{character}) package
-#'   \item (\link[base]{character}) version
-#' }
+#' @return (\link[base]{data.frame})
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
 printMessage <- function(notPermitted, versionCheck) {
   if (nrow(notPermitted) > 0) {
     message(
@@ -36,24 +36,23 @@ printMessage <- function(notPermitted, versionCheck) {
 #'
 #' Function to compare different versions.
 #'
-#' @param dependencies (\link[base]{data.frame})\cr
-#' \enumerate{
-#'   \item (\link[base]{character}) package
-#'   \item (\link[base]{character}) version
-#' }
-#' @param permittedPackages (\link[base]{data.frame})\cr
-#' \enumerate{
-#'   \item (\link[base]{character}) package
-#'   \item (\link[base]{character}) version
-#' }
+#' @param dependencies (\link[base]{data.frame})
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
+#' @param permittedPackages (\link[base]{data.frame})
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
 #'
-#' @return (\link[base]{data.frame})\cr
-#' \enumerate{
-#'   \item (\link[base]{character}) package
-#'   \item (\link[base]{character}) version
-#' }
+#' @return (\link[base]{data.frame})
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
 getVersionDf <- function(dependencies, permittedPackages) {
-  # print(permittedPackages)
   permitted <- dependencies %>%
     dplyr::filter(.data$package %in% permittedPackages$package)
 
@@ -92,11 +91,11 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #'
 #' @return (\link[base]{data.frame})\cr
 #' Data frame with all the packages that are now permitted.
-#'
-#' \enumerate{
-#'   \item (\link[base]{character}) package
-#'   \item (\link[base]{character}) version
-#' }
+
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
 #'
 #' @examples
 #' # Set cahce, usually not required.

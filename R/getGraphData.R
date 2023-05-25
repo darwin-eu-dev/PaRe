@@ -6,7 +6,7 @@
 #'
 #' @param repo (\link[PaRe]{Repository})\cr
 #' Repository object.
-#' @param packageTypes (\link[base]{c}: `c("Imports")`) of (\link[base]{character})\cr
+#' @param packageTypes (\link[base]{c}: `c("Imports")`) of (\link[base]{character})
 #' Any of the following options may be included in a vector: \itemize{
 #'   \item "imports"
 #'   \item "depends"
@@ -15,7 +15,7 @@
 #'   \item "linkingto"
 #' }
 #'
-#' @return (\link[tidygraph]{as_tbl_graph})\cr
+#' @return (\link[tidygraph]{as_tbl_graph})
 #'
 #' @examples
 #' fetchedRepo <- tryCatch(
@@ -48,7 +48,9 @@
 #'
 #' if (fetchedRepo) {
 #'   # Run getGraphData on the Repository object.
-#'   getGraphData(repo = repo, packageTypes = c("Imports"))
+#'   if (interactive()) {
+#'     getGraphData(repo = repo, packageTypes = c("Imports"))
+#'   }
 #' }
 getGraphData <- function(repo, packageTypes = c("Imports")) {
   deps <- repo$getDescription()$get_deps() %>%

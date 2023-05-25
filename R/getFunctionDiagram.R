@@ -1,8 +1,8 @@
 #' functionUseGraph
 #'
-#' @param repo (\link[PaRe]{Repository})\cr
+#' @param repo (\link[PaRe]{Repository})
 #'
-#' @return (\link[igraph]{graph})\cr
+#' @return (\link[igraph]{graph})
 functionUseGraph <- function(repo) {
   defFuns <- PaRe::getDefinedFunctions(repo)
   rFiles <- repo$getRFiles()
@@ -12,7 +12,7 @@ functionUseGraph <- function(repo) {
 
 #' graphToDot
 #'
-#' @param graph (\link[igraph]{graph})\cr
+#' @param graph (\link[igraph]{graph})
 #'
 #' @return `htmlwidgets`\cr
 #' See \link[DiagrammeR]{grViz}.
@@ -46,8 +46,8 @@ graphToDot <- function(graph) {
 #' @param functionName (\link[base]{character})
 #' Name of the function to get all paths from.
 #'
-#' @return (`htmlwidgets`)
-#' Substted diagram. See \link[DiagrammeR]{grViz}
+#' @return (`htmlwidgets`)\cr
+#' Subsetted diagram. See \link[DiagrammeR]{grViz}
 #'
 #' @examples
 #' fetchedRepo <- tryCatch(

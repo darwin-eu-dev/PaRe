@@ -2,9 +2,7 @@
 title: "Documentation"
 author: "Maarten van Kessel"
 date: "`r Sys.Date()`"
-output:
-  pdf_document: default
-  html_vignette: default
+output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Documentation}
   %\VignetteEncoding{UTF-8}
@@ -289,3 +287,4 @@ if (fetchedRepo) {
   head(messages)
 }
 ```
+

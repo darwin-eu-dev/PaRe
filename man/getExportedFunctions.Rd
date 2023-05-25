@@ -11,8 +11,8 @@ getExportedFunctions(path)
 Path to package}
 }
 \value{
-(\link[base]{c})\cr
-Vector of <\link[base]{character}>  exported functions.
+(\link[base]{c})
+Vector of \link[base]{character}  exported functions.
 }
 \description{
 Gets all the exported functions of a package, from NAMESPACE.

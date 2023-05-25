@@ -14,40 +14,45 @@ Repository object.}
 Prints message to console which file is currently being worked on.}
 }
 \value{
-(\link[dplyr]{tibble})\cr
-\describe{
-  \item{file}{(\link[base]{character}) Name of file.}
-  \item{line}{(\link[base]{integer}) Line where function was found.}
-  \item{pkg}{(\link[base]{character}) Package where function belongs to.}
-  \item{fun}{(\link[base]{character}) Function name.}
+(\link[dplyr]{tibble})\tabular{ll}{
+   column \tab data type \cr
+   file \tab \link[base]{character} \cr
+   line \tab \link[base]{numeric} \cr
+   pkg \tab \link[base]{character} \cr
+   fun \tab \link[base]{character} \cr
 }
 }
 \description{
 Summarise functions used in R package.
 }
 \examples{
-fetchedRepo <- tryCatch({
-  # Set dir to clone repository to.
-  tempDir <- tempdir()
-  pathToRepo <- file.path(tempDir, "glue")
+fetchedRepo <- tryCatch(
+  {
+    # Set dir to clone repository to.
+    tempDir <- tempdir()
+    pathToRepo <- file.path(tempDir, "glue")
 
-  # Clone repo
-  git2r::clone(
-    url = "https://github.com/tidyverse/glue.git",
-    local_path = pathToRepo)
+    # Clone repo
+    git2r::clone(
+      url = "https://github.com/tidyverse/glue.git",
+      local_path = pathToRepo
+    )
 
-  # Create instance of Repository object.
-  repo <- PaRe::Repository$new(path = pathToRepo)
+    # Create instance of Repository object.
+    repo <- PaRe::Repository$new(path = pathToRepo)
 
-  # Set fetchedRepo to TRUE if all goes well.
-  TRUE
-}, error = function(e) {
-  # Set fetchedRepo to FALSE if an error is encountered.
-  FALSE
-}, warning = function(w) {
-  # Set fetchedRepo to FALSE if a warning is encountered.
-  FALSE
-})
+    # Set fetchedRepo to TRUE if all goes well.
+    TRUE
+  },
+  error = function(e) {
+    # Set fetchedRepo to FALSE if an error is encountered.
+    FALSE
+  },
+  warning = function(w) {
+    # Set fetchedRepo to FALSE if a warning is encountered.
+    FALSE
+  }
+)
 
 if (fetchedRepo) {
   # Run getFunctionUse on the Repository object.

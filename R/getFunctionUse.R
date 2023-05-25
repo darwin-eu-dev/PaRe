@@ -2,17 +2,17 @@
 #'
 #' Support function for funsUsedInFile.
 #'
-#' @param lines (\link[base]{c}) of (\link[base]{character})\cr
-#' @param name (\link[base]{character})\cr
-#' @param i (\link[base]{numeric})\cr
-#' @param verbose (\link[base]{logical}: FALSE)\cr
+#' @param lines (\link[base]{c}) of (\link[base]{character})
+#' @param name (\link[base]{character})
+#' @param i (\link[base]{numeric})
+#' @param verbose (\link[base]{logical}: FALSE)
 #'
-#' @return (\link[base]{data.frame})\cr
-#' \enumerate{
-#'   \item (\link[base]{character}) pkg
-#'   \item (\link[base]{character}) fun
-#'   \item (\link[base]{numeric}) line
-#' }
+#' @return (\link[base]{data.frame})
+#' | column |              data type |
+#' | ------ | ---------------------- |
+#' |    pkg | \link[base]{character} |
+#' |    fun | \link[base]{character} |
+#' |   line |   \link[base]{numeric} |
 funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
   line <- lines[i]
 
@@ -92,10 +92,10 @@ funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
 #'
 #' Support function
 #'
-#' @param files (\link[base]{list}) of (\link[PaRe]{File})\cr
-#' @param verbose (\link[base]{logical})\cr
+#' @param files (\link[base]{list}) of (\link[PaRe]{File})
+#' @param verbose (\link[base]{logical})
 #'
-#' @return (\link[base]{list})\cr
+#' @return (\link[base]{list})
 funsUsedInFile <- function(files, verbose = FALSE) {
   lapply(X = files, FUN = function(file) {
     if (verbose) {
@@ -124,13 +124,14 @@ funsUsedInFile <- function(files, verbose = FALSE) {
 #' @param verbose (\link[base]{logical}: FALSE)\cr
 #' Prints message to console which file is currently being worked on.
 #'
-#' @return (\link[dplyr]{tibble})\cr
-#' \describe{
-#'   \item{file}{(\link[base]{character}) Name of file.}
-#'   \item{line}{(\link[base]{integer}) Line where function was found.}
-#'   \item{pkg}{(\link[base]{character}) Package where function belongs to.}
-#'   \item{fun}{(\link[base]{character}) Function name.}
-#' }
+#' @return (\link[dplyr]{tibble})
+#' | column |              data type |
+#' | ------ | ---------------------- |
+#' |   file | \link[base]{character} |
+#' |   line |   \link[base]{numeric} |
+#' |    pkg | \link[base]{character} |
+#' |    fun | \link[base]{character} |
+#'
 #' @examples
 #' fetchedRepo <- tryCatch(
 #'   {

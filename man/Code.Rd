@@ -45,7 +45,7 @@ Vector of lines Code object.}
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`invisible(self)`\cr
+\code{invisible(self)}
 }
 }
 \if{html}{\out{<hr>}}
@@ -60,13 +60,12 @@ Overload generic print, to print Code object.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{\cr
-further arguments passed to or from other methods. See \link[base]{print}.}
+\item{\code{...}}{further arguments passed to or from other methods. See \link[base]{print}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-([base]{character})\cr
+([base]{character})
 }
 }
 \if{html}{\out{<hr>}}
