@@ -31,7 +31,8 @@ pathToRepo <- file.path(tempDir, "CDMConnector")
 
 git2r::clone(
   url = "https://github.com/darwin-eu/CDMConnector.git",
-  local_path = pathToRepo)
+  local_path = pathToRepo
+)
 ```
 
 
@@ -69,7 +70,7 @@ files
 ```
 
 ```{r}
-file <- files[[1]]
+file <- files$R[[1]]
 file
 ```
 
@@ -140,7 +141,8 @@ devFunUse <- PaRe::getFunctionUse(dev) %>%
 
 pkgUse <- dplyr::bind_rows(
   mainFunUse,
-  devFunUse) %>%
+  devFunUse
+) %>%
   group_by(pkg, branch) %>%
   tally()
 ```
@@ -202,7 +204,7 @@ data.frame(
   countEdges = c(length(igraph::E(mainGraph)), length(igraph::E(devGraph))),
   meanDegree = c(round(mean(igraph::degree(mainGraph)), 2), round(mean(igraph::degree(devGraph)), 2)),
   meanDistance = c(round(mean(igraph::distances(mainGraph)), 2), round(mean(igraph::distances(devGraph)), 2))
-  )
+)
 ```
 
 ```{r}
