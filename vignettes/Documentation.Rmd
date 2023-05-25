@@ -2,11 +2,13 @@
 title: "Documentation"
 author: "Maarten van Kessel"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  pdf_document: default
+  html_vignette: default
 vignette: >
   %\VignetteIndexEntry{Documentation}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r knitrOptions, include=FALSE}
@@ -94,14 +96,29 @@ write.csv(
 Before we start diving into the dependency usage of `glue` we should first establish what our dependency white list even looks like. We can retrieve our full list of whitelisted dependencies buy calling the `getDefaultPermittedPackages` function.
 
 ### getDefaultPermittedPackages
-```{r permittedPackages, eval=FALSE, message=FALSE, warning=FALSE}
+```{r permittedPackages, message=FALSE, warning=FALSE}
 PaRe::getDefaultPermittedPackages(base = TRUE)
 ```
+
 `getDefaultPermittedPackages` takes one parameter:
 
 1. **base** which is set to `TRUE` by default. Packages that listed as *base* packages will be included in the white list.
 
 ### Setting up a Repository object
+```{r cloneRepoShow, eval=FALSE}
+# Temp dir to clone repo to
+tempDir <- tempdir()
+pathToRepo <- file.path(tempDir, "glue")
+
+# Clone IncidencePrevalence to temp dir
+git2r::clone(
+  url = "https://github.com/tidyverse/glue.git",
+  local_path = pathToRepo
+)
+
+repo <- PaRe::Repository$new(path = pathToRepo)
+```
+
 ```{r cloneRepo, echo=FALSE}
 fetchedRepo <- tryCatch(
   {
@@ -125,24 +142,9 @@ fetchedRepo <- tryCatch(
 )
 ```
 
-```{r cloneRepoShow, eval=FALSE}
-# Temp dir to clone repo to
-tempDir <- tempdir()
-pathToRepo <- file.path(tempDir, "glue")
-
-# Clone IncidencePrevalence to temp dir
-git2r::clone(
-  url = "https://github.com/tidyverse/glue.git",
-  local_path = pathToRepo
-)
-
-repo <- PaRe::Repository$new(path = pathToRepo)
-```
-
-
 ### checkDependencies
 Now that we know what is included in the white list, we can make our first step into reviewing `glue`, which is to ensure the (suggested) dependencies `glue` uses are in our white list.
-```{r checkDependencies, eval=FALSE}
+```{r checkDependenciesShow, eval=FALSE}
 PaRe::checkDependencies(repo = repo)
 ```
 ```
@@ -173,6 +175,15 @@ graphData <- PaRe::getGraphData(
 )
 ```
 
+```{r setupGraph, echo=FALSE, warning=FALSE, message=FALSE}
+if (fetchedRepo) {
+  graphData <- PaRe::getGraphData(
+  repo = repo,
+  packageTypes = c("imports", "suggests")
+)
+}
+```
+
 We can compute several statistics about our dependency graph
 ```{r graphCharacteristicsShow, eval=FALSE}
 data.frame(
@@ -188,14 +199,25 @@ data.frame(
 - **meanDistance**: is the average amount of dependencies between `glue` and all other recursive dependencies.
 
 We can then plot the graph.
-```{r plotGraph, eval=FALSE}
+```{r plotGraphShow, eval=FALSE}
 plot(graphData)
+```
+
+```{r plotGraph, echo=FALSE}
+if (fetchedRepo) {
+  plot(graphData)
+}
 ```
 
 ## Package wide function use
 `PaRe` allows you to get insight in the function usage in a package.
 
 ### summariseFunctionUse
+```{r summariseFunctionUseShow, eval=FALSE}
+funsUsed <- PaRe::getFunctionUse(repo = repo)
+funsUsed
+```
+
 ```{r summariseFunctionUse, echo=FALSE, message=FALSE, warning=FALSE}
 if (fetchedRepo) {
   funsUsed <- PaRe::getFunctionUse(repo = repo)
@@ -203,24 +225,26 @@ if (fetchedRepo) {
 }
 ```
 
-```{r summariseFunctionUseShow, eval=FALSE}
-funsUsed <- PaRe::getFunctionUse(repo = repo)
-funsUsed
+### getDefinedFunctions
+```{r definedFunctionsShow, eval=FALSE}
+defFuns <- PaRe::getDefinedFunctions(repo = repo)
+head(defFuns)
 ```
 
-### getDefinedFunctions
 ```{r definedFunctions, echo=FALSE}
 if (fetchedRepo) {
   defFuns <- PaRe::getDefinedFunctions(repo = repo)
   head(defFuns)
 }
 ```
-
-```{r definedFunctionsShow, eval=FALSE}
-defFuns <- PaRe::getDefinedFunctions(repo = repo)
-head(defFuns)
-```
 Besides the location of each function being displayed, the number of arguments for each function, and the cyclometic complexity is also included in the result.
+
+```{r pkgDiagramShow, eval=FALSE}
+PaRe::pkgDiagram(repo = repo) %>%
+  DiagrammeRsvg::export_svg() %>%
+  charToRaw() %>%
+  magick::image_read()
+```
 
 ```{r pkgDiagram, echo=FALSE}
 if (fetchedRepo) {
@@ -231,26 +255,24 @@ if (fetchedRepo) {
 }
 ```
 
-```{r pkgDiagramShow, eval=FALSE}
-PaRe::pkgDiagram(repo = repo) %>%
-  DiagrammeRsvg::export_svg() %>%
-  charToRaw() %>%
-  magick::image_read()
+## Lines of code
+```{r linesOfCodeShow, eval=FALSE}
+PaRe::countPackageLines(repo = repo)
 ```
 
-## Lines of code
 ```{r linesOfCode, echo=FALSE}
 if (fetchedRepo) {
   PaRe::countPackageLines(repo = repo)
 }
 ```
-
-```{r linesOfCodeShow, eval=FALSE}
-PaRe::countPackageLines(repo = repo)
-```
 `glue` contains 1056 lines of R-code.
 
 ## Linting
+```{r lintScoreShow, eval=FALSE}
+messages <- PaRe::lintRepo(repo = repo)
+PaRe::lintScore(repo = repo, messages = messages)
+```
+
 ```{r lintScore, echo=FALSE}
 if (fetchedRepo) {
   messages <- PaRe::lintRepo(repo = repo)
@@ -258,17 +280,12 @@ if (fetchedRepo) {
 }
 ```
 
-```{r lintScoreShow, eval=FALSE}
-messages <- PaRe::lintRepo(repo = repo)
-PaRe::lintScore(repo = repo, messages = messages)
+```{r lintMessagesShow, eval=FALSE}
+head(messages)
 ```
 
 ```{r lintMessages, echo=FALSE}
 if (fetchedRepo) {
   head(messages)
 }
-```
-
-```{r lintMessagesShow, eval=FALSE}
-head(messages)
 ```
