@@ -1,7 +1,7 @@
 Package: PaRe
 Type: Package
 Title: PaRe (Package Reviewer) is the Successor of the DependencyReviewer Package
-Version: 0.1.5
+Version: 0.1.6
 Authors@R:
     person("Maarten", "van Kessel", email = "m.l.vankessel@erasmusmc.nl",
            role = c("aut", "cre"))
@@ -41,3 +41,4 @@ Suggests:
     cowplot,
     knitr
 VignetteBuilder: knitr
+
