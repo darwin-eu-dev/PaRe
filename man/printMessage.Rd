@@ -7,12 +7,16 @@
 printMessage(notPermitted, versionCheck)
 }
 \arguments{
-\item{notPermitted}{<[base]{data.frame}> notPermitted}
+\item{notPermitted}{([base]{data.frame})\cr}
 
-\item{versionCheck}{<[base]{data.frame}> versionCheck}
+\item{versionCheck}{([base]{data.frame})\cr}
 }
 \value{
-<\link[base]{data.frame}> or <\link[base]{NULL}>
+(\link[base]{data.frame}) or (\link[base]{NULL})\cr
+\enumerate{
+  \item (\link[base]{character}) package
+  \item (\link[base]{character}) version
+}
 }
 \description{
 Prints messages dependening of the nrow of the number of rows of the

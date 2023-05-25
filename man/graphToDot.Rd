@@ -7,10 +7,11 @@
 graphToDot(graph)
 }
 \arguments{
-\item{graph}{<\link[igraph]{graph}> Graph object crated by \link[igraph]{graph_from_data_frame}.}
+\item{graph}{(\link[igraph]{graph})\cr}
 }
 \value{
-`htmlwidgets` Substted diagram. See \link[DiagrammeR]{grViz}.
+`htmlwidgets`\cr
+See \link[DiagrammeR]{grViz}.
 }
 \description{
 graphToDot

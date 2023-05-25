@@ -6,6 +6,42 @@
 \description{
 Class representing a file containing code.
 }
+\examples{
+fetchedRepo <- tryCatch({
+  # Set dir to clone repository to.
+  tempDir <- tempdir()
+  pathToRepo <- file.path(tempDir, "glue")
+
+  # Clone repo
+  git2r::clone(
+    url = "https://github.com/tidyverse/glue.git",
+    local_path = pathToRepo)
+
+  # Create instance of Repository object.
+  repo <- PaRe::Repository$new(path = pathToRepo)
+
+  # Set fetchedRepo to TRUE if all goes well.
+  TRUE
+}, error = function(e) {
+  # Set fetchedRepo to FALSE if an error is encountered.
+  FALSE
+}, warning = function(w) {
+  # Set fetchedRepo to FALSE if a warning is encountered.
+  FALSE
+})
+
+if (fetchedRepo) {
+  files <- repo$getRFiles()
+  files[[1]]
+}
+}
+\seealso{
+Other Representations: 
+\code{\link{Code}},
+\code{\link{Function}},
+\code{\link{Repository}}
+}
+\concept{Representations}
 \section{Super class}{
 \code{PaRe::Code} -> \code{File}
 }
@@ -43,14 +79,16 @@ Initializer method
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{repoPath}}{<\link[base]{character}> Path to repository.}
+\item{\code{repoPath}}{(\link[base]{character})\cr
+Path to repository.}
 
-\item{\code{filePath}}{<\link[base]{character}> Relative path to file}
+\item{\code{filePath}}{(\link[base]{character})\cr
+Relative path to file}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`invisible(self)`
+`invisible(self)`\cr
 }
 }
 \if{html}{\out{<hr>}}
@@ -63,7 +101,8 @@ Get method to get a list of Function objects
 }
 
 \subsection{Returns}{
-<\link[base]{list}> of \link[PaRe]{Function} objects.
+(\link[base]{list})\cr
+List of \link[PaRe]{Function} objects.
 }
 }
 \if{html}{\out{<hr>}}
@@ -76,7 +115,14 @@ Get method to retrieve the function table.
 }
 
 \subsection{Returns}{
-<\link[base]{data.frame}>
+(\link[base]{data.frame})\cr
+\describe{
+  \item{name}{(\link[base]{character})}
+  \item{lineStart}{(\link[base]{integer})}
+  \item{lineEnd}{(\link[base]{numeric})}
+  \item{nArgs}{(\link[base]{integer})}
+  \item{cycloComp}{(\link[base]{integer})}
+}
 }
 }
 \if{html}{\out{<hr>}}
@@ -89,7 +135,7 @@ Gets type of file
 }
 
 \subsection{Returns}{
-<\link[base]{character}>
+(\link[base]{character})\cr
 }
 }
 \if{html}{\out{<hr>}}
@@ -102,7 +148,7 @@ Gets relative file path
 }
 
 \subsection{Returns}{
-<\link[base]{character}>
+(\link[base]{character})\cr
 }
 }
 \if{html}{\out{<hr>}}
@@ -115,7 +161,7 @@ Gets table of git blame
 }
 
 \subsection{Returns}{
-<\link[dplyr]{tibble}>
+(\link[dplyr]{tibble})\cr
 }
 }
 \if{html}{\out{<hr>}}

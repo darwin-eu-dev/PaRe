@@ -7,10 +7,10 @@
 functionUseGraph(repo)
 }
 \arguments{
-\item{repo}{<\link[PaRe]{Repository}> Repository object.}
+\item{repo}{(\link[PaRe]{Repository})\cr}
 }
 \value{
-<\link[igraph]{graph}> Graph object crated by \link[igraph]{graph_from_data_frame}.
+(\link[igraph]{graph})\cr
 }
 \description{
 functionUseGraph

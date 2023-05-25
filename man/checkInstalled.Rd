@@ -7,7 +7,8 @@
 checkInstalled()
 }
 \value{
-<\link[base]{logical}> Boolean depending if suggested packages are installed.
+\link[base]{logical}\cr
+Logical depending if suggested packages are installed.
 }
 \description{
 Checks if suggested packages are installed.

@@ -6,6 +6,44 @@
 \description{
 Class representing a function.
 }
+\examples{
+fetchedRepo <- tryCatch({
+  # Set dir to clone repository to.
+  tempDir <- tempdir()
+  pathToRepo <- file.path(tempDir, "glue")
+
+  # Clone repo
+  git2r::clone(
+    url = "https://github.com/tidyverse/glue.git",
+    local_path = pathToRepo)
+
+  # Create instance of Repository object.
+  repo <- PaRe::Repository$new(path = pathToRepo)
+
+  # Set fetchedRepo to TRUE if all goes well.
+  TRUE
+}, error = function(e) {
+  # Set fetchedRepo to FALSE if an error is encountered.
+  FALSE
+}, warning = function(w) {
+  # Set fetchedRepo to FALSE if a warning is encountered.
+  FALSE
+})
+
+if (fetchedRepo) {
+  files <- repo$getRFiles()
+  file <- files[[1]]
+  funs <- file$getFunctions()
+  funs[[1]]
+}
+}
+\seealso{
+Other Representations: 
+\code{\link{Code}},
+\code{\link{File}},
+\code{\link{Repository}}
+}
+\concept{Representations}
 \section{Super class}{
 \code{PaRe::Code} -> \code{Function}
 }
@@ -39,19 +77,22 @@ Initializer for Function object.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{name}}{<\link[base]{character}> Name of Function.}
+\item{\code{name}}{(\link[base]{character})\cr
+Name of Function.}
 
-\item{\code{lineStart}}{<\link[base]{numeric}> Line number where function starts in File.}
+\item{\code{lineStart}}{(\link[base]{numeric})\cr
+Line number where function starts in File.}
 
-\item{\code{lineEnd}}{<\link[base]{numeric}> Line number where function ends in File.}
+\item{\code{lineEnd}}{(\link[base]{numeric})\cr
+Line number where function ends in File.}
 
-\item{\code{lines}}{<\link[base]{c}> of type <[base]{character}>
-Lines of just the function in File.}
+\item{\code{lines}}{(\link[base]{c})\cr
+Vector of type \link[base]{character} Lines of just the function in File.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`invisible(self)`
+`invisible(self)`\cr
 }
 }
 \if{html}{\out{<hr>}}
@@ -64,8 +105,14 @@ Get method to get defined functions in a File object.
 }
 
 \subsection{Returns}{
-<\link[base]{data.frame}> containing the function name, line start,
-line end, number of arguments and cyclomatic complexity.
+(\link[base]{data.frame})\cr
+\describe{
+  \item{name}{(\link[base]{character})}
+  \item{lineStart}{(\link[base]{integer})}
+  \item{lineEnd}{(\link[base]{numeric})}
+  \item{nArgs}{(\link[base]{integer})}
+  \item{cycloComp}{(\link[base]{integer})}
+}
 }
 }
 \if{html}{\out{<hr>}}

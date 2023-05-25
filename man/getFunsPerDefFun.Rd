@@ -7,12 +7,18 @@
 getFunsPerDefFun(files, defFuns)
 }
 \arguments{
-\item{files}{<\link[base]{list}> of <\link[PaRe]{File}> objects.}
+\item{files}{(\link[base]{list})\cr
+List of \link[PaRe]{File} objects.}
 
-\item{defFuns}{<\link[base]{data.frame}>}
+\item{defFuns}{(\link[base]{data.frame})\cr
+See \link[PaRe]{getDefinedFunctions}.}
 }
 \value{
-<\link[base]{data.frame}>
+\link[base]{data.frame}
+\describe{
+  \item{from}{Name of function that the function is being called from.}
+  \item{to}{Name of function called.}
+}
 }
 \description{
 Title

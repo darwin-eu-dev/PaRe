@@ -7,12 +7,24 @@
 getVersionDf(dependencies, permittedPackages)
 }
 \arguments{
-\item{dependencies}{<\link[base]{data.frame}> All dependencies of he package.}
+\item{dependencies}{(\link[base]{data.frame})\cr
+\enumerate{
+  \item (\link[base]{character}) package
+  \item (\link[base]{character}) version
+}}
 
-\item{permittedPackages}{<\link[base]{data.frame}> of all permitted packages.}
+\item{permittedPackages}{(\link[base]{data.frame})\cr
+\enumerate{
+  \item (\link[base]{character}) package
+  \item (\link[base]{character}) version
+}}
 }
 \value{
-<\link[base]{data.frame}> with all non permitted packages based on version.
+(\link[base]{data.frame})\cr
+\enumerate{
+  \item (\link[base]{character}) package
+  \item (\link[base]{character}) version
+}
 }
 \description{
 Function to compare different versions.

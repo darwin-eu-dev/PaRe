@@ -11,15 +11,59 @@ checkDependencies(
 )
 }
 \arguments{
-\item{repo}{<\link[PaRe]{Repository}> object.}
+\item{repo}{(\link[PaRe]{Repository})\cr
+Repository object.}
 
-\item{dependencyType}{<\link[base]{character}> Types of dependencies to be included}
+\item{dependencyType}{(\link[base]{character})\cr
+Types of dependencies to be included}
 
-\item{verbose}{<\link[base]{logical}> TRUE or FALSE. If TRUE, progress will be reported.}
+\item{verbose}{(\link[base]{logical}: TRUE)
+TRUE or FALSE. If TRUE, progress will be reported.}
 }
 \value{
-<\link[base]{data.frame}> with all the packages that are now permitted.
+(\link[base]{data.frame})\cr
+Data frame with all the packages that are now permitted.
+
+\enumerate{
+  \item (\link[base]{character}) package
+  \item (\link[base]{character}) version
+}
 }
 \description{
 Check package dependencies
+}
+\examples{
+# Set cahce, usually not required.
+withr::local_envvar(
+  R_USER_CACHE_DIR = tempfile()
+)
+
+fetchedRepo <- tryCatch({
+  # Set dir to clone repository to.
+  tempDir <- tempdir()
+  pathToRepo <- file.path(tempDir, "glue")
+
+  # Clone repo
+  git2r::clone(
+    url = "https://github.com/tidyverse/glue.git",
+    local_path = pathToRepo)
+
+  # Create instance of Repository object.
+  repo <- PaRe::Repository$new(path = pathToRepo)
+
+  # Set fetchedRepo to TRUE if all goes well.
+  TRUE
+}, error = function(e) {
+  # Set fetchedRepo to FALSE if an error is encountered.
+  FALSE
+}, warning = function(w) {
+  # Set fetchedRepo to FALSE if a warning is encountered.
+  FALSE
+})
+
+if (fetchedRepo) {
+  # Use checkDependencies on the Repository object.
+  checkDependencies(repo)
+  checkDependencies(repo, dependencyType = c("Imports", "Suggests"))
+}
 }

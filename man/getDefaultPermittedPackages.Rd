@@ -7,12 +7,27 @@
 getDefaultPermittedPackages(base = TRUE)
 }
 \arguments{
-\item{base}{<\link[base]{logical}> if base package should be included}
+\item{base}{(\link[base]{logical}: TRUE)\cr
+\describe{
+  \item{TRUE}{Base packages will be included.}
+  \item{FALSE}{Base packages will be ignored.}
+}}
 }
 \value{
-<\link[dplyr]{tibble}> of two columns (package, version) with all 'allowed'
-packages.
+(\link[dplyr]{tibble})\cr
+\enumerate{
+  \item (\link[base]{character}) package
+  \item (\link[base]{character}) version
+}
 }
 \description{
-Gets permitted packages
+Gets permitted packages. An internet connection is required.
+}
+\examples{
+# Set cache
+withr::local_envvar(
+  R_USER_CACHE_DIR = tempfile()
+)
+
+getDefaultPermittedPackages()
 }
