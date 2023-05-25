@@ -94,7 +94,7 @@ write.csv(
 Before we start diving into the dependency usage of `glue` we should first establish what our dependency white list even looks like. We can retrieve our full list of whitelisted dependencies buy calling the `getDefaultPermittedPackages` function.
 
 ### getDefaultPermittedPackages
-```{r permittedPackages, message=FALSE, warning=FALSE}
+```{r permittedPackages, eval=FALSE, message=FALSE, warning=FALSE}
 PaRe::getDefaultPermittedPackages(base = TRUE)
 ```
 `getDefaultPermittedPackages` takes one parameter:
@@ -166,15 +166,6 @@ Not all suggested dependencies are approved. The function prints a message and r
 
 ### getGraphData
 glue depends on (suggested) dependencies. These dependencies in turn import other dependencies, and so on. We can investigate how these recursive dependencies depend on one another, by investigating it as a graph.
-```{r setupGraph, echo=FALSE}
-if (fetchedRepo) {
-  graphData <- PaRe::getGraphData(
-    repo = repo,
-    packageTypes = c("imports", "suggests")
-  )
-}
-```
-
 ```{r setupGraphShow, eval=FALSE}
 graphData <- PaRe::getGraphData(
   repo = repo,
@@ -183,18 +174,6 @@ graphData <- PaRe::getGraphData(
 ```
 
 We can compute several statistics about our dependency graph
-```{r graphCharacteristics, echo=FALSE}
-if (fetchedRepo) {
-  data.frame(
-    countVertices = length(igraph::V(graphData)),
-    countEdges = length(igraph::E(graphData)),
-    meanDegree = round(mean(igraph::degree(graphData)), 2),
-    meanDistance = round(mean(igraph::distances(graphData)), 2)
-  )
-}
-```
-
-
 ```{r graphCharacteristicsShow, eval=FALSE}
 data.frame(
   countVertices = length(igraph::V(graphData)),
@@ -209,13 +188,7 @@ data.frame(
 - **meanDistance**: is the average amount of dependencies between `glue` and all other recursive dependencies.
 
 We can then plot the graph.
-```{r plotGraph, echo=FALSE}
-if (fetchedRepo) {
-  plot(graphData)
-}
-```
-
-```{r plotGraphShow, eval=FALSE}
+```{r plotGraph, eval=FALSE}
 plot(graphData)
 ```
 
