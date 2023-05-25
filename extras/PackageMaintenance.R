@@ -30,6 +30,8 @@ pkgdown::build_site()
 # Release package -------------------------------------------------------------
 devtools::check_win_devel()
 
-devtools::check_rhub(build_args = "--compact-vignettes=gs+qpdf")
+# build_args = "--compact-vignettes=gs+qpdf"
+devtools::check_rhub(interactive = FALSE)
 
-devtools::release(args = "--compact-vignettes=gs+qpdf")
+# args = "--compact-vignettes=gs+qpdf"
+devtools::release()
