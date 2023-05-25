@@ -25,9 +25,9 @@
 #' getDefaultPermittedPackages()
 getDefaultPermittedPackages <- function(base = TRUE) {
   # Custom list
-  customWhiteList <- tryCatch(
+  tryCatch(
     {
-      dplyr::bind_rows(lapply(seq_len(nrow(whiteList)), function(i) {
+      customWhiteList <- dplyr::bind_rows(lapply(seq_len(nrow(whiteList)), function(i) {
         pkgs <- utils::read.table(
           file = unlist(whiteList[i, ]["link"]),
           sep = ",",
@@ -68,6 +68,7 @@ getDefaultPermittedPackages <- function(base = TRUE) {
       return(permittedPackages)
     },
     error = function(e) {
+      print(e)
       message(
         "Could not connect to the internet, online hosted whitelists will be ignored."
       )
