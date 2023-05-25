@@ -179,7 +179,7 @@ DT::datatable(data.frame(
   meanDegree = round(mean(igraph::degree(graphData)), 2),
   meanDistance = round(mean(igraph::distances(graphData)), 2)
   ),
-              rownames= FALSE)
+              rownames = FALSE)
 ```
 
 ### Function use per dependency
