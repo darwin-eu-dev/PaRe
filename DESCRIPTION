@@ -1,6 +1,6 @@
 Package: PaRe
 Type: Package
-Title: A way to perform code review or QA on other packages.
+Title: A Way to Perform Code Review or QA on Other Packages
 Version: 0.1.6
 Language: en-US
 Authors@R:
