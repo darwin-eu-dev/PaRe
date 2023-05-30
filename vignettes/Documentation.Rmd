@@ -176,9 +176,9 @@ graphData <- PaRe::getGraphData(
 ```{r setupGraph, echo=FALSE, warning=FALSE, message=FALSE}
 if (fetchedRepo) {
   graphData <- PaRe::getGraphData(
-  repo = repo,
-  packageTypes = c("imports", "suggests")
-)
+    repo = repo,
+    packageTypes = c("imports", "suggests")
+  )
 }
 ```
 
