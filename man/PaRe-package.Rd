@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Reviews other packages during code review by looking at their dependencies, code style, code complexity, and how interanlly defined functions interact with one another.
+Reviews other packages during code review by looking at their dependencies, code style, code complexity, and how internally defined functions interact with one another.
 }
 \author{
 \strong{Maintainer}: Maarten van Kessel \email{m.l.vankessel@erasmusmc.nl}

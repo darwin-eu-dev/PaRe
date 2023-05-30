@@ -54,7 +54,6 @@ getVersionDf
 grViz
 graphToDot
 hades
-interanlly
 lineEnd
 lineStart
 linkingto
@@ -87,3 +86,4 @@ tibble
 tidyverse
 versionCheck
 whiteList
+PaRe
