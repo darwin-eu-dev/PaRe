@@ -1,6 +1,6 @@
 Package: PaRe
 Type: Package
-Title: PaRe (Package Reviewer) is the Successor of the DependencyReviewer Package
+Title: A way to perform code review or QA on other packages.
 Version: 0.1.6
 Language: en-US
 Authors@R:
