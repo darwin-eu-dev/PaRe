@@ -41,13 +41,16 @@ getDefaultPermittedPackages <- function(base = TRUE) {
       basePackages <- NULL
       if (base) {
         # Get base packages
-        basePackages <- data.frame(utils::installed.packages(
-          lib.loc = .Library,
-          priority = "high"
-        )) %>%
-          dplyr::select("Package", "Built") %>%
-          dplyr::rename(package = "Package", version = "Built") %>%
-          dplyr::tibble()
+        basePackages <- dplyr::bind_rows(lapply(list.files(.Library), function(pkg) {
+          df <- packageDescription(pkg = pkg, fields = c("Package", "Version")) %>%
+            unlist()
+
+          dplyr::tibble(
+            package = df[1],
+            version = df[2],
+            row.names = NULL
+          )
+        }))
       }
 
       sourcePackages <- dplyr::bind_rows(
