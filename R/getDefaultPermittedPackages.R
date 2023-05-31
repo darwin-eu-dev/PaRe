@@ -51,7 +51,7 @@ getDefaultPermittedPackages <- function(base = TRUE) {
             row.names = NULL
           )
         })) %>%
-          dplyr::filter(package != "translations")
+          dplyr::filter(.data$package != "translations")
       }
 
       sourcePackages <- dplyr::bind_rows(
