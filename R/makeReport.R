@@ -1,19 +1,53 @@
 #' makeReport
 #'
-#' Uses rmarkdown's render function to render a html-report of the given
-#' package.
-#'
-#' @param repo
-#' <\link[PaRe]{Repository}> object.
-#' @param outputFile
-#' <\link[base]{character}> Path to html-file.
-#' @param showCode
-#' <\link[base]{logical}> Default: FALSE; Boolean to show code or not in the report.
+#' Uses rmarkdown's render function to render a html-report of the given package.
 #'
 #' @export
 #'
-#' @return
-#' `NULL`
+#' @param repo (\link[PaRe]{Repository})\cr
+#' Repository object.
+#' @param outputFile (\link[base]{character})\cr
+#' Path to html-file.
+#' @param showCode (\link[base]{logical}: FALSE)\cr
+#' Logical to show code or not in the report.
+#'
+#' @return (`NULL`)
+#'
+#' @examples
+#' \donttest{
+#' fetchedRepo <- tryCatch(
+#'   {
+#'     # Set dir to clone repository to.
+#'     tempDir <- tempdir()
+#'     pathToRepo <- file.path(tempDir, "glue")
+#'
+#'     # Clone repo
+#'     git2r::clone(
+#'       url = "https://github.com/darwin-eu/IncidencePrevalence.git",
+#'       local_path = pathToRepo
+#'     )
+#'
+#'     # Create instance of Repository object.
+#'     repo <- PaRe::Repository$new(path = pathToRepo)
+#'
+#'     # Set fetchedRepo to TRUE if all goes well.
+#'     TRUE
+#'   },
+#'   error = function(e) {
+#'     # Set fetchedRepo to FALSE if an error is encountered.
+#'     FALSE
+#'   },
+#'   warning = function(w) {
+#'     # Set fetchedRepo to FALSE if a warning is encountered.
+#'     FALSE
+#'   }
+#' )
+#'
+#' if (fetchedRepo) {
+#'   # Run makeReport on the Repository object.
+#'   makeReport(repo = repo, outputFile = tempfile())
+#' }
+#' }
 makeReport <- function(repo, outputFile, showCode = FALSE) {
   if (checkInstalled()) {
     outputFile <- normalizePath(outputFile, mustWork = FALSE)
@@ -26,7 +60,8 @@ makeReport <- function(repo, outputFile, showCode = FALSE) {
     rmarkdown::render(
       input = system.file(package = "PaRe", "rmd", "report.Rmd"),
       output_file = outputFile,
-      params = list(pkgName = pkgName, repo = repo, showCode = showCode))
+      params = list(pkgName = pkgName, repo = repo, showCode = showCode)
+    )
   }
 }
 
@@ -34,8 +69,8 @@ makeReport <- function(repo, outputFile, showCode = FALSE) {
 #'
 #' Checks if suggested packages are installed.
 #'
-#' @return
-#' <\link[base]{logical}> Boolean depending if suggested packages are installed.
+#' @return \link[base]{logical}\cr
+#' Logical depending if suggested packages are installed.
 checkInstalled <- function() {
   desc <- desc::description$new(package = "PaRe")
 
@@ -48,7 +83,8 @@ checkInstalled <- function() {
 
   if (any(!installed)) {
     cli::cli_alert_warning(glue::glue(
-      "The following packages are required but not installed: {cli::style_bold(paste0(reqs[!installed], collapse = ', '))}."))
+      "The following packages are required but not installed: {cli::style_bold(paste0(reqs[!installed], collapse = ', '))}."
+    ))
     return(FALSE)
   }
   return(TRUE)

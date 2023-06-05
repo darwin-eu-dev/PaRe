@@ -2,18 +2,24 @@
 % Please edit documentation in R/pkgDiagram.R
 \name{getFunsPerDefFun}
 \alias{getFunsPerDefFun}
-\title{Title}
+\title{getFunsPerDefFun}
 \usage{
 getFunsPerDefFun(files, defFuns)
 }
 \arguments{
-\item{files}{<\link[base]{list}> of <\link[PaRe]{File}> objects.}
+\item{files}{(\link[base]{list})\cr
+List of \link[PaRe]{File} objects.}
 
-\item{defFuns}{<\link[base]{data.frame}>}
+\item{defFuns}{(\link[base]{data.frame})\cr
+See \link[PaRe]{getDefinedFunctions}.}
 }
 \value{
-<\link[base]{data.frame}>
+\link[base]{data.frame}\tabular{ll}{
+   column \tab data type \cr
+   from \tab \link[base]{character} \cr
+   to \tab \link[base]{character} \cr
+}
 }
 \description{
-Title
+getFunsPerDefFun
 }

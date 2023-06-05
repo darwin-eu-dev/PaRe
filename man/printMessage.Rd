@@ -7,12 +7,16 @@
 printMessage(notPermitted, versionCheck)
 }
 \arguments{
-\item{notPermitted}{<[base]{data.frame}> notPermitted}
+\item{notPermitted}{([base]{data.frame})}
 
-\item{versionCheck}{<[base]{data.frame}> versionCheck}
+\item{versionCheck}{([base]{data.frame})}
 }
 \value{
-<\link[base]{data.frame}> or <\link[base]{NULL}>
+(\link[base]{data.frame})\tabular{ll}{
+   column \tab data type \cr
+   package \tab \link[base]{character} \cr
+   version \tab \link[base]{character} \cr
+}
 }
 \description{
 Prints messages dependening of the nrow of the number of rows of the

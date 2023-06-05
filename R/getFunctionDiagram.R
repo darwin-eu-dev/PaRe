@@ -1,10 +1,8 @@
 #' functionUseGraph
 #'
-#' @param repo
-#' <\link[PaRe]{Repository}> Repository object.
+#' @param repo (\link[PaRe]{Repository})
 #'
-#' @return
-#' <\link[igraph]{graph}> Graph object crated by \link[igraph]{graph_from_data_frame}.
+#' @return (\link[igraph]{graph})
 functionUseGraph <- function(repo) {
   defFuns <- PaRe::getDefinedFunctions(repo)
   rFiles <- repo$getRFiles()
@@ -14,11 +12,10 @@ functionUseGraph <- function(repo) {
 
 #' graphToDot
 #'
-#' @param graph
-#' <\link[igraph]{graph}> Graph object crated by \link[igraph]{graph_from_data_frame}.
+#' @param graph (\link[igraph]{graph})
 #'
-#' @return
-#' `htmlwidgets` Substted diagram. See \link[DiagrammeR]{grViz}.
+#' @return `htmlwidgets`\cr
+#' See \link[DiagrammeR]{grViz}.
 graphToDot <- function(graph) {
   # Set label because DiagrammeR expects label to be there
   igraph::V(graph)$label <- igraph::V(graph)$name
@@ -32,32 +29,73 @@ graphToDot <- function(graph) {
   dotLines <- c(
     dotLines[1:2],
     "graph [layout = dot, rankdir = LR]",
-    dotLines[-c(1:2)])
+    dotLines[-c(1:2)]
+  )
   return(DiagrammeR::grViz(dotLines))
 }
 
 #' subsetGraph
 #'
-#' @param repo
-#' <\link[PaRe]{Repository}> Repository object.
-#' @param functionName
-#' <\link[base]{character}> Name of function.
+#' Create a subset of the package diagram containing all in comming and out
+#' going paths from a specified function.
 #'
-#' @return
-#' `htmlwidgets` Substted diagram. See \link[DiagrammeR]{grViz}
 #' @export
+#'
+#' @param repo (\link[PaRe]{Repository})
+#' Repository object.
+#' @param functionName (\link[base]{character})
+#' Name of the function to get all paths from.
+#'
+#' @return (`htmlwidgets`)\cr
+#' Subsetted diagram. See \link[DiagrammeR]{grViz}
+#'
+#' @examples
+#' fetchedRepo <- tryCatch(
+#'   {
+#'     # Set dir to clone repository to.
+#'     tempDir <- tempdir()
+#'     pathToRepo <- file.path(tempDir, "glue")
+#'
+#'     # Clone repo
+#'     git2r::clone(
+#'       url = "https://github.com/tidyverse/glue.git",
+#'       local_path = pathToRepo
+#'     )
+#'
+#'     # Create instance of Repository object.
+#'     repo <- PaRe::Repository$new(path = pathToRepo)
+#'
+#'     # Set fetchedRepo to TRUE if all goes well.
+#'     TRUE
+#'   },
+#'   error = function(e) {
+#'     # Set fetchedRepo to FALSE if an error is encountered.
+#'     FALSE
+#'   },
+#'   warning = function(w) {
+#'     # Set fetchedRepo to FALSE if a warning is encountered.
+#'     FALSE
+#'   }
+#' )
+#'
+#' if (fetchedRepo) {
+#'   # Run getFunctionDiagram on the Repository object.
+#'   getFunctionDiagram(repo = repo, functionName = "glue")
+#' }
 getFunctionDiagram <- function(repo, functionName) {
   graph <- functionUseGraph(repo = repo)
 
   pathsIn <- igraph::all_simple_paths(
     graph = graph,
     from = functionName,
-    mode = "in")
+    mode = "in"
+  )
 
   pathsOut <- igraph::all_simple_paths(
     graph = graph,
     from = functionName,
-    mode = "out")
+    mode = "out"
+  )
 
   paths <- append(pathsIn, pathsOut)
 

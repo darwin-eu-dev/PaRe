@@ -1,10 +1,42 @@
+#' getMultiLineFun
+#'
+#' @param line (\link[base]{numeric})\cr
+#' Current line number.
+#' @param lines (\link[base]{c})\cr
+#' Vector of (\link[base]{character}) lines.
+#'
+#' @return (\link[base]{character})
+getMultiLineFun <- function(line, lines) {
+  nLine <- line
+
+  # Init
+  doCallVec <- c()
+  bracOpen <- 0
+  bracClose <- 0
+
+  while (bracOpen != bracClose || bracOpen < 1 && bracClose < 1) {
+    if (!is.na(lines[nLine])) {
+      bracOpen <- bracOpen + stringr::str_count(string = lines[nLine], pattern = "\\(")
+      bracClose <- bracClose + stringr::str_count(string = lines[nLine], pattern = "\\)")
+
+      doCallVec <- append(doCallVec, lines[nLine])
+    }
+    nLine <- nLine + 1
+
+    if (nLine > length(lines)) {
+      break
+    }
+  }
+  return(doCallVec)
+}
+
+
 #' getDlplyCallFromLines
 #'
-#' @param lines
-#' <\link[base]{c}> Vector of <\link[base]{character}>.
+#' @param lines (\link[base]{c})\cr
+#' Vector of (\link[base]{character}).
 #'
-#' @return
-#' <\link[base]{character}>.
+#' @return (\link[base]{character})
 getDlplyCallFromLines <- function(lines) {
   indices <- grep(pattern = "[plyr::]?dlply", lines)
   lapply(indices, function(index) {
@@ -21,13 +53,12 @@ getDlplyCallFromLines <- function(lines) {
 
 #' getDlplyCall
 #'
-#' @param fun
-#' <\link[PaRe]{Function}> Function object.
-#' @param defFuns
-#' <\link[base]{data.frame}>
+#' @param fun (\link[PaRe]{Function})\cr
+#' Function object.
+#' @param defFuns (\link[base]{data.frame})\cr
+#' See \link[PaRe]{getDefinedFunctions}
 #'
-#' @return
-#' <\link[base]{data.frame}>
+#' @return (\link[base]{data.frame})
 getDlplyCall <- function(fun, defFuns) {
   dlplyFuns <- getDlplyCallFromLines(fun$getLines())
   if (length(dlplyFuns) > 0) {
@@ -44,11 +75,10 @@ getDlplyCall <- function(fun, defFuns) {
 
 #' getApplyFromLines
 #'
-#' @param lines
-#' <\link[base]{c}> Vector of <\link[base]{character}>.
+#' @param lines (\link[base]{c})\cr
+#' Vector of (\link[base]{character}). See \link[PaRe]{getDefinedFunctions}
 #'
-#' @return
-#' <\link[base]{character}>.
+#' @return (\link[base]{character})
 getApplyFromLines <- function(lines) {
   pattern <- "[\\w+]?[Aa]pply\\("
   indices <- grep(pattern, lines)
@@ -81,13 +111,12 @@ getApplyFromLines <- function(lines) {
 
 #' getApplyCall
 #'
-#' @param fun
-#' <\link[PaRe]{Function}> Function object.
-#' @param defFuns
-#' <\link[base]{data.frame}>
+#' @param fun (\link[PaRe]{Function})\cr
+#' Function object.
+#' @param defFuns (\link[base]{data.frame})\cr
+#' See \link[PaRe]{getDefinedFunctions}
 #'
-#' @return
-#' <\link[base]{data.frame}>
+#' @return (\link[base]{data.frame})
 getApplyCall <- function(fun, defFuns) {
   applyFuns <- getApplyFromLines(fun$getLines())
   if (length(applyFuns) > 0) {
@@ -104,11 +133,10 @@ getApplyCall <- function(fun, defFuns) {
 
 #' getDoCallFromLines
 #'
-#' @param lines
-#' <\link[base]{c}> Vector of <\link[base]{character}>.
+#' @param lines (\link[base]{c})\cr
+#' Vector of (\link[base]{character}). See \link[PaRe]{getDefinedFunctions}
 #'
-#' @return
-#' <\link[base]{character}>.
+#' @return (\link[base]{character})
 getDoCallFromLines <- function(lines) {
   pattern <- "do\\.call\\("
   indices <- grep(pattern, lines)
@@ -132,13 +160,12 @@ getDoCallFromLines <- function(lines) {
 
 #' getDoCall
 #'
-#' @param fun
-#' <\link[PaRe]{Function}> Function object.
-#' @param defFuns
-#' <\link[base]{data.frame}>
+#' @param fun (\link[PaRe]{Function})\cr
+#' Function object.
+#' @param defFuns (\link[base]{data.frame})\cr
+#' See \link[PaRe]{getDefinedFunctions}
 #'
-#' @return
-#' <\link[base]{data.frame}>
+#' @return (\link[base]{data.frame})
 getDoCall <- function(fun, defFuns) {
   dcFuns <- getDoCallFromLines(fun$getLines())
   if (length(dcFuns) > 0) {
@@ -155,13 +182,12 @@ getDoCall <- function(fun, defFuns) {
 
 #' getFunCall
 #'
-#' @param fun
-#' <\link[PaRe]{Function}> Function object.
-#' @param defFuns
-#' <\link[base]{data.frame}>
+#' @param fun (\link[PaRe]{Function})\cr
+#' Function object.
+#' @param defFuns (\link[base]{data.frame})\cr
+#' See \link[PaRe]{getDefinedFunctions}.
 #'
-#' @return
-#' <\link[base]{data.frame}>
+#' @return (\link[base]{data.frame})
 getFunCall <- function(fun, defFuns) {
   lapply(defFuns$name, function(name) {
     indices <- grep(paste0("[^a-zA-Z\\.\\d]", name, "\\("), fun$getLines())

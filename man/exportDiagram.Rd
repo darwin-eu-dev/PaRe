@@ -7,13 +7,51 @@
 exportDiagram(diagram, fileName)
 }
 \arguments{
-\item{diagram}{<\link[DiagrammeR]{grViz}> Graph object from the `pkgDiagram` function.}
+\item{diagram}{(\link[DiagrammeR]{grViz})\cr
+Graph object from \link[PaRe]{pkgDiagram}.}
 
-\item{fileName}{<\link[base]{character}> Path to file, where to save the diagram to.}
+\item{fileName}{(\link[base]{character})\cr
+Path to save the diagram to, as PDF.}
 }
 \value{
-`NULL`
+(\code{NULL})
 }
 \description{
-Exports the diagram from `pkgDiagram` to a PDF-file.
+Exports the diagram from \code{pkgDiagram} to a PDF-file.
+}
+\examples{
+fetchedRepo <- tryCatch(
+  {
+    # Set dir to clone repository to.
+    tempDir <- tempdir()
+    pathToRepo <- file.path(tempDir, "glue")
+
+    # Clone repo
+    git2r::clone(
+      url = "https://github.com/tidyverse/glue.git",
+      local_path = pathToRepo
+    )
+
+    # Create instance of Repository object.
+    repo <- PaRe::Repository$new(path = pathToRepo)
+
+    # Set fetchedRepo to TRUE if all goes well.
+    TRUE
+  },
+  error = function(e) {
+    # Set fetchedRepo to FALSE if an error is encountered.
+    FALSE
+  },
+  warning = function(w) {
+    # Set fetchedRepo to FALSE if a warning is encountered.
+    FALSE
+  }
+)
+
+if (fetchedRepo) {
+  # Run pkgDiagram on the Repository object.
+  pkgDiagram(repo = repo) \%>\%
+    # Export the diagram to a temp file.
+    exportDiagram(fileName = tempfile())
+}
 }

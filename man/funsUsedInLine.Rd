@@ -7,17 +7,21 @@
 funsUsedInLine(lines, name, i, verbose = FALSE)
 }
 \arguments{
-\item{lines}{<\link[base]{c}> of <\link[base]{character}>}
+\item{lines}{(\link[base]{c}) of (\link[base]{character})}
 
-\item{name}{<\link[base]{character}>}
+\item{name}{(\link[base]{character})}
 
-\item{i}{<\link[base]{numeric}> line}
+\item{i}{(\link[base]{numeric})}
 
-\item{verbose}{<\link[base]{logical}> Prints message when no function found}
+\item{verbose}{(\link[base]{logical}: FALSE)}
 }
 \value{
-<\link[base]{data.frame}> of 3 colums: Package (pkg); Function (fun); Line
-in script (line)
+(\link[base]{data.frame})\tabular{ll}{
+   column \tab data type \cr
+   pkg \tab \link[base]{character} \cr
+   fun \tab \link[base]{character} \cr
+   line \tab \link[base]{numeric} \cr
+}
 }
 \description{
 Support function for funsUsedInFile.

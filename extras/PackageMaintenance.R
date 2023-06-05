@@ -14,37 +14,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Format and check code --------------------------------------------------------
+# Package version -------------------------------------------------------------
+file.edit("DESCRIPTION")
+file.edit("NEWS.md")
+
+# Format and check code -------------------------------------------------------
 styler::style_pkg()
 OhdsiRTools::checkUsagePackage("DependencyReviewer")
 OhdsiRTools::updateCopyrightYearFolder()
 devtools::spell_check()
 
-# Create manual and vignettes --------------------------------------------------
-unlink("extras/DependencyReviewer.pdf")
-shell("R CMD Rd2pdf ./ --output=extras/DependencyReviewer.pdf")
-
-dir.create("inst/doc")
-rmarkdown::render("vignettes/Documentation.Rmd",
-                  output_file = "../inst/doc/Documentation.pdf",
-                  rmarkdown::pdf_document(latex_engine = "xelatex",
-                                          toc = TRUE,
-                                          number_sections = TRUE))
-# Compress
-tools::compactPDF(paths = "inst/doc/Documentation.pdf", gs_quality = "ebook")
-
-unlink("inst/doc/Documentation.tex")
+# Create manual and vignettes -------------------------------------------------
+unlink("extras/PaRe.pdf")
+shell("R CMD Rd2pdf ./ --output=extras/PaRe.pdf --no-clean")
 
 pkgdown::build_site()
-OhdsiRTools::fixHadesLogo()
 
-# Store JAR checksum -----------------------------------------------------------
-# checksum <- rJava::J("org.ohdsi.sql.JarChecksum", "computeJarChecksum")
-# write(checksum, file.path("inst", "csv", "jarChecksum.txt"))
-
-# Release package --------------------------------------------------------------
+# Release package -------------------------------------------------------------
 devtools::check_win_devel()
+devtools::check_win_release()
+devtools::check_win_oldrelease()
 
-devtools::check_rhub(build_args = "--compact-vignettes=gs+qpdf")
+# build_args = "--compact-vignettes=gs+qpdf"
+devtools::check_rhub(interactive = FALSE)
 
-devtools::release(args = "--compact-vignettes=gs+qpdf")
+# args = "--compact-vignettes=gs+qpdf"
+devtools::release()

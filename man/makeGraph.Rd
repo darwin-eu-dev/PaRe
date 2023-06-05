@@ -7,16 +7,20 @@
 makeGraph(funsPerDefFun, pkgName, expFuns, ...)
 }
 \arguments{
-\item{funsPerDefFun}{<\link[base]{data.frame}> Functions per defined function data.frame.}
+\item{funsPerDefFun}{(\link[base]{data.frame})\cr
+Functions per defined function data.frame.}
 
-\item{pkgName}{<\link[base]{character}> Name of package.}
+\item{pkgName}{(\link[base]{character})\cr
+Name of package.}
 
-\item{expFuns}{<\link[base]{data.frame}> Exported functinos data.frame.}
+\item{expFuns}{(\link[base]{data.frame})\cr
+Exported functinos data.frame.}
 
 \item{...}{Optional other parameters for \link[DiagrammeR]{grViz}.}
 }
 \value{
-<`htmlwidget`> Diagram of the package. See \link[DiagrammeR]{grViz}.
+(\code{htmlwidget})\cr
+Diagram of the package. See \link[DiagrammeR]{grViz}.
 }
 \description{
 Makes the graph

@@ -6,6 +6,13 @@
 \description{
 Class representing a piece of code.
 }
+\seealso{
+Other Representations: 
+\code{\link{File}},
+\code{\link{Function}},
+\code{\link{Repository}}
+}
+\concept{Representations}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -29,14 +36,16 @@ Initializer method
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{name}}{<\link[base]{character}> Name of Code object.}
+\item{\code{name}}{(\link[base]{character})\cr
+Name of Code object.}
 
-\item{\code{lines}}{<\link[base]{character}> Vector of lines Code object.}
+\item{\code{lines}}{(\link[base]{character})\cr
+Vector of lines Code object.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-`invisible(self)`
+\code{invisible(self)}
 }
 }
 \if{html}{\out{<hr>}}
@@ -51,13 +60,12 @@ Overload generic print, to print Code object.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{further arguments passed to or from other methods.
-See \link[base]{print}.}
+\item{\code{...}}{further arguments passed to or from other methods. See \link[base]{print}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-<[base]{character}>
+([base]{character})
 }
 }
 \if{html}{\out{<hr>}}
@@ -70,7 +78,8 @@ Get method for lines.
 }
 
 \subsection{Returns}{
-<\link[base]{character}> Vector of lines in the Code object.
+(\link[base]{character})\cr
+Vector of lines in the Code object.
 }
 }
 \if{html}{\out{<hr>}}
@@ -83,7 +92,8 @@ Get method for number of lines.
 }
 
 \subsection{Returns}{
-<\link[base]{numeric}> Number of lines in the Code object.
+(\link[base]{numeric})
+Number of lines in the Code object.
 }
 }
 \if{html}{\out{<hr>}}
@@ -96,7 +106,8 @@ Get method for Name.
 }
 
 \subsection{Returns}{
-<\link[base]{character}> name of the Code object.
+(\link[base]{character})\cr
+Name of the Code object.
 }
 }
 \if{html}{\out{<hr>}}

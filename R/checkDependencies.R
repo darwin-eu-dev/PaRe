@@ -3,31 +3,31 @@
 #' Prints messages dependening of the nrow of the number of rows of the
 #' notPermitted and versionCheck data.frames
 #'
-#' @param notPermitted
-#' <[base]{data.frame}> notPermitted
-#' @param versionCheck
-#' <[base]{data.frame}> versionCheck
+#' @param notPermitted ([base]{data.frame})
+#' @param versionCheck ([base]{data.frame})
 #'
-#' @return
-#' <\link[base]{data.frame}> or <\link[base]{NULL}>
+#' @return (\link[base]{data.frame})
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
 printMessage <- function(notPermitted, versionCheck) {
   if (nrow(notPermitted) > 0) {
-    cli::cli_alert(glue::glue(
-      cli::col_red("The following are not permitted: {cli::style_bold(paste0(notPermitted$package, collapse = ', '))}")))
-    cli::cli_alert(glue::glue(
-      "Please open an issue here: {cli::style_bold('https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues')}"
-    ))
+    message(
+      glue::glue(
+        "The following are not permitted: {cli::style_bold(paste0(notPermitted$package, collapse = ', '))}\n",
+        "Please open an issue here: {cli::style_bold('https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues')}"
+      )
+    )
     return(notPermitted)
   } else if (nrow(versionCheck) > 0) {
-    cli::cli_alert(glue::glue(
-      "The following versions are not of the right version: {cli::col_yellow(paste0(versionCheck$package, collapse = ', '))}"))
-    cli::cli_alert(glue::glue(
+    message(glue::glue(
+      "The following versions are not of the right version: {cli::col_yellow(paste0(versionCheck$package, collapse = ', '))}\n",
       "Please open an issue here: {cli::style_bold('https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues')}"
     ))
     return(versionCheck)
   } else {
-    cli::cli_alert(cli::col_green(cli::style_bold(
-      "All dependencies are approved.")))
+    message("All dependencies are approved.")
     return(NULL)
   }
 }
@@ -36,13 +36,22 @@ printMessage <- function(notPermitted, versionCheck) {
 #'
 #' Function to compare different versions.
 #'
-#' @param dependencies
-#' <\link[base]{data.frame}> All dependencies of he package.
-#' @param permittedPackages
-#' <\link[base]{data.frame}> of all permitted packages.
+#' @param dependencies (\link[base]{data.frame})
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
+#' @param permittedPackages (\link[base]{data.frame})
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
 #'
-#' @return
-#' <\link[base]{data.frame}> with all non permitted packages based on version.
+#' @return (\link[base]{data.frame})
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
 getVersionDf <- function(dependencies, permittedPackages) {
   permitted <- dependencies %>%
     dplyr::filter(.data$package %in% permittedPackages$package)
@@ -53,31 +62,80 @@ getVersionDf <- function(dependencies, permittedPackages) {
     dplyr::arrange(.data$package)
 
   permittedPackages <- permittedPackages[
-    permittedPackages$package %in% permitted$package, ] %>%
+    permittedPackages$package %in% permitted$package,
+  ] %>%
     dplyr::arrange(.data$package)
 
   df <- cbind(
     permittedPackages,
-    allowed = permitted$version)
+    allowed = permitted$version
+  )
 
   return(df[
-    !as.numeric_version(df$version) >= as.numeric_version(df$allowed), ])
+    !as.numeric_version(df$version) >= as.numeric_version(df$allowed),
+  ])
 }
 
 #' checkDependencies
 #'
 #' Check package dependencies
 #'
-#' @param repo
-#' <\link[PaRe]{Repository}> object.
-#' @param dependencyType
-#' <\link[base]{character}> Types of dependencies to be included
-#' @param verbose
-#' <\link[base]{logical}> TRUE or FALSE. If TRUE, progress will be reported.
-#'
-#' @return
-#' <\link[base]{data.frame}> with all the packages that are now permitted.
 #' @export
+#'
+#' @param repo (\link[PaRe]{Repository})\cr
+#' Repository object.
+#' @param dependencyType (\link[base]{character})\cr
+#' Types of dependencies to be included
+#' @param verbose (\link[base]{logical}: TRUE)
+#' TRUE or FALSE. If TRUE, progress will be reported.
+#'
+#' @return (\link[base]{data.frame})\cr
+#' Data frame with all the packages that are now permitted.
+
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | \link[base]{character} |
+#' | version | \link[base]{character} |
+#'
+#' @examples
+#' # Set cahce, usually not required.
+#' withr::local_envvar(
+#'   R_USER_CACHE_DIR = tempfile()
+#' )
+#'
+#' fetchedRepo <- tryCatch(
+#'   {
+#'     # Set dir to clone repository to.
+#'     tempDir <- tempdir()
+#'     pathToRepo <- file.path(tempDir, "glue")
+#'
+#'     # Clone repo
+#'     git2r::clone(
+#'       url = "https://github.com/tidyverse/glue.git",
+#'       local_path = pathToRepo
+#'     )
+#'
+#'     # Create instance of Repository object.
+#'     repo <- PaRe::Repository$new(path = pathToRepo)
+#'
+#'     # Set fetchedRepo to TRUE if all goes well.
+#'     TRUE
+#'   },
+#'   error = function(e) {
+#'     # Set fetchedRepo to FALSE if an error is encountered.
+#'     FALSE
+#'   },
+#'   warning = function(w) {
+#'     # Set fetchedRepo to FALSE if a warning is encountered.
+#'     FALSE
+#'   }
+#' )
+#'
+#' if (fetchedRepo) {
+#'   # Use checkDependencies on the Repository object.
+#'   checkDependencies(repo)
+#'   checkDependencies(repo, dependencyType = c("Imports", "Suggests"))
+#' }
 checkDependencies <- function(
     repo,
     dependencyType = c("Imports", "Depends"),
@@ -93,9 +151,10 @@ checkDependencies <- function(
 
   dependencies$version <- stringr::str_remove(
     string = dependencies$version,
-    pattern = "[\\s>=<]+")
+    pattern = "[\\s>=<]+"
+  )
 
-  if (isTRUE(verbose)){
+  if (isTRUE(verbose)) {
     permittedPackages <- getDefaultPermittedPackages()
   } else {
     suppressMessages(
@@ -113,5 +172,6 @@ checkDependencies <- function(
 
   return(printMessage(
     notPermitted,
-    getVersionDf(dependencies, permittedPackages)))
+    getVersionDf(dependencies, permittedPackages)
+  ))
 }

@@ -7,11 +7,54 @@
 lintRepo(repo)
 }
 \arguments{
-\item{repo}{<\link[PaRe]{Repository}> object.}
+\item{repo}{(\link[PaRe]{Repository})}
 }
 \value{
-<\link[base]{data.frame}> containing lint messages.
+(\link[base]{data.frame})\tabular{lll}{
+   column \tab data type \tab description \cr
+   filename \tab \link[base]{character} \tab Name of the file \cr
+   line_number \tab \link[base]{double} \tab Line in which the message was found \cr
+   column_number \tab \link[base]{double} \tab Column in which the message was found \cr
+   type \tab \link[base]{character} \tab Type of message \cr
+   message \tab \link[base]{character} \tab Style, warning, or error message \cr
+   line \tab \link[base]{character} \tab Line of code in which the message was found \cr
+   linter \tab \link[base]{character} \tab Linter used \cr
+}
 }
 \description{
-lintRepo
+Get all the lintr messages of the \link[PaRe]{Repository} object.
+}
+\examples{
+fetchedRepo <- tryCatch(
+  {
+    # Set dir to clone repository to.
+    tempDir <- tempdir()
+    pathToRepo <- file.path(tempDir, "glue")
+
+    # Clone repo
+    git2r::clone(
+      url = "https://github.com/tidyverse/glue.git",
+      local_path = pathToRepo
+    )
+
+    # Create instance of Repository object.
+    repo <- PaRe::Repository$new(path = pathToRepo)
+
+    # Set fetchedRepo to TRUE if all goes well.
+    TRUE
+  },
+  error = function(e) {
+    # Set fetchedRepo to FALSE if an error is encountered.
+    FALSE
+  },
+  warning = function(w) {
+    # Set fetchedRepo to FALSE if a warning is encountered.
+    FALSE
+  }
+)
+
+if (fetchedRepo) {
+  # Run lintRepo on the Repository object.
+  messages <- lintRepo(repo = repo)
+}
 }

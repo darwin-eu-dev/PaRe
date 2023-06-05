@@ -7,10 +7,11 @@
 getDlplyCallFromLines(lines)
 }
 \arguments{
-\item{lines}{<\link[base]{c}> Vector of <\link[base]{character}>.}
+\item{lines}{(\link[base]{c})\cr
+Vector of (\link[base]{character}).}
 }
 \value{
-<\link[base]{character}>.
+(\link[base]{character})
 }
 \description{
 getDlplyCallFromLines

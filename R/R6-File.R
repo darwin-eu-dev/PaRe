@@ -3,6 +3,48 @@
 #'
 #' @description
 #' Class representing a file containing code.
+#'
+#' @export
+#'
+#' @include
+#' R6-Code.R
+#'
+#' @family
+#' Representations
+#'
+#' @examples
+#' fetchedRepo <- tryCatch(
+#'   {
+#'     # Set dir to clone repository to.
+#'     tempDir <- tempdir()
+#'     pathToRepo <- file.path(tempDir, "glue")
+#'
+#'     # Clone repo
+#'     git2r::clone(
+#'       url = "https://github.com/tidyverse/glue.git",
+#'       local_path = pathToRepo
+#'     )
+#'
+#'     # Create instance of Repository object.
+#'     repo <- PaRe::Repository$new(path = pathToRepo)
+#'
+#'     # Set fetchedRepo to TRUE if all goes well.
+#'     TRUE
+#'   },
+#'   error = function(e) {
+#'     # Set fetchedRepo to FALSE if an error is encountered.
+#'     FALSE
+#'   },
+#'   warning = function(w) {
+#'     # Set fetchedRepo to FALSE if a warning is encountered.
+#'     FALSE
+#'   }
+#' )
+#'
+#' if (fetchedRepo) {
+#'   files <- repo$getRFiles()
+#'   files[[1]]
+#' }
 File <- R6::R6Class(
   classname = "File",
   inherit = Code,
@@ -11,12 +53,12 @@ File <- R6::R6Class(
     #' @description
     #' Initializer method
     #'
-    #' @param repoPath
-    #' <\link[base]{character}> Path to repository.
-    #' @param filePath
-    #' <\link[base]{character}> Relative path to file
-    #' @return
-    #' `invisible(self)`
+    #' @param repoPath (\link[base]{character})\cr
+    #' Path to repository.
+    #' @param filePath (\link[base]{character})\cr
+    #' Relative path to file
+    #'
+    #' @return `invisible(self)`
     initialize = function(repoPath, filePath) {
       private$repoPath <- repoPath
       private$filePath <- filePath
@@ -38,8 +80,8 @@ File <- R6::R6Class(
     #' @description
     #' Get method to get a list of Function objects
     #'
-    #' @return
-    #' <\link[base]{list}> of \link[PaRe]{Function} objects.
+    #' @return (\link[base]{list})\cr
+    #' List of \link[PaRe]{Function} objects.
     getFunctions = function() {
       return(private$functions)
     },
@@ -47,8 +89,14 @@ File <- R6::R6Class(
     #' @description
     #' Get method to retrieve the function table.
     #'
-    #' @return
-    #' <\link[base]{data.frame}>
+    #' @return (\link[base]{data.frame})
+    #' |    column |              data type |
+    #' | --------- | ---------------------- |
+    #' |      name | \link[base]{character} |
+    #' | lineStart |   \link[base]{integer} |
+    #' |   lineEnd |   \link[base]{numeric} |
+    #' |     nArgs |   \link[base]{integer} |
+    #' | cycloComp |   \link[base]{integer} |
     getFunctionTable = function() {
       return(private$functionTable)
     },
@@ -56,8 +104,7 @@ File <- R6::R6Class(
     #' @description
     #' Gets type of file
     #'
-    #' @return
-    #' <\link[base]{character}>
+    #' @return (\link[base]{character})
     getType = function() {
       return(private$type)
     },
@@ -65,8 +112,7 @@ File <- R6::R6Class(
     #' @description
     #' Gets relative file path
     #'
-    #' @return
-    #' <\link[base]{character}>
+    #' @return (\link[base]{character})
     getFilePath = function() {
       return(private$filePath)
     },
@@ -74,8 +120,7 @@ File <- R6::R6Class(
     #' @description
     #' Gets table of git blame
     #'
-    #' @return
-    #' <\link[dplyr]{tibble}>
+    #' @return (\link[dplyr]{tibble})
     getBlameTable = function() {
       return(private$blameTable)
     }
@@ -90,7 +135,6 @@ File <- R6::R6Class(
     fileFunctions = NULL,
     functionTable = NULL,
     blameTable = NULL,
-
     validate = function() {
       path <- normalizePath(file.path(private$repoPath, private$filePath))
 
@@ -99,7 +143,6 @@ File <- R6::R6Class(
       checkmate::reportAssertions(collection = errorMessages)
       return(invisible(self))
     },
-
     gitBlame = function() {
       b <- git2r::blame(repo = private$repoPath, path = private$filePath)
       private$blameTable <- lapply(b$hunks, function(hunk) {
@@ -115,37 +158,36 @@ File <- R6::R6Class(
         dplyr::tibble()
       return(invisible(self))
     },
-
     fetchDefinedFunctions = function() {
       funStart <- grep(
         pattern = "\\w+[ ]?<\\-[ ]?function\\(",
-        x = private$lines)
+        x = private$lines
+      )
 
       funConstructor <- private$lines[funStart]
       funNames <- stringr::str_extract(string = funConstructor, pattern = "[\\w\\d\\.]+")
 
       private$functions <- lapply(X = seq_len(length(funStart)), FUN = function(i) {
-          fun <- private$getBodyIndices(line = funStart[i])
+        fun <- private$getBodyIndices(line = funStart[i])
 
-          # Create Function object
-          funObj <- Function$new(
-            name = funNames[i],
-            lineStart = fun$constructorStart,
-            lineEnd = fun$bodyEnd,
-            lines = private$lines[fun$constructorStart:fun$bodyEnd]
-          )
+        # Create Function object
+        funObj <- Function$new(
+          name = funNames[i],
+          lineStart = fun$constructorStart,
+          lineEnd = fun$bodyEnd,
+          lines = private$lines[fun$constructorStart:fun$bodyEnd]
+        )
 
-          # Update functionTable
-          private$functionTable <- dplyr::bind_rows(
-            private$functionTable,
-            funObj$getFunction()
-          )
+        # Update functionTable
+        private$functionTable <- dplyr::bind_rows(
+          private$functionTable,
+          funObj$getFunction()
+        )
 
-          return(funObj)
-        })
+        return(funObj)
+      })
       return(invisible(self))
     },
-
     getBetween = function(line, patOpen, patClosed) {
       stop <- FALSE
       lineEnd <- line
@@ -168,7 +210,6 @@ File <- R6::R6Class(
         end = lineEnd
       ))
     },
-
     getBodyIndices = function(line) {
       # Parameters
       switchOff <- TRUE
@@ -176,12 +217,14 @@ File <- R6::R6Class(
       constructor <- private$getBetween(
         line = line,
         patOpen = "\\(",
-        patClosed = "\\)")
+        patClosed = "\\)"
+      )
 
       body <- private$getBetween(
         line = constructor$end,
         patOpen = "\\{",
-        patClosed = "\\}")
+        patClosed = "\\}"
+      )
 
       return(data.frame(
         constructorStart = constructor$start,
@@ -190,7 +233,6 @@ File <- R6::R6Class(
         bodyEnd = body$end
       ))
     },
-
     goToBody = function(line) {
       startFun <- FALSE
       bodyLine <- line
@@ -210,7 +252,6 @@ File <- R6::R6Class(
       }
       return(bodyLine)
     },
-
     commentSwitch = function() {
       return(
         switch(

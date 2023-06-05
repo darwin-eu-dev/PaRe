@@ -7,14 +7,55 @@
 getFunctionUse(repo, verbose = FALSE)
 }
 \arguments{
-\item{repo}{<\link[PaRe]{Repository}> object.}
+\item{repo}{(\link[PaRe]{Repository})\cr
+Repository object.}
 
-\item{verbose}{<\link[base]{logical}> Default: FALSE; prints message to console which file is
-currently being worked on.}
+\item{verbose}{(\link[base]{logical}: FALSE)\cr
+Prints message to console which file is currently being worked on.}
 }
 \value{
-<\[dplyr]{tibble}>
+(\link[dplyr]{tibble})\tabular{ll}{
+   column \tab data type \cr
+   file \tab \link[base]{character} \cr
+   line \tab \link[base]{numeric} \cr
+   pkg \tab \link[base]{character} \cr
+   fun \tab \link[base]{character} \cr
+}
 }
 \description{
-Summarise functions used in R package
+Summarise functions used in R package.
+}
+\examples{
+fetchedRepo <- tryCatch(
+  {
+    # Set dir to clone repository to.
+    tempDir <- tempdir()
+    pathToRepo <- file.path(tempDir, "glue")
+
+    # Clone repo
+    git2r::clone(
+      url = "https://github.com/tidyverse/glue.git",
+      local_path = pathToRepo
+    )
+
+    # Create instance of Repository object.
+    repo <- PaRe::Repository$new(path = pathToRepo)
+
+    # Set fetchedRepo to TRUE if all goes well.
+    TRUE
+  },
+  error = function(e) {
+    # Set fetchedRepo to FALSE if an error is encountered.
+    FALSE
+  },
+  warning = function(w) {
+    # Set fetchedRepo to FALSE if a warning is encountered.
+    FALSE
+  }
+)
+
+if (fetchedRepo) {
+  # Run getFunctionUse on the Repository object.
+  getFunctionUse(repo = repo, verbose = TRUE)
+}
 }

@@ -1,7 +1,11 @@
 #' @title
 #' R6 Code class
+#'
 #' @description
 #' Class representing a piece of code.
+#'
+#' @family
+#' Representations
 Code <- R6::R6Class(
   classname = "Code",
   # Public ----
@@ -9,13 +13,12 @@ Code <- R6::R6Class(
     #' @description
     #' Initializer method
     #'
-    #' @param name
-    #' <\link[base]{character}> Name of Code object.
-    #' @param lines
-    #' <\link[base]{character}> Vector of lines Code object.
+    #' @param name (\link[base]{character})\cr
+    #' Name of Code object.
+    #' @param lines (\link[base]{character})\cr
+    #' Vector of lines Code object.
     #'
-    #' @return
-    #' `invisible(self)`
+    #' @return `invisible(self)`
     initialize = function(name, lines) {
       private$name <- name
       private$lines <- lines
@@ -27,28 +30,28 @@ Code <- R6::R6Class(
     #' Overload generic print, to print Code object.
     #'
     #' @param ...
-    #' further arguments passed to or from other methods.
-    #' See \link[base]{print}.
+    #' further arguments passed to or from other methods. See \link[base]{print}.
     #'
-    #' @return <[base]{character}>
+    #' @return ([base]{character})
     print = function(...) {
       classTypes <- class(self)
       classTypes <- paste0(glue::glue("<{classTypes}>"), collapse = " ")
 
       cat(
         glue::glue(
-        "{classTypes}
+          "{classTypes}
         Name: {private$name}
         # Lines: {private$nLines}
-        ")
+        "
+        )
       )
     },
 
     #' @description
     #' Get method for lines.
     #'
-    #' @return
-    #' <\link[base]{character}> Vector of lines in the Code object.
+    #' @return (\link[base]{character})\cr
+    #' Vector of lines in the Code object.
     getLines = function() {
       return(private$lines)
     },
@@ -56,8 +59,8 @@ Code <- R6::R6Class(
     #' @description
     #' Get method for number of lines.
     #'
-    #' @return
-    #' <\link[base]{numeric}> Number of lines in the Code object.
+    #' @return (\link[base]{numeric})
+    #' Number of lines in the Code object.
     getNLines = function() {
       return(private$nLines)
     },
@@ -65,8 +68,8 @@ Code <- R6::R6Class(
     #' @description
     #' Get method for Name.
     #'
-    #' @return
-    #' <\link[base]{character}> name of the Code object.
+    #' @return (\link[base]{character})\cr
+    #' Name of the Code object.
     getName = function() {
       return(private$name)
     }

@@ -1,125 +1,18 @@
-#' getMultiLineFun
-#'
-#' @param line
-#' <\link[base]{numeric}> Current line number.
-#' @param lines
-#' <\link[base]{c}> of <\link[base]{character}> lines.
-#'
-#' @return
-#' <\link[base]{character}>
-getMultiLineFun <- function(line, lines) {
-  nLine <- line
-
-  # Init
-  doCallVec <- c()
-  bracOpen <- 0
-  bracClose <- 0
-
-  while (bracOpen != bracClose || bracOpen < 1 && bracClose < 1) {
-    if (!is.na(lines[nLine])) {
-      bracOpen <- bracOpen + stringr::str_count(string = lines[nLine], pattern = "\\(")
-      bracClose <- bracClose + stringr::str_count(string = lines[nLine], pattern = "\\)")
-
-      doCallVec <- append(doCallVec, lines[nLine])
-    }
-    nLine <- nLine + 1
-
-    if (nLine > length(lines)) {
-      break
-    }
-  }
-  return(doCallVec)
-}
-
-#' getDlply
-#'
-#' @param line
-#' <\link[base]{numeric}> Current line number.
-#' @param lines
-#' <\link[base]{c}> of <\link[base]{character}> lines.
-#'
-#' @return
-#' <\link[base]{c}> of <\link[base]{character}> of functions found in
-#' \link[plyr]{dlply} function call.
-getDlply <- function(line, lines) {
-  funVec <- paste0(getMultiLineFun(line, lines), collapse = "")
-
-  fun <- unlist(stringr::str_remove_all(string = funVec, pattern = "\\s"))
-  fun <- unlist(stringr::str_split(fun, "dlply"))[2]
-  fun <- unlist(stringr::str_split(fun, ","))[4]
-  fun <- unlist(stringr::str_extract(fun, "\\=\\w+"))
-  fun <- unlist(stringr::str_extract(fun, "\\w+"))
-
-  return(fun)
-}
-
-
-#' getApplyFun
-#'
-#' @param line
-#' <\link[base]{numeric}> Current line number.
-#' @param lines
-#' <\link[base]{c}> of <\link[base]{character}> lines.
-#'
-#' @return
-#' <\link[base]{c}> of <\link[base]{character}> of functions found in
-#' \link[base]{apply} function call.
-getApplyFun <- function(line, lines) {
-  applyVec <- getMultiLineFun(line, lines)
-
-  applyFun <- unlist(stringr::str_split(
-    string = paste0(applyVec, collapse = ""),
-    pattern = "[\\w]+?[Aa]pply"))[2]
-
-  applyFun <- applyFun[!stringr::str_detect(string = applyFun, pattern = "function[ ]?\\(")]
-  applyFun <- unlist(stringr::str_remove_all(string = applyFun, pattern = "\\s"))
-  applyFun <- unlist(stringr::str_remove_all(string = applyFun, pattern = ",\\w+=\\w+"))
-  applyFun <- unlist(stringr::str_extract_all(string = applyFun, pattern = "[\\w\\.]+(::)?[\\w\\.]+\\)"))
-  applyFun <- stringr::str_extract_all(string = applyFun, pattern = "[\\w\\.]+(::)?[\\w\\.]+")
-  return(applyFun)
-}
-
-
-#' getDoCallFun
-#'
-#' @param line
-#' <\link[base]{numeric}> Current line number.
-#' @param lines
-#' <\link[base]{c}> of <\link[base]{character}> lines.
-#'
-#' @return
-#' <\link[base]{c}> of <\link[base]{character}> of functions found in
-#' \link[base]{do.call} function call.
-getDoCallFun <- function(line, lines) {
-  doCallVec <- getMultiLineFun(line, lines)
-
-  doCallFun <- unlist(stringr::str_split(
-    string = paste0(doCallVec, collapse = ""),
-    pattern = "do\\.call"))[2]
-
-  fun <- unlist(stringr::str_remove_all(string = doCallFun, pattern = "\\s"))
-  fun <- unlist(stringr::str_extract_all(string = fun, pattern = "\\([\\w\\.]+(::)?[\\w\\.]+"))
-  fun <- stringr::str_extract_all(string = fun, pattern = "[\\w\\.]+(::)?[\\w\\.]+")
-  return(fun)
-}
-
-
 #' funsUsedInLine
 #'
 #' Support function for funsUsedInFile.
 #'
-#' @param i
-#' <\link[base]{numeric}> line
-#' @param verbose
-#' <\link[base]{logical}> Prints message when no function found
-#' @param lines
-#' <\link[base]{c}> of <\link[base]{character}>
-#' @param name
-#' <\link[base]{character}>
+#' @param lines (\link[base]{c}) of (\link[base]{character})
+#' @param name (\link[base]{character})
+#' @param i (\link[base]{numeric})
+#' @param verbose (\link[base]{logical}: FALSE)
 #'
-#' @return
-#' <\link[base]{data.frame}> of 3 colums: Package (pkg); Function (fun); Line
-#' in script (line)
+#' @return (\link[base]{data.frame})
+#' | column |              data type |
+#' | ------ | ---------------------- |
+#' |    pkg | \link[base]{character} |
+#' |    fun | \link[base]{character} |
+#' |   line |   \link[base]{numeric} |
 funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
   line <- lines[i]
 
@@ -147,15 +40,15 @@ funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
     )
 
     if ("do.call" %in% funVec) {
-      funVec <- append(funVec, getDoCallFun(i, lines))
+      funVec <- append(funVec, getDoCallFromLines(lines))
     }
 
     if (any(stringr::str_detect(string = funVec, pattern = "[\\w]+?[Aa]pply"))) {
-      funVec <- append(funVec, getApplyFun(i, lines))
+      funVec <- append(funVec, getApplyFromLines(lines))
     }
 
     if ("plyr::dlply" %in% funVec) {
-      funVec <- append(funVec, getDlply(i, lines))
+      funVec <- append(funVec, getDlplyCallFromLines(lines))
     }
 
     funVec <- stringr::str_split(
@@ -181,12 +74,13 @@ funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
       df <- df %>%
         dplyr::mutate(
           file = name,
-        line = i) %>%
+          line = i
+        ) %>%
         dplyr::tibble()
 
       return(df)
     } else {
-      if(verbose == TRUE) {
+      if (verbose == TRUE) {
         message(paste0("No functions found for line: ", i))
       }
     }
@@ -198,13 +92,10 @@ funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
 #'
 #' Support function
 #'
-#' @param files
-#' <\link[base]{list}> of <\link[PaRe]{File}> objects.
-#' @param verbose
-#' <\link[base]{logical}>
+#' @param files (\link[base]{list}) of (\link[PaRe]{File})
+#' @param verbose (\link[base]{logical})
 #'
-#' @return
-#' <\link[base]{list}>
+#' @return (\link[base]{list})
 funsUsedInFile <- function(files, verbose = FALSE) {
   lapply(X = files, FUN = function(file) {
     if (verbose) {
@@ -224,18 +115,56 @@ funsUsedInFile <- function(files, verbose = FALSE) {
 
 #' summariseFunctionUse
 #'
-#' Summarise functions used in R package
-#'
-#' @param repo
-#' <\link[PaRe]{Repository}> object.
-#' @param verbose
-#' <\link[base]{logical}> Default: FALSE; prints message to console which file is
-#' currently being worked on.
-#'
-#' @return
-#' <\[dplyr]{tibble}>
+#' Summarise functions used in R package.
 #'
 #' @export
+#'
+#' @param repo (\link[PaRe]{Repository})\cr
+#' Repository object.
+#' @param verbose (\link[base]{logical}: FALSE)\cr
+#' Prints message to console which file is currently being worked on.
+#'
+#' @return (\link[dplyr]{tibble})
+#' | column |              data type |
+#' | ------ | ---------------------- |
+#' |   file | \link[base]{character} |
+#' |   line |   \link[base]{numeric} |
+#' |    pkg | \link[base]{character} |
+#' |    fun | \link[base]{character} |
+#'
+#' @examples
+#' fetchedRepo <- tryCatch(
+#'   {
+#'     # Set dir to clone repository to.
+#'     tempDir <- tempdir()
+#'     pathToRepo <- file.path(tempDir, "glue")
+#'
+#'     # Clone repo
+#'     git2r::clone(
+#'       url = "https://github.com/tidyverse/glue.git",
+#'       local_path = pathToRepo
+#'     )
+#'
+#'     # Create instance of Repository object.
+#'     repo <- PaRe::Repository$new(path = pathToRepo)
+#'
+#'     # Set fetchedRepo to TRUE if all goes well.
+#'     TRUE
+#'   },
+#'   error = function(e) {
+#'     # Set fetchedRepo to FALSE if an error is encountered.
+#'     FALSE
+#'   },
+#'   warning = function(w) {
+#'     # Set fetchedRepo to FALSE if a warning is encountered.
+#'     FALSE
+#'   }
+#' )
+#'
+#' if (fetchedRepo) {
+#'   # Run getFunctionUse on the Repository object.
+#'   getFunctionUse(repo = repo, verbose = TRUE)
+#' }
 getFunctionUse <- function(repo, verbose = FALSE) {
   files <- repo$getRFiles()
 

@@ -3,7 +3,7 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   ComparingBranches: ComparingBranches.html
-  Documentation: Documentation.html
   Report: Report.html
-last_built: 2023-05-16T12:17Z
+  Documentation: Documentation.html
+last_built: 2023-06-05T08:16Z
 

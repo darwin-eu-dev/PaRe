@@ -23,7 +23,7 @@ library(dplyr)
 ```
 
 ```{r, echo=FALSE}
-repo <- PaRe::Repository$new("../")
+repo <- PaRe::Repository$new("../../")
 ```
 
 ## Package overview
@@ -44,66 +44,91 @@ defFuns <- defFuns %>%
 ```
 
 ```{r summaryDefFunStats, echo=FALSE}
-DT::datatable(data.frame(
-  min = c(min(defFuns$nArgs, na.rm = TRUE), 
-          min(defFuns$size, na.rm = TRUE), 
-          min(defFuns$cycloComp, na.rm = TRUE)),
-  median = c(median(defFuns$nArgs, na.rm = TRUE), 
-             median(defFuns$size, na.rm = TRUE), 
-             median(defFuns$cycloComp, na.rm = TRUE)),
-  max = c(max(defFuns$nArgs, na.rm = TRUE), 
-          max(defFuns$size, na.rm = TRUE), 
-          max(defFuns$cycloComp, na.rm = TRUE)),
-  row.names = c("Number of arguments",
-                "Lines of code",
-                "Cyclomatic complexity")), 
-  options = list(dom = 't'))
+DT::datatable(
+  data.frame(
+    min = c(
+      min(defFuns$nArgs, na.rm = TRUE),
+      min(defFuns$size, na.rm = TRUE),
+      min(defFuns$cycloComp, na.rm = TRUE)
+    ),
+    median = c(
+      median(defFuns$nArgs, na.rm = TRUE),
+      median(defFuns$size, na.rm = TRUE),
+      median(defFuns$cycloComp, na.rm = TRUE)
+    ),
+    max = c(
+      max(defFuns$nArgs, na.rm = TRUE),
+      max(defFuns$size, na.rm = TRUE),
+      max(defFuns$cycloComp, na.rm = TRUE)
+    ),
+    row.names = c(
+      "Number of arguments",
+      "Lines of code",
+      "Cyclomatic complexity"
+    )
+  ),
+  options = list(dom = "t")
+)
 ```
 
 ```{r, echo=FALSE}
-gg_nArgs <- defFuns %>% 
-  ggplot2::ggplot()+
-  ggplot2::geom_histogram(ggplot2::aes(nArgs), binwidth = 1,
-                 colour = "black",
-                 fill = "grey")+
-  ggplot2::theme_minimal()+
+gg_nArgs <- defFuns %>%
+  ggplot2::ggplot() +
+  ggplot2::geom_histogram(ggplot2::aes(nArgs),
+    binwidth = 1,
+    colour = "black",
+    fill = "grey"
+  ) +
+  ggplot2::theme_minimal() +
   ggplot2::xlab("Number of arguments")
 
-gg_size <- defFuns %>% 
-  ggplot2::ggplot()+
-  ggplot2::geom_histogram(ggplot2::aes(size), binwidth = 1,
-                 colour = "black",
-                 fill = "grey")+
-  ggplot2::theme_minimal()+
+gg_size <- defFuns %>%
+  ggplot2::ggplot() +
+  ggplot2::geom_histogram(ggplot2::aes(size),
+    binwidth = 1,
+    colour = "black",
+    fill = "grey"
+  ) +
+  ggplot2::theme_minimal() +
   ggplot2::xlab("Lines of code")
 
-gg_cycloComp <- defFuns %>% 
-  ggplot2::ggplot()+
-  ggplot2::geom_histogram(ggplot2::aes(cycloComp), binwidth = 1,
-                 colour = "black",
-                 fill = "grey")+
-  ggplot2::theme_minimal()+
+gg_cycloComp <- defFuns %>%
+  ggplot2::ggplot() +
+  ggplot2::geom_histogram(ggplot2::aes(cycloComp),
+    binwidth = 1,
+    colour = "black",
+    fill = "grey"
+  ) +
+  ggplot2::theme_minimal() +
   ggplot2::xlab("Cyclomatic complexity")
 
 cowplot::plot_grid(gg_nArgs, gg_size, gg_cycloComp, nrow = 3)
 ```
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
-p <- defFuns %>% 
-  ggplot2::ggplot(ggplot2::aes(group = name))+
-  ggplot2::geom_point(ggplot2::aes(size, cycloComp, 
-                          colour = nArgs),
-                      size = 3)+
-  ggplot2::scale_colour_gradient(name = "Number of\nargruments",
-                               low = "blue", high = "red")  +
+p <- defFuns %>%
+  ggplot2::ggplot(ggplot2::aes(group = name)) +
+  ggplot2::geom_point(
+    ggplot2::aes(size, cycloComp,
+      colour = nArgs
+    ),
+    size = 3
+  ) +
+  ggplot2::scale_colour_gradient(
+    name = "Number of\nargruments",
+    low = "blue", high = "red"
+  ) +
   ggplot2::theme_minimal() +
   ggplot2::xlab("Lines of code") +
   ggplot2::ylab("Cyclomatic complexity") +
   ggplot2::theme(legend.position = "top")
 
-  plotly::ggplotly(p,
-                  tooltip = c("group", "colour",
-                              "x", "y"))
+plotly::ggplotly(p,
+  tooltip = c(
+    "group", "colour",
+    "x", "y"
+  )
+)
 ```
 
 ## Function details
@@ -115,15 +140,17 @@ lineBreaks <- c(100, 200)
 
 DT::datatable(
   defFuns %>%
-    dplyr::mutate(file_start = paste0(.data$fileName, " (from line: ", lineStart, ")")) %>% 
-    dplyr::select("name", "nArgs", "size","cycloComp", "file_start") %>% 
+    dplyr::mutate(file_start = paste0(.data$fileName, " (from line: ", lineStart, ")")) %>%
+    dplyr::select("name", "nArgs", "size", "cycloComp", "file_start") %>%
     dplyr::rename(
       "Function" = "name",
       "Number of arguments" = "nArgs",
       "Lines of code" = "size",
       "Cyclomatic complexity" = "cycloComp",
-      "Location" = "file_start"),
-  rownames = FALSE) %>%
+      "Location" = "file_start"
+    ),
+  rownames = FALSE
+) %>%
   DT::formatStyle("Number of arguments", backgroundColor = DT::styleInterval(argBreaks, colours)) %>%
   DT::formatStyle("Cyclomatic complexity", backgroundColor = DT::styleInterval(complexBreaks, colours)) %>%
   DT::formatStyle("Lines of code", backgroundColor = DT::styleInterval(lineBreaks, colours))
@@ -133,7 +160,8 @@ DT::datatable(
 ```{r countLines, echo=FALSE}
 DT::datatable(
   PaRe::countPackageLines(repo),
-  rownames = "# lines of code")
+  rownames = "# lines of code"
+)
 ```
 
 ## Style adherence, syntax errors and possible semantic issues
@@ -141,19 +169,21 @@ DT::datatable(
 ```{r lintScores, echo=FALSE, message=FALSE, warning=FALSE}
 lintMsgs <- PaRe::lintRepo(repo)
 
-DT::datatable(PaRe::lintScore(repo, lintMsgs) %>% 
-                dplyr::rename("Percentage of lines assessed" = "pct"),
-              rownames = FALSE)
+DT::datatable(
+  PaRe::lintScore(repo, lintMsgs) %>%
+    dplyr::rename("Percentage of lines assessed" = "pct"),
+  rownames = FALSE
+)
 ```
 
 ### Warnings
 ```{r lintMessagesWarnings, echo=FALSE, message=FALSE, warning=FALSE}
 DT::datatable(
   lintMsgs %>%
-    dplyr::filter(type == "warning") %>% 
-  dplyr::group_by(message) %>%
-  dplyr::tally(sort = TRUE),
-              rownames = FALSE
+    dplyr::filter(type == "warning") %>%
+    dplyr::group_by(message) %>%
+    dplyr::tally(sort = TRUE),
+  rownames = FALSE
 )
 ```
 
@@ -161,10 +191,10 @@ DT::datatable(
 ```{r lintMessagesStyle, echo=FALSE, message=FALSE, warning=FALSE}
 DT::datatable(
   lintMsgs %>%
-    dplyr::filter(type == "style") %>% 
-  dplyr::group_by(message) %>%
-  dplyr::tally(sort = TRUE),
-              rownames= FALSE
+    dplyr::filter(type == "style") %>%
+    dplyr::group_by(message) %>%
+    dplyr::tally(sort = TRUE),
+  rownames = FALSE
 )
 ```
 
@@ -182,13 +212,15 @@ DT::datatable(PaRe::checkDependencies(repo = repo, verbose = FALSE))
 ```{r dependencyGraphStats, echo=FALSE, message=FALSE, warning=FALSE}
 graphData <- PaRe::getGraphData(repo = repo)
 
-DT::datatable(data.frame(
-  countVertices = length(igraph::V(graphData)),
-  countEdges = length(igraph::E(graphData)),
-  meanDegree = round(mean(igraph::degree(graphData)), 2),
-  meanDistance = round(mean(igraph::distances(graphData)), 2)
+DT::datatable(
+  data.frame(
+    countVertices = length(igraph::V(graphData)),
+    countEdges = length(igraph::E(graphData)),
+    meanDegree = round(mean(igraph::degree(graphData)), 2),
+    meanDistance = round(mean(igraph::distances(graphData)), 2)
   ),
-              rownames= FALSE)
+  rownames = FALSE
+)
 ```
 
 ### Function use per dependency
@@ -202,7 +234,7 @@ DT::datatable(
 ```
 
 ```{r plotFunctionUse, echo=FALSE, dpi=100, fig.height=25, out.width="100%", message=FALSE, warning=FALSE}
-function_sub <- funsUsed %>% 
+function_sub <- funsUsed %>%
   dplyr::filter(!pkg %in% c("base"))
 
 fun_counts <- function_sub %>%
@@ -214,16 +246,19 @@ nonPkgFuns <- fun_counts[!fun_counts$fun %in% defFuns$fun, ]
 
 ggplot2::ggplot(
   data = nonPkgFuns,
-  mapping = ggplot2::aes(x = .data$fun, y = .data$n, fill = .data$pkg)) +
+  mapping = ggplot2::aes(x = .data$fun, y = .data$n, fill = .data$pkg)
+) +
   ggplot2::geom_col() +
   ggplot2::facet_wrap(
     dplyr::vars(.data$pkg),
     scales = "free_x",
-    ncol = 2) +
+    ncol = 2
+  ) +
   ggplot2::theme_bw() +
   ggplot2::theme(
     legend.position = "none",
-    axis.text.x = (ggplot2::element_text(angle = 45, hjust = 1, vjust = 1)))
+    axis.text.x = (ggplot2::element_text(angle = 45, hjust = 1, vjust = 1))
+  )
 ```
 
 

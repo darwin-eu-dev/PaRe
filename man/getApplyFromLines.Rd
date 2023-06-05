@@ -7,10 +7,11 @@
 getApplyFromLines(lines)
 }
 \arguments{
-\item{lines}{<\link[base]{c}> Vector of <\link[base]{character}>.}
+\item{lines}{(\link[base]{c})\cr
+Vector of (\link[base]{character}). See \link[PaRe]{getDefinedFunctions}}
 }
 \value{
-<\link[base]{character}>.
+(\link[base]{character})
 }
 \description{
 getApplyFromLines

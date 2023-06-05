@@ -1,8 +1,46 @@
 #' @title
 #' R6 Repository class.
+#'
 #' @description
 #' Class representing the Repository
+#'
 #' @export
+#'
+#' @family
+#' Representations
+#'
+#' @examples
+#' fetchedRepo <- tryCatch(
+#'   {
+#'     # Set dir to clone repository to.
+#'     tempDir <- tempdir()
+#'     pathToRepo <- file.path(tempDir, "glue")
+#'
+#'     # Clone repo
+#'     git2r::clone(
+#'       url = "https://github.com/tidyverse/glue.git",
+#'       local_path = pathToRepo
+#'     )
+#'
+#'     # Create instance of Repository object.
+#'     repo <- PaRe::Repository$new(path = pathToRepo)
+#'
+#'     # Set fetchedRepo to TRUE if all goes well.
+#'     TRUE
+#'   },
+#'   error = function(e) {
+#'     # Set fetchedRepo to FALSE if an error is encountered.
+#'     FALSE
+#'   },
+#'   warning = function(w) {
+#'     # Set fetchedRepo to FALSE if a warning is encountered.
+#'     FALSE
+#'   }
+#' )
+#'
+#' if (fetchedRepo) {
+#'   repo
+#' }
 Repository <- R6::R6Class(
   classname = "Repository",
   # Public ----
@@ -10,11 +48,10 @@ Repository <- R6::R6Class(
     #' @description
     #' Initializer for Repository class
     #'
-    #' @param path
-    #' <\link[base]{character}> Path to R package project
+    #' @param path (\link[base]{character})\cr
+    #' Path to R package project
     #'
-    #' @return
-    #' `invisible(self)`
+    #' @return `invisible(self)`
     initialize = function(path) {
       private$path <- normalizePath(path)
       private$name <- basename(private$path)
@@ -33,8 +70,8 @@ Repository <- R6::R6Class(
     #' @description
     #' Get method for name.
     #'
-    #' @return
-    #' <\link[base]{character}> Repository name
+    #' @return (\link[base]{character})\cr
+    #' Repository name
     getName = function() {
       return(private$name)
     },
@@ -42,8 +79,8 @@ Repository <- R6::R6Class(
     #' @description
     #' Get method fro path
     #'
-    #' @return
-    #' <\link[base]{character}> Path to Repository folder
+    #' @return (\link[base]{character})\cr
+    #' Path to Repository folder
     getPath = function() {
       return(private$path)
     },
@@ -51,8 +88,8 @@ Repository <- R6::R6Class(
     #' @description
     #' Get method to get a list of \link[PaRe]{File} objects.
     #'
-    #' @return
-    #' <\link[base]{list}> List of File objects
+    #' @return (\link[base]{list})\cr
+    #' List of \link[PaRe]{File} objects.
     getFiles = function() {
       files <- list(
         R = private$rFiles,
@@ -68,52 +105,56 @@ Repository <- R6::R6Class(
     #' @description
     #' Get method to get only R-files.
     #'
-    #' @return
-    #' <\link[base]{character}> of <\link[PaRe]{File}> objects.
+    #' @return (\link[base]{list})\cr
+    #' List of \link[PaRe]{File} objects.
     getRFiles = function() {
       return(private$rFiles)
     },
 
     #' @description
-    #' Get method to get the description of the package.
-    #' See: \link[desc]{description}.
+    #' Get method to get the description of the package. See: \link[desc]{description}.
     #'
-    #' @return
-    #' <\link[desc]{description}> Description object.
+    #' @return (\link[desc]{description})\cr
+    #' Description object.
     getDescription = function() {
       return(private$description)
     },
 
-    ##' @description
+    #' @description
     #' Get method for functionUse, will check if functionUse has already been
     #' fetched or not.
     #'
-    #' @return
-    #' <\link[base]{data.frame}> data.frame containing function use.
+    #' @return (\link[base]{data.frame})\cr
+    #' See \link[PaRe]{getFunctionUse}.
     getFunctionUse = function() {
+      if (is.null(private$functionUse)) {
+        private$functionUse <- getFunctionUse(self, verbose = TRUE)
+      }
       return(private$functionUse)
     },
 
     #' @description
     #' Method to run 'git checkout <branch/commit hash>'
     #'
-    #' @param branch
-    #' <\link[base]{character}> Name of branch or a hash referencing a specific
-    #' commit.
+    #' @param branch (\link[base]{character})\cr
+    #' Name of branch or a hash referencing a specific commit.
     #' @param ...
     #' Further parameters for \link[git2r]{checkout}.
     #'
-    #' @return (`invisible(self)`)
+    #' @return `invisible(self)`
     gitCheckout = function(branch, ...) {
-      tryCatch({
-        git2r::checkout(object = private$path, branch = branch, ...)
-        message(glue::glue("Switched to: {branch}"))
-        message("Re-initializing")
-        self$initialize(path = private$path)
-      }, error = function(e) {
-        message(glue::glue("Availible branches: {paste(names(git2r::branches(private$path)), collapse = ', ')}"))
-        stop(glue::glue("Branches: '{branch}' not found"))
-      })
+      tryCatch(
+        {
+          git2r::checkout(object = private$path, branch = branch, ...)
+          message(glue::glue("Switched to: {branch}"))
+          message("Re-initializing")
+          self$initialize(path = private$path)
+        },
+        error = function(e) {
+          message(glue::glue("Availible branches: {paste(names(git2r::branches(private$path)), collapse = ', ')}"))
+          stop(glue::glue("Branches: '{branch}' not found"))
+        }
+      )
       return(invisible(self))
     },
 
@@ -123,8 +164,7 @@ Repository <- R6::R6Class(
     #' @param ...
     #' Further parameters for \link[git2r]{pull}.
     #'
-    #' @return
-    #' `invisible(self)`
+    #' @return `invisible(self)`
     gitPull = function(...) {
       message("Pulling latest")
       git2r::pull(repo = private$path, ...)
@@ -136,8 +176,14 @@ Repository <- R6::R6Class(
     #' @description
     #' Method to fetch data generated by 'git blame'.
     #'
-    #' @return
-    #' <\link[dplyr]{tibble}> Table of git blame data.
+    #' @return (\link[dplyr]{tibble})
+    #' |     column |              data type |
+    #' | ---------- | ---------------------- |
+    #' | repository | \link[base]{character} |
+    #' |     author | \link[base]{character} |
+    #' |       file | \link[base]{character} |
+    #' |       date | \link[base]{character} |
+    #' |      lines |   \link[base]{integer} |
     gitBlame = function() {
       files <- unlist(self$getFiles())
 
@@ -159,7 +205,6 @@ Repository <- R6::R6Class(
     git = NULL,
     description = NULL,
     functionUse = NULL,
-
     validate = function() {
       errorMessages <- checkmate::makeAssertCollection()
       # .rproj file
@@ -176,52 +221,46 @@ Repository <- R6::R6Class(
       }
       return(invisible(self))
     },
-
     fetchRFiles = function() {
-      paths <- list.files(file.path(private$path, "R"), full.names = FALSE, recursive = TRUE)
+      paths <- list.files(file.path(private$path, "R"), recursive = TRUE)
 
       private$rFiles <- unlist(lapply(paths, function(path) {
         File$new(repoPath = private$path, filePath = file.path("R", path))
       }))
       return(invisible(self))
     },
-
     fetchCppFiles = function() {
-      paths <- list.files(file.path(private$path, "src"), full.names = TRUE, recursive = TRUE)
+      paths <- list.files(path = private$path, pattern = "\\.(cpp|O|h)$", recursive = TRUE)
 
       cpp <- paths[endsWith(paths, ".cpp")]
       o <- paths[endsWith(paths, ".o")]
       h <- paths[endsWith(paths, ".h")]
 
       private$cppFiles <- lapply(cpp, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = path)
       })
 
       private$oFiles <- lapply(o, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = path)
       })
 
       private$hFiles <- lapply(h, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = path)
       })
     },
-
     fetchJavaFiles = function() {
-      paths <- list.files(file.path(private$path, "java"), full.names = TRUE, recursive = TRUE)
+      paths <- list.files(path = private$path, pattern = "\\.java$", recursive = TRUE)
       paths <- paths[endsWith(paths, ".java")]
 
       private$javaFiles <- lapply(paths, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = path)
       })
     },
-
     fetchSqlFiles = function() {
-      paths <- list.files(file.path(private$path, "sql"), full.names = TRUE, recursive = TRUE)
-      paths <- append(paths, list.files(file.path(private$path, "inst", "sql"), full.names = TRUE, recursive = TRUE))
-      paths <- paths[endsWith(paths, ".sql")]
+      paths <- list.files(path = private$path, pattern = "\\.sql$", recursive = TRUE)
 
       private$sqlFiles <- lapply(paths, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = path)
       })
     }
   )

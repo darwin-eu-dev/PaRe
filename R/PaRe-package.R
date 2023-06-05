@@ -40,13 +40,13 @@ NULL
 #' be overwritten entirely.
 #'
 #' The data.frame itself has the following structure:
-#' `data.frame(source = c(), link = c(), package = c(), version = c())`
-#' `source` is the name of the source
-#' `link` is the link or path to the csv-file
-#' `package` is the columnname of the package name column in the csv-file being
-#' linked to.
-#' `version` is the columnname of the version column in the csv-file being
-#' linked to.
+#'
+#' |  column |              data type | description |
+#' | ------- | ---------------------- | ----------- |
+#' |  source | \link[base]{character} | name of the source |
+#' |    link | \link[base]{character} | link or path to the csv-file |
+#' | package | \link[base]{character} | columnname of the package name column in the csv-file being linked to |
+#' | version | \link[base]{character} | columnname of the version column in the csv-file being linked to |
 #'
 #' The csv-files that are being pointed to should have the following structure:
 #'
@@ -61,6 +61,7 @@ NULL
 #'   getDefaultPermittedPackages()
 #' }
 whiteList <- dplyr::tibble(read.csv(
-  system.file(package = "PaRe", "whiteList.csv")))
+  system.file(package = "PaRe", "whiteList.csv")
+))
 
 utils::globalVariables(".data")

@@ -4,11 +4,11 @@
 \name{PaRe-package}
 \alias{PaRe}
 \alias{PaRe-package}
-\title{PaRe: PaRe (Package Reviewer) is the Successor of the DependencyReviewer Package}
+\title{PaRe: A Way to Perform Code Review or QA on Other Packages}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Reviews other packages during code review by looking at their dependencies, code style, code complexity, and how interanlly defined functions interact with one another.
+Reviews other packages during code review by looking at their dependencies, code style, code complexity, and how internally defined functions interact with one another.
 }
 \author{
 \strong{Maintainer}: Maarten van Kessel \email{m.l.vankessel@erasmusmc.nl}
