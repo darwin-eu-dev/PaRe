@@ -1,3 +1,10 @@
+PaRe 0.1.7
+==========
+1. Fixed issue when creating a File object for .cpp, .o, .h, .java and .sql files.
+2. Imported dependencies have a set package requirement.
+3. getDefaultPermittedPackages example now has tag \donttest.
+4. Solved issue where dependency pak did not include glue.
+
 PaRe 0.1.6
 ==========
 
