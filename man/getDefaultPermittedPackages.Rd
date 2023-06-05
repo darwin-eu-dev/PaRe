@@ -24,12 +24,14 @@ getDefaultPermittedPackages(base = TRUE)
 Gets permitted packages. An internet connection is required.
 }
 \examples{
-# Set cache
-withr::local_envvar(
-  R_USER_CACHE_DIR = tempfile()
-)
+\donttest{
+  # Set cache
+  withr::local_envvar(
+    R_USER_CACHE_DIR = tempfile()
+  )
 
-if (interactive()) {
-  getDefaultPermittedPackages()
+  if (interactive()) {
+    getDefaultPermittedPackages()
+  }
 }
 }
