@@ -17,13 +17,15 @@
 #' | version | \link[base]{character} |
 #'
 #' @examples
-#' # Set cache
-#' withr::local_envvar(
-#'   R_USER_CACHE_DIR = tempfile()
-#' )
+#' \donttest{
+#'   # Set cache
+#'   withr::local_envvar(
+#'     R_USER_CACHE_DIR = tempfile()
+#'   )
 #'
-#' if (interactive()) {
-#'   getDefaultPermittedPackages()
+#'   if (interactive()) {
+#'     getDefaultPermittedPackages()
+#'   }
 #' }
 getDefaultPermittedPackages <- function(base = TRUE) {
   # Custom list
