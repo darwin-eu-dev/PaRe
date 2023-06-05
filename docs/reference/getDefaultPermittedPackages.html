@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
       </span>
     </div>
 
@@ -69,10 +69,10 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>base</dt>
-<dd><p>(<a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a>: TRUE)<br></p><dl><dt>TRUE</dt>
+<dd><p>(<a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a>: TRUE)</p><dl><dt>TRUE</dt>
 <dd><p>Base packages will be included.</p></dd>
 
-  <dt>FALSE</dt>
+<dt>FALSE</dt>
 <dd><p>Base packages will be ignored.</p></dd>
 
 
@@ -83,35 +83,20 @@
     <h2>Value</h2>
     
 
-<p>(<a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a>)<br></p>
-
-
-<ol><li><p>(<a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>) package</p></li>
-<li><p>(<a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>) version</p></li>
-</ol></div>
+<p>(<a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a>)</p><table class="table table"><tr><td>column</td><td>data type</td></tr><tr><td>package</td><td><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></td></tr><tr><td>version</td><td><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></td></tr></table></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set cache</span></span></span>
-<span class="r-in"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_envvar.html" class="external-link">local_envvar</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>  R_USER_CACHE_DIR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span>  <span class="co"># Set cache</span></span></span>
+<span class="r-in"><span>  <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_envvar.html" class="external-link">local_envvar</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    R_USER_CACHE_DIR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">getDefaultPermittedPackages</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 241 × 2</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    package           version   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;nmrc_vrs&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Andromeda         0.6.3     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> BH                1.81.0.1  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> BeastJar          1.10.6    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> BigKnn            1.0.2     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> CDMConnector      0.6.0     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Capr              2.0.3     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Characterization  0.1.1     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> CirceR            1.3.0     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> CohortDiagnostics 3.2.2     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> CohortExplorer    0.0.13    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># … with 231 more rows</span></span>
+<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>    <span class="fu">getDefaultPermittedPackages</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
