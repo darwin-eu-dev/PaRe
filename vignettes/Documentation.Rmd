@@ -94,7 +94,7 @@ write.csv(
 Before we start diving into the dependency usage of `glue` we should first establish what our dependency white list even looks like. We can retrieve our full list of whitelisted dependencies buy calling the `getDefaultPermittedPackages` function.
 
 ### getDefaultPermittedPackages
-```{r permittedPackages, message=FALSE, warning=FALSE}
+```{r permittedPackages, eval=FALSE, message=FALSE, warning=FALSE}
 PaRe::getDefaultPermittedPackages(base = TRUE)
 ```
 
