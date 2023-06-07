@@ -23,7 +23,7 @@ Logical to show code or not in the report.}
 Uses rmarkdown's render function to render a html-report of the given package.
 }
 \examples{
-\dontrun{
+\donttest{
 fetchedRepo <- tryCatch(
   {
     # Set dir to clone repository to.

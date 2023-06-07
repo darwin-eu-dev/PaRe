@@ -17,13 +17,15 @@
 #' | version | \link[base]{character} |
 #'
 #' @examples
-#' # Set cache
-#' withr::local_envvar(
-#'   R_USER_CACHE_DIR = tempfile()
-#' )
+#' \donttest{
+#'   # Set cache
+#'   withr::local_envvar(
+#'     R_USER_CACHE_DIR = tempfile()
+#'   )
 #'
-#' if (interactive()) {
-#'   getDefaultPermittedPackages()
+#'   if (interactive()) {
+#'     getDefaultPermittedPackages()
+#'   }
 #' }
 getDefaultPermittedPackages <- function(base = TRUE) {
   # Custom list
@@ -41,13 +43,17 @@ getDefaultPermittedPackages <- function(base = TRUE) {
       basePackages <- NULL
       if (base) {
         # Get base packages
-        basePackages <- data.frame(utils::installed.packages(
-          lib.loc = .Library,
-          priority = "high"
-        )) %>%
-          dplyr::select("Package", "Built") %>%
-          dplyr::rename(package = "Package", version = "Built") %>%
-          dplyr::tibble()
+        basePackages <- dplyr::bind_rows(lapply(list.files(.Library), function(pkg) {
+          df <- packageDescription(pkg = pkg, fields = c("Package", "Version")) %>%
+            unlist()
+
+          dplyr::tibble(
+            package = df[1],
+            version = df[2],
+            row.names = NULL
+          )
+        })) %>%
+          dplyr::filter(.data$package != "translations")
       }
 
       sourcePackages <- dplyr::bind_rows(

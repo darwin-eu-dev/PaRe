@@ -222,7 +222,7 @@ Repository <- R6::R6Class(
       return(invisible(self))
     },
     fetchRFiles = function() {
-      paths <- list.files(file.path(private$path, "R"), full.names = FALSE, recursive = TRUE)
+      paths <- list.files(file.path(private$path, "R"), recursive = TRUE)
 
       private$rFiles <- unlist(lapply(paths, function(path) {
         File$new(repoPath = private$path, filePath = file.path("R", path))
@@ -230,39 +230,37 @@ Repository <- R6::R6Class(
       return(invisible(self))
     },
     fetchCppFiles = function() {
-      paths <- list.files(file.path(private$path, "src"), full.names = TRUE, recursive = TRUE)
+      paths <- list.files(path = private$path, pattern = "\\.(cpp|O|h)$", recursive = TRUE)
 
       cpp <- paths[endsWith(paths, ".cpp")]
       o <- paths[endsWith(paths, ".o")]
       h <- paths[endsWith(paths, ".h")]
 
       private$cppFiles <- lapply(cpp, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = path)
       })
 
       private$oFiles <- lapply(o, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = path)
       })
 
       private$hFiles <- lapply(h, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = path)
       })
     },
     fetchJavaFiles = function() {
-      paths <- list.files(file.path(private$path, "java"), full.names = TRUE, recursive = TRUE)
+      paths <- list.files(path = private$path, pattern = "\\.java$", recursive = TRUE)
       paths <- paths[endsWith(paths, ".java")]
 
       private$javaFiles <- lapply(paths, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = path)
       })
     },
     fetchSqlFiles = function() {
-      paths <- list.files(file.path(private$path, "sql"), full.names = TRUE, recursive = TRUE)
-      paths <- append(paths, list.files(file.path(private$path, "inst", "sql"), full.names = TRUE, recursive = TRUE))
-      paths <- paths[endsWith(paths, ".sql")]
+      paths <- list.files(path = private$path, pattern = "\\.sql$", recursive = TRUE)
 
       private$sqlFiles <- lapply(paths, function(path) {
-        File$new(path = path)
+        File$new(repoPath = private$path, filePath = path)
       })
     }
   )

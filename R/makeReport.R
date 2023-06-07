@@ -14,7 +14,7 @@
 #' @return (`NULL`)
 #'
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' fetchedRepo <- tryCatch(
 #'   {
 #'     # Set dir to clone repository to.

@@ -18,7 +18,7 @@ white-listed dependencies."><meta property="og:image" content="/logo.png"><!-- m
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
       </span>
     </div>
 
@@ -74,23 +74,14 @@ white-listed dependencies.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
-    <p>By default three csv's are listed:
-1. darwin
-2. hades
-3. tidyverse</p>
-<p>The data.frame is locally fetched under:
-`system.file(package = "PaRe", "whiteList.csv")`</p>
+    <p>By default three csv's are listed:</p><ol><li><p>darwin</p></li>
+<li><p>hades</p></li>
+<li><p>tidyverse</p></li>
+</ol><p>The data.frame is locally fetched under:
+<code>system.file(package = "PaRe", "whiteList.csv")</code></p>
 <p>Manual insertions into this data.frame can be made, or the data.frame can
 be overwritten entirely.</p>
-<p>The data.frame itself has the following structure:
-`data.frame(source = c(), link = c(), package = c(), version = c())`
-`source` is the name of the source
-`link` is the link or path to the csv-file
-`package` is the columnname of the package name column in the csv-file being
-linked to.
-`version` is the columnname of the version column in the csv-file being
-linked to.</p>
-<p>The csv-files that are being pointed to should have the following structure:</p>
+<p>The data.frame itself has the following structure:</p><table class="table table"><tr><td>column</td><td>data type</td><td>description</td></tr><tr><td>source</td><td><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></td><td>name of the source</td></tr><tr><td>link</td><td><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></td><td>link or path to the csv-file</td></tr><tr><td>package</td><td><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></td><td>columnname of the package name column in the csv-file being linked to</td></tr><tr><td>version</td><td><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></td><td>columnname of the version column in the csv-file being linked to</td></tr></table><p>The csv-files that are being pointed to should have the following structure:</p>
     </div>
 
     <div id="ref-examples">
