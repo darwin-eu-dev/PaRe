@@ -38,5 +38,16 @@ devtools::check_win_oldrelease()
 # build_args = "--compact-vignettes=gs+qpdf"
 devtools::check_rhub(interactive = FALSE)
 
+devtools::check_rhub(
+  platforms = c(
+    "debian-clang-devel",
+    "debian-gcc-devel",
+    "fedora-clang-devel",
+    "fedora-gcc-devel",
+    "debian-gcc-patched",
+    "debian-gcc-release"
+  )
+)
+
 # args = "--compact-vignettes=gs+qpdf"
 devtools::release()
