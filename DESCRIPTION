@@ -9,6 +9,8 @@ Authors@R:
 Description: Reviews other packages during code review by looking at their
     dependencies, code style, code complexity, and how internally defined
     functions interact with one another.
+URL: https://github.com/darwin-eu-dev/PaRe
+BugReports: https://github.com/darwin-eu-dev/PaRe/issues
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
