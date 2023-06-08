@@ -1,0 +1,122 @@
+---
+title: "Contributing to PaRe"
+author: "Maarten van Kessel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+This article describes conventions when contributing to PaRe.
+
+## Writing Code
+### Code Style
+The general code style should follow the [tidyverse](https://style.tidyverse.org/) style guide, using camelCase. The [styler](https://www.tidyverse.org/blog/2017/12/styler-1.0.0/) can be used to style code automatically. Potential styling errors, warnings and messages can be spotted using [lintr](https://lintr.r-lib.org/), or the built in [PaRe lintr](https://darwin-eu-dev.github.io/PaRe/reference/lintRepo.html) function.
+
+### Code Properties
+New functionality can be added through the addition of either functions or classes. PaRe already uses [R6](https://r6.r-lib.org/) classes, and can thus be freely used. Methods and functions should ideally serve one purpose. This keeps functions and methods small, simple, understandable, and maintainable.
+
+To see if a function or method is too complex, different measures can be used, i.e. depth of nesting, lines of code, or cyclomatic complexity. Lintr gives a warning at a cyclomatic complexity of >15.
+
+## Documentation
+Documentation is done using [roxygen2](https://roxygen2.r-lib.org/). Because R is a soft-typed language, we should communicate data types another way. In PaRe this is done in the documentation. Data types of columns of a type of data frame should also be described, ideally in a markdown table.
+
+Exported functions should follow:
+```
+#' functionName
+#'
+#' Description
+#'
+#' @export
+#' 
+#' @param par1 (link to data type)\cr
+#' Description of par1
+#' @param par2 (link to data type)\cr
+#' Description of par2
+#'
+#' @return (link to data type)
+#' Description of return value
+#'
+#' @examples {
+#'   functionName(par1 = 3, par2 = 2)
+#' }
+```
+
+An example from [getDefinedFunctions](https://darwin-eu-dev.github.io/PaRe/reference/getDefinedFunctions.html):
+```
+#' getDefinedFunctions
+#'
+#' Gets all the defined functions from a \link[PaRe]{Repository} object.
+#'
+#' @export
+#'
+#' @param repo (\link[PaRe]{Repository})\cr
+#' Repository object.
+#'
+#' @return (\link[base]{data.frame})
+#' |    column |              data type |
+#' | --------- | ---------------------- |
+#' |      name | \link[base]{character} |
+#' | lineStart |   \link[base]{integer} |
+#' |   lineEnd |   \link[base]{numeric} |
+#' |     nArgs |   \link[base]{integer} |
+#' | cycloComp |   \link[base]{integer} |
+#' |  fileName | \link[base]{character} |
+#'
+#' @examples
+#' fetchedRepo <- tryCatch(
+#'   {
+#'     # Set dir to clone repository to.
+#'     tempDir <- tempdir()
+#'     pathToRepo <- file.path(tempDir, "glue")
+#'
+#'     # Clone repo
+#'     git2r::clone(
+#'       url = "https://github.com/tidyverse/glue.git",
+#'       local_path = pathToRepo
+#'     )
+#'
+#'     # Create instance of Repository object.
+#'     repo <- PaRe::Repository$new(path = pathToRepo)
+#'
+#'     # Set fetchedRepo to TRUE if all goes well.
+#'     TRUE
+#'   },
+#'   error = function(e) {
+#'     # Set fetchedRepo to FALSE if an error is encountered.
+#'     FALSE
+#'   },
+#'   warning = function(w) {
+#'     # Set fetchedRepo to FALSE if a warning is encountered.
+#'     FALSE
+#'   }
+#' )
+#'
+#' if (fetchedRepo) {
+#'   repo <- PaRe::Repository$new(pathToRepo)
+#'
+#'   getDefinedFunctions(repo)
+#' }
+```
+
+Internal functions should at least be documented as following:
+```
+#' functionName
+#'
+#' @param par1 (link to data type)
+#' @param par2 (link to data type)
+#'
+#' @return (link to datatype)
+```
+
+An example from [getDefinedFunctions](https://darwin-eu-dev.github.io/PaRe/reference/functionUseGraph.html):
+```
+#' functionUseGraph
+#'
+#' @param repo (\link[PaRe]{Repository})
+#'
+#' @return (\link[igraph]{graph})
+```
+
+## Unit Testing
+
+# Merging
+## Pull Request
