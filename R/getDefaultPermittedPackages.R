@@ -76,15 +76,14 @@ getDefaultPermittedPackages <- function(base = TRUE) {
       permittedPackages
     },
     error = function(e) {
-      print(e)
       message(
-        "Could not connect to the internet, online hosted whitelists will be ignored."
+        e
       )
       NULL
     },
     warning = function(w) {
       message(
-        "Could not connect to the internet, online hosted whitelists will be ignored."
+        w
       )
       NULL
     }
