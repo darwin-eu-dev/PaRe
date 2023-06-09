@@ -7,8 +7,7 @@ pathToRepo <- file.path(tmpDir, "glue")
 
 clone(
   url = "https://github.com/tidyverse/glue",
-  local_path = pathToRepo,
-  credentials = cred_token()
+  local_path = pathToRepo
 )
 
 repo <- Repository$new(path = pathToRepo)
