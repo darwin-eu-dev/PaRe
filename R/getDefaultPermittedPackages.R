@@ -31,13 +31,13 @@ getDefaultPermittedPackages <- function(base = TRUE) {
   # Custom list
   tryCatch(
     {
-      customWhiteList <- dplyr::bind_rows(lapply(seq_len(nrow(whiteList)), function(i) {
+      customWhiteList <- dplyr::bind_rows(lapply(seq_len(nrow(PaRe::whiteList)), function(i) {
         pkgs <- utils::read.table(
-          file = unlist(whiteList[i, ]["link"]),
+          file = unlist(PaRe::whiteList[i, ]["link"]),
           sep = ",",
           header = TRUE
         ) %>%
-          select(unlist(whiteList[i, ]["package"]), unlist(whiteList[i, ]["version"]))
+          select(unlist(PaRe::whiteList[i, ]["package"]), unlist(PaRe::whiteList[i, ]["version"]))
       }))
 
       basePackages <- NULL
@@ -73,20 +73,20 @@ getDefaultPermittedPackages <- function(base = TRUE) {
         group_by(.data$package) %>%
         summarise(version = min(as.numeric_version(version)))
 
-      return(permittedPackages)
+      permittedPackages
     },
     error = function(e) {
       print(e)
       message(
         "Could not connect to the internet, online hosted whitelists will be ignored."
       )
-      return(NULL)
+      NULL
     },
     warning = function(w) {
       message(
         "Could not connect to the internet, online hosted whitelists will be ignored."
       )
-      return(NULL)
+      NULL
     }
   )
 }

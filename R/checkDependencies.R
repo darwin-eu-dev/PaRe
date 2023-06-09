@@ -144,9 +144,7 @@ checkDependencies <- function(
 
   dependencies <- description$get_deps() %>%
     dplyr::filter(.data$type %in% dependencyType) %>%
-    dplyr::select("package", "version")
-
-  dependencies <- dependencies %>%
+    dplyr::select("package", "version") %>%
     dplyr::filter(.data$package != "R")
 
   dependencies$version <- stringr::str_remove(
