@@ -7,6 +7,7 @@ PaRe 0.1.9
     - r-patched-linux-x86_64
     - r-release-linux-x86_64
 3. The message: "Could not connect to the internet, online hosted whitelists will be ignored." has been replaced with the actual warning or error it throws as a message.
+4. Fetching file paths now accounts for .gitignore
 
 PaRe 0.1.8
 ==========
