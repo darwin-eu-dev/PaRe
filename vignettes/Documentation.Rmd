@@ -174,15 +174,6 @@ graphData <- PaRe::getGraphData(
 )
 ```
 
-```{r setupGraph, echo=FALSE, warning=FALSE, message=FALSE}
-if (fetchedRepo) {
-  graphData <- PaRe::getGraphData(
-    repo = repo,
-    packageTypes = c("imports", "suggests")
-  )
-}
-```
-
 We can compute several statistics about our dependency graph
 ```{r graphCharacteristicsShow, eval=FALSE}
 data.frame(
@@ -201,12 +192,7 @@ We can then plot the graph.
 ```{r plotGraphShow, eval=FALSE}
 plot(graphData)
 ```
-
-```{r plotGraph, echo=FALSE}
-if (fetchedRepo) {
-  plot(graphData)
-}
-```
+![glue graph](./img/glueGraph.png)
 
 ## Package wide function use
 `PaRe` allows you to get insight in the function usage in a package.
