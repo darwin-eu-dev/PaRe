@@ -43,7 +43,8 @@ devtools::check_rhub(
     "fedora-gcc-devel",
     "debian-gcc-patched",
     "debian-gcc-release"
-  ), interactive = FALSE
+  ),
+  interactive = FALSE
 )
 
 # args = "--compact-vignettes=gs+qpdf"
