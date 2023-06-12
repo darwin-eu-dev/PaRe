@@ -58,6 +58,7 @@ Repository <- R6::R6Class(
       private$git <- git2r::in_repository(private$path)
       private$description <- desc::description$new(private$path)
       private$functionUse <- NULL
+      private$gitIgnore <- readLines(file.path(private$path, ".gitignore"), warn = FALSE)
       private$validate()
 
       private$fetchRFiles()
@@ -205,6 +206,9 @@ Repository <- R6::R6Class(
     git = NULL,
     description = NULL,
     functionUse = NULL,
+    gitIgnore = c(),
+
+
     validate = function() {
       errorMessages <- checkmate::makeAssertCollection()
       # .rproj file
@@ -221,16 +225,32 @@ Repository <- R6::R6Class(
       }
       return(invisible(self))
     },
+
+
+    filterIgnored = function(paths) {
+      for (pat in private$gitIgnore) {
+        paths <- paths[!grepl(pattern = pat, x = paths)]
+      }
+      return(paths)
+    },
+
     fetchRFiles = function() {
-      paths <- list.files(file.path(private$path, "R"), recursive = TRUE)
+      paths <- list.files(file.path(private$path, "R"), recursive = TRUE) %>%
+        private$filterIgnored()
 
       private$rFiles <- unlist(lapply(paths, function(path) {
         File$new(repoPath = private$path, filePath = file.path("R", path))
       }))
       return(invisible(self))
     },
+
+
     fetchCppFiles = function() {
-      paths <- list.files(path = private$path, pattern = "\\.(cpp|O|h)$", recursive = TRUE)
+      paths <- list.files(
+        path = private$path,
+        pattern = "\\.(cpp|O|h)$",
+        recursive = TRUE) %>%
+        private$filterIgnored()
 
       cpp <- paths[endsWith(paths, ".cpp")]
       o <- paths[endsWith(paths, ".o")]
@@ -248,16 +268,25 @@ Repository <- R6::R6Class(
         File$new(repoPath = private$path, filePath = path)
       })
     },
+
+
     fetchJavaFiles = function() {
       paths <- list.files(path = private$path, pattern = "\\.java$", recursive = TRUE)
-      paths <- paths[endsWith(paths, ".java")]
+      paths <- paths[endsWith(paths, ".java")] %>%
+        private$filterIgnored()
 
       private$javaFiles <- lapply(paths, function(path) {
         File$new(repoPath = private$path, filePath = path)
       })
     },
+
+
     fetchSqlFiles = function() {
-      paths <- list.files(path = private$path, pattern = "\\.sql$", recursive = TRUE)
+      paths <- list.files(
+        path = private$path,
+        pattern = "\\.sql$",
+        recursive = TRUE) %>%
+        private$filterIgnored()
 
       private$sqlFiles <- lapply(paths, function(path) {
         File$new(repoPath = private$path, filePath = path)
