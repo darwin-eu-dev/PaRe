@@ -1,3 +1,13 @@
+PaRe 0.1.9
+==========
+1. Added CRAN badge to README
+2. Turned off evaluation of code block that keeps crashing on:
+    - r-devel-linux-x86_64-debian-clang
+    - r-devel-linux-x86_64-debian-gcc
+    - r-patched-linux-x86_64
+    - r-release-linux-x86_64
+3. The message: "Could not connect to the internet, online hosted whitelists will be ignored." has been replaced with the actual warning or error it throws as a message.
+
 PaRe 0.1.8
 ==========
 1. Set pak to version >= 0.2.0.
