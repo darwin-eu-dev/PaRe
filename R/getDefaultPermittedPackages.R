@@ -73,20 +73,16 @@ getDefaultPermittedPackages <- function(base = TRUE) {
         group_by(.data$package) %>%
         summarise(version = min(as.numeric_version(version)))
 
-      return(permittedPackages)
+      permittedPackages
     },
     error = function(e) {
       print(e)
-      message(
-        "Could not connect to the internet, online hosted whitelists will be ignored."
-      )
-      return(NULL)
+      message(e)
+      NULL
     },
     warning = function(w) {
-      message(
-        "Could not connect to the internet, online hosted whitelists will be ignored."
-      )
-      return(NULL)
+      message(w)
+      NULL
     }
   )
 }
