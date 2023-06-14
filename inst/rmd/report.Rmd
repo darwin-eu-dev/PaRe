@@ -99,7 +99,7 @@ p <- defFuns %>%
 
 ## Function details
 ```{r definedFunctions, echo=params$showCode}
-colours <- c("", "#DFDF00", "#AA3F40")
+colours <- c("", "#81d4fa", "#03a9f4")
 argBreaks <- c(5, 7)
 complexBreaks <- c(15, 30)
 lineBreaks <- c(100, 200)
