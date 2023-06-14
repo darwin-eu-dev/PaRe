@@ -10,6 +10,14 @@
 
 Reviews other packages during code review by looking at their dependencies, code style, code complexity, and how internally defined functions interact with one another.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/darwin-eu-dev/PaRe}
+  \item Report bugs at \url{https://github.com/darwin-eu-dev/PaRe/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Maarten van Kessel \email{m.l.vankessel@erasmusmc.nl}
 
