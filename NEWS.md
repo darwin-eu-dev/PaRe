@@ -1,3 +1,8 @@
+PaRe 0.1.10
+==========
+1. Fixed issue with pattern matching of files in .gitignore.
+2. Fixed issue with retrieving the correct amount of arguments from a function.
+
 PaRe 0.1.9
 ==========
 1. Added CRAN badge to README

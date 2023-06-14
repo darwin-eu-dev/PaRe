@@ -58,7 +58,7 @@ Repository <- R6::R6Class(
       private$git <- git2r::in_repository(private$path)
       private$description <- desc::description$new(private$path)
       private$functionUse <- NULL
-      private$gitIgnore <- readLines(file.path(private$path, ".gitignore"), warn = FALSE)
+      private$gitIgnore <- private$setupGitIgnore()
       private$validate()
 
       private$fetchRFiles()
@@ -224,6 +224,14 @@ Repository <- R6::R6Class(
         warning(glue::glue("Staged chagned not committed, unexpected behaviour expected."))
       }
       return(invisible(self))
+    },
+
+    setupGitIgnore = function() {
+      gitIgnore <- readLines(file.path(private$path, ".gitignore"), warn = FALSE)
+      gitIgnore <- gitIgnore[!startsWith(x = gitIgnore, prefix = "#")]
+      gitIgnore <- gitIgnore[!gitIgnore == ""]
+      gitIgnore <- stringr::str_replace_all(string = gitIgnore, pattern = "\\*", replacement = ".")
+      private$gitIgnore <- gitIgnore
     },
 
 

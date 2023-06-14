@@ -1,7 +1,7 @@
 Package: PaRe
 Type: Package
 Title: A Way to Perform Code Review or QA on Other Packages
-Version: 0.1.9
+Version: 0.1.10
 Language: en-US
 Authors@R:
     person("Maarten", "van Kessel", email = "m.l.vankessel@erasmusmc.nl",
