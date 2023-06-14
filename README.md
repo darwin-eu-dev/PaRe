@@ -5,8 +5,8 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/darwin-eu-dev/PaRe/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/darwin-eu-dev/PaRe/actions/workflows/R-CMD-check.yaml)
-<!-- badges: end -->
+![R-CMD-check](https://github.com/darwin-eu-dev/PaRe/actions/workflows/R-CMD-check.yaml/badge.svg)
+![CRAN](https://www.r-pkg.org/badges/version/PaRe) <!-- badges: end -->
 
 PaRe (**Pa**ckage **Re**viewer) is the successor of the
 DependencyReviewer package. PaRe reviews other packages during code

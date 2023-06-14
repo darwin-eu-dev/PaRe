@@ -107,11 +107,11 @@ Function <- R6::R6Class(
       return(invisible(self))
     },
     getNArgs = function() {
-      nArgs <- private$lines[1] %>%
-        stringr::str_remove_all(pattern = "\\s") %>%
-        stringr::str_split_i(pattern = "function\\(", i = 2) %>%
-        stringr::str_split_i(pattern = "\\)\\{", i = 1) %>%
-        stringr::str_remove_all(pattern = "\\w+\\(.+\\)") %>%
+      nArgs <- getMultiLineFun(line = 1, lines = private$lines) %>%
+        stringr::str_replace_all(pattern = "[ ]?=.+", replacement = ",") %>%
+        paste0(collapse = "") %>%
+        stringr::str_split_i(pattern = "function\\(", 2) %>%
+        stringr::str_split_i(pattern = "\\)[ ]?\\{", 1) %>%
         stringr::str_split(pattern = ",") %>%
         unlist() %>%
         length()
