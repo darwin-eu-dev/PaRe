@@ -3,6 +3,7 @@ PaRe 0.1.10
 1. Fixed issue with pattern matching of files in .gitignore.
 2. Fixed issue with retrieving the correct amount of arguments from a function.
 3. Changed colour highlights for report.
+4. Added addPareArticle function to add a PaRe report as an article.
 
 PaRe 0.1.9
 ==========
