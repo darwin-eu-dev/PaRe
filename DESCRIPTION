@@ -33,7 +33,8 @@ Imports:
     utils,
     R6 (>= 2.5.1),
     git2r (>= 0.31.0),
-    checkmate (>= 2.1.0)
+    checkmate (>= 2.1.0),
+    sourcetools (>= 0.1.7-1)
 Suggests:
     ggplot2,
     plotly,
@@ -42,6 +43,8 @@ Suggests:
     magick,
     withr,
     cowplot,
-    knitr
+    knitr,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
+Config/testthat/edition: 3

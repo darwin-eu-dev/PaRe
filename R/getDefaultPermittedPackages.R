@@ -31,13 +31,13 @@ getDefaultPermittedPackages <- function(base = TRUE) {
   # Custom list
   tryCatch(
     {
-      customWhiteList <- dplyr::bind_rows(lapply(seq_len(nrow(whiteList)), function(i) {
+      customWhiteList <- dplyr::bind_rows(lapply(seq_len(nrow(PaRe::whiteList)), function(i) {
         pkgs <- utils::read.table(
-          file = unlist(whiteList[i, ]["link"]),
+          file = unlist(PaRe::whiteList[i, ]["link"]),
           sep = ",",
           header = TRUE
         ) %>%
-          select(unlist(whiteList[i, ]["package"]), unlist(whiteList[i, ]["version"]))
+          select(unlist(PaRe::whiteList[i, ]["package"]), unlist(PaRe::whiteList[i, ]["version"]))
       }))
 
       basePackages <- NULL
@@ -76,7 +76,6 @@ getDefaultPermittedPackages <- function(base = TRUE) {
       permittedPackages
     },
     error = function(e) {
-      print(e)
       message(e)
       NULL
     },
