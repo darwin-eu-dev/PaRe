@@ -50,7 +50,7 @@ Other Representations:
 }
 \concept{Representations}
 \section{Super class}{
-\code{\link[PaRe:Code]{PaRe::Code}} -> \code{Function}
+\code{PaRe::Code} -> \code{Function}
 }
 \section{Methods}{
 \subsection{Public methods}{
