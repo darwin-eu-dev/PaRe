@@ -76,15 +76,11 @@ getDefaultPermittedPackages <- function(base = TRUE) {
       permittedPackages
     },
     error = function(e) {
-      message(
-        e
-      )
+      message(e)
       NULL
     },
     warning = function(w) {
-      message(
-        w
-      )
+      message(w)
       NULL
     }
   )

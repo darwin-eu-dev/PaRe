@@ -1,5 +1,5 @@
 ---
-title: "#!P_TITLE"
+title: "PaRe Report: #!P_TITLE"
 author: "`r paste('PaRe', packageVersion('PaRe'))`"
 date: "`r Sys.Date()`"
 output:
@@ -23,11 +23,11 @@ library(dplyr)
 ```
 
 ```{r, echo=FALSE}
-repo <- PaRe::Repository$new("../")
+repo <- PaRe::Repository$new("#!P_PATH")
 ```
 
 ## Package overview
-```{r packageDiagram, out.width="100%", warning=FALSE}
+```{r packageDiagram, out.width="100%", warning=FALSE, echo=FALSE}
 repo %>%
   PaRe::pkgDiagram() %>%
   DiagrammeRsvg::export_svg() %>%
@@ -36,14 +36,14 @@ repo %>%
 ```
 
 ## Summary of package functions
-```{r getDefinedFunctionsPkg, message=FALSE, warning=FALSE}
+```{r getDefinedFunctionsPkg, message=FALSE, warning=FALSE, echo=FALSE}
 defFuns <- PaRe::getDefinedFunctions(repo)
 
 defFuns <- defFuns %>%
   dplyr::mutate(size = lineEnd - lineStart + 1)
 ```
 
-```{r summaryDefFunStats}
+```{r summaryDefFunStats, echo=FALSE}
 DT::datatable(data.frame(
   min = c(min(defFuns$nArgs, na.rm = TRUE), 
           min(defFuns$size, na.rm = TRUE), 
@@ -60,7 +60,7 @@ DT::datatable(data.frame(
   options = list(dom = 't'))
 ```
 
-```{r}
+```{r echo=FALSE}
 gg_nArgs <- defFuns %>% 
   ggplot2::ggplot()+
   ggplot2::geom_histogram(ggplot2::aes(nArgs), binwidth = 1,
@@ -88,7 +88,7 @@ gg_cycloComp <- defFuns %>%
 cowplot::plot_grid(gg_nArgs, gg_size, gg_cycloComp, nrow = 3)
 ```
 
-```{r, warning=FALSE, message=FALSE}
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
 p <- defFuns %>% 
   ggplot2::ggplot(ggplot2::aes(group = name))+
   ggplot2::geom_point(ggplot2::aes(size, cycloComp, 
@@ -107,8 +107,8 @@ p <- defFuns %>%
 ```
 
 ## Function details
-```{r definedFunctions}
-colours <- c("", "#DFDF00", "#AA3F40")
+```{r definedFunctions, echo=FALSE}
+colours <- c("", "#81d4fa", "#03a9f4")
 argBreaks <- c(5, 7)
 complexBreaks <- c(15, 30)
 lineBreaks <- c(100, 200)
@@ -130,7 +130,7 @@ DT::datatable(
 ```
 
 ## Use of other programming languages
-```{r countLines}
+```{r countLines, echo=FALSE}
 DT::datatable(
   PaRe::countPackageLines(repo),
   rownames = "# lines of code")
@@ -138,7 +138,7 @@ DT::datatable(
 
 ## Style adherence, syntax errors and possible semantic issues
 ### Summary
-```{r lintScores, message=FALSE, warning=FALSE}
+```{r lintScores, message=FALSE, warning=FALSE, echo=FALSE}
 lintMsgs <- PaRe::lintRepo(repo)
 
 DT::datatable(PaRe::lintScore(repo, lintMsgs) %>% 
@@ -147,7 +147,7 @@ DT::datatable(PaRe::lintScore(repo, lintMsgs) %>%
 ```
 
 ### Warnings
-```{r lintMessages warnings, message=FALSE, warning=FALSE}
+```{r lintMessages warnings, message=FALSE, warning=FALSE, echo=FALSE}
 DT::datatable(
   lintMsgs %>%
     dplyr::filter(type == "warning") %>% 
@@ -158,7 +158,7 @@ DT::datatable(
 ```
 
 ### Style
-```{r lintMessages style, message=FALSE, warning=FALSE}
+```{r lintMessages style, message=FALSE, warning=FALSE, echo=FALSE}
 DT::datatable(
   lintMsgs %>%
     dplyr::filter(type == "style") %>% 
@@ -170,7 +170,7 @@ DT::datatable(
 
 ## Dependency review
 ### Check dependencies against whitelist
-```{r checkDependencies, warning=FALSE}
+```{r checkDependencies, warning=FALSE, echo=FALSE}
 DT::datatable(PaRe::checkDependencies(repo = repo, verbose = FALSE))
 ```
 
@@ -179,7 +179,7 @@ DT::datatable(PaRe::checkDependencies(repo = repo, verbose = FALSE))
 - **countEdges**: The total amount of imports of all dependencies.
 - **meanDegree**: The average amount of imports per dependency.
 - **meanDistance**: The average dependency layers between `r repo$getName()` and all other recursive dependencies.
-```{r dependencyGraphStats, message=FALSE, warning=FALSE}
+```{r dependencyGraphStats, message=FALSE, warning=FALSE, echo=FALSE}
 graphData <- PaRe::getGraphData(repo = repo)
 
 DT::datatable(data.frame(
@@ -192,7 +192,7 @@ DT::datatable(data.frame(
 ```
 
 ### Function use per dependency
-```{r summariseFunctionUse, message=FALSE, warning=FALSE}
+```{r summariseFunctionUse, message=FALSE, warning=FALSE, echo=FALSE}
 funsUsed <- PaRe::getFunctionUse(repo = repo)
 
 DT::datatable(
@@ -200,7 +200,7 @@ DT::datatable(
   rownames = FALSE)
 ```
 
-```{r plotFunctionUse, dpi=100, fig.height=25, out.width="100%", message=FALSE, warning=FALSE}
+```{r plotFunctionUse, dpi=100, fig.height=25, out.width="100%", message=FALSE, warning=FALSE, echo=FALSE}
 function_sub <- funsUsed %>% 
   dplyr::filter(!pkg %in% c("base"))
 
@@ -224,10 +224,6 @@ ggplot2::ggplot(
     legend.position = "none",
     axis.text.x = (ggplot2::element_text(angle = 45, hjust = 1, vjust = 1)))
 ```
-
-
-
-
 
 ## Further reading
 ### Style Guide

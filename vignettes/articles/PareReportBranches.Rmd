@@ -1,0 +1,180 @@
+---
+title: "ComPaRe branches: main, rc, dev"
+author: "Maarten van Kessel"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r libraries, echo=FALSE, message=FALSE}
+library(PaRe)
+library(dplyr)
+library(ggplot2)
+library(DT)
+```
+
+
+```{r setupRepos, echo=FALSE, message=FALSE}
+tempDir <- tempdir()
+pathToRepo <- file.path(tempDir, "PaRe")
+
+git2r::clone(
+  url = "https://github.com/darwin-eu-dev/PaRe.git",
+  local_path = pathToRepo
+)
+
+list.files(pathToRepo)
+
+main <- PaRe::Repository$new(path = pathToRepo)
+```
+
+```{r setupBranches, echo=FALSE, message=FALSE}
+rc <- main$clone()
+rc$gitCheckout("rc")
+
+dev <- main$clone()
+dev$gitCheckout("dev")
+
+main$gitCheckout("main")
+```
+
+
+## Contributors
+```{r contributors, echo=FALSE}
+blameData <- bind_rows(
+  main$gitBlame() %>% mutate(branch = "main"),
+  rc$gitBlame() %>% mutate(branch = "rc"),
+  dev$gitBlame() %>% mutate(branch = "dev")
+)
+
+ggplot(data = blameData, mapping = aes(x = author, fill = branch)) +
+  geom_bar(stat = "count", position = "dodge", colour = "black") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  labs(title = "Contributors")
+
+```
+
+
+## Defined function properties
+```{r cyclocomp, echo=FALSE}
+defFuns <- bind_rows(
+  PaRe::getDefinedFunctions(main) %>% mutate(branch = "main"),
+  PaRe::getDefinedFunctions(rc) %>% mutate(branch = "rc"),
+  PaRe::getDefinedFunctions(dev) %>% mutate(branch = "dev")
+)
+
+ggplot(
+  data = defFuns,
+  mapping = aes(x = name, y = cycloComp, fill = branch)) +
+  geom_bar(stat = "identity", position = "dodge", colour = "black") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  labs(
+    title = "Cyclomatic Complexity per function",
+    y = "Cyclomatic Complexity",
+    x = "Function Name")
+```
+
+```{r nArgs, echo=FALSE}
+ggplot(
+  data = defFuns,
+  mapping = aes(x = name, y = nArgs, fill = branch)) +
+  geom_bar(stat = "identity", position = "dodge", colour = "black") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  labs(
+    title = "Number of arguments per function",
+    y = "Number of arguments",
+    x = "Function Name")
+```
+
+```{r nLines, echo=FALSE}
+ggplot(
+  data = defFuns,
+  mapping = aes(x = name, y = lineEnd - lineStart, fill = branch)) +
+  geom_bar(stat = "identity", position = "dodge", colour = "black") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  labs(
+    title = "Lines per funtion",
+    y = "Number of  Lines",
+    x = "Function Name")
+```
+
+
+## Package Diagram
+### Main
+```{r mainDiagra, echo=FALSE}
+pkgDiagram(main)
+```
+
+### rc
+```{r rcDiagram, echo=FALSE}
+pkgDiagram(rc)
+```
+
+### dev
+```{r devDiagram, echo=FALSE}
+pkgDiagram(dev)
+```
+
+## Function Use
+```{r funUseAll, message=FALSE, echo=FALSE}
+funUse <- bind_rows(
+  main$getFunctionUse() %>% mutate(branch = "main"),
+  rc$getFunctionUse() %>% mutate(branch = "rc"),
+  dev$getFunctionUse() %>% mutate(branch = "dev")
+)
+
+ggplot(
+  data = funUse,
+  mapping = aes(x = pkg, fill = branch)) +
+  geom_bar(
+    stat = "count",
+    position = "dodge",
+    colour = "black") +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  labs(title = "Function use per package")
+```
+
+```{r funUseFiltered, echo=FALSE}
+ggplot(
+  data = funUse %>% filter(!pkg %in% c("base", "unknown")),
+  mapping = aes(x = pkg, fill = branch)) +
+  geom_bar(
+    stat = "count",
+    position = "dodge",
+    colour = "black") +
+  theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+  labs(
+    title = "Function use per package",
+    subtitle = "Removed base and unknown")
+```
+
+## Depencies
+```{r CheckDeps, echo=FALSE}
+datatable(bind_rows(
+  checkDependencies(main, dependencyType = "Imports"),
+  checkDependencies(rc, dependencyType = "Imports"),
+  checkDependencies(dev, dependencyType = "Imports")
+))
+```
+
+```{r DepChacteristics, echo=FALSE}
+gMain <- PaRe::getGraphData(main, c("Imports"))
+gRc <- PaRe::getGraphData(rc, c("Imports"))
+gDev <- PaRe::getGraphData(dev, c("Imports"))
+
+datatable(tibble(
+  Version = c("main", "rc", "dev"),
+  Loops = c(any(igraph::which_loop(gMain)), any(igraph::which_loop(gRc)), any(igraph::which_loop(gDev))),
+  Directed = c(igraph::is_directed(gMain), igraph::is_directed(gRc), igraph::is_directed(gDev)),
+  Size = c(igraph::gsize(gMain), igraph::gsize(gRc), igraph::gsize(gDev)),
+  Vertices = c(igraph::vcount(gMain), igraph::vcount(gRc), igraph::vcount(gDev))
+))
+```
+
