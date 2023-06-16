@@ -20,7 +20,7 @@ file.edit("NEWS.md")
 
 # Format and check code -------------------------------------------------------
 styler::style_pkg()
-OhdsiRTools::checkUsagePackage("DependencyReviewer")
+OhdsiRTools::checkUsagePackage("PaRe")
 OhdsiRTools::updateCopyrightYearFolder()
 devtools::spell_check()
 

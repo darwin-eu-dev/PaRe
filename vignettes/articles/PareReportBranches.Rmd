@@ -51,7 +51,6 @@ ggplot(data = blameData, mapping = aes(x = author, fill = branch)) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
   labs(title = "Contributors")
-
 ```
 
 
@@ -65,40 +64,46 @@ defFuns <- bind_rows(
 
 ggplot(
   data = defFuns,
-  mapping = aes(x = name, y = cycloComp, fill = branch)) +
+  mapping = aes(x = name, y = cycloComp, fill = branch)
+) +
   geom_bar(stat = "identity", position = "dodge", colour = "black") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
   labs(
     title = "Cyclomatic Complexity per function",
     y = "Cyclomatic Complexity",
-    x = "Function Name")
+    x = "Function Name"
+  )
 ```
 
 ```{r nArgs, echo=FALSE}
 ggplot(
   data = defFuns,
-  mapping = aes(x = name, y = nArgs, fill = branch)) +
+  mapping = aes(x = name, y = nArgs, fill = branch)
+) +
   geom_bar(stat = "identity", position = "dodge", colour = "black") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
   labs(
     title = "Number of arguments per function",
     y = "Number of arguments",
-    x = "Function Name")
+    x = "Function Name"
+  )
 ```
 
 ```{r nLines, echo=FALSE}
 ggplot(
   data = defFuns,
-  mapping = aes(x = name, y = lineEnd - lineStart, fill = branch)) +
+  mapping = aes(x = name, y = lineEnd - lineStart, fill = branch)
+) +
   geom_bar(stat = "identity", position = "dodge", colour = "black") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
   labs(
     title = "Lines per funtion",
     y = "Number of  Lines",
-    x = "Function Name")
+    x = "Function Name"
+  )
 ```
 
 
@@ -128,31 +133,38 @@ funUse <- bind_rows(
 
 ggplot(
   data = funUse,
-  mapping = aes(x = pkg, fill = branch)) +
+  mapping = aes(x = pkg, fill = branch)
+) +
   geom_bar(
     stat = "count",
     position = "dodge",
-    colour = "black") +
+    colour = "black"
+  ) +
   theme_bw() +
   theme(
-    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)
+  ) +
   labs(title = "Function use per package")
 ```
 
 ```{r funUseFiltered, echo=FALSE}
 ggplot(
   data = funUse %>% filter(!pkg %in% c("base", "unknown")),
-  mapping = aes(x = pkg, fill = branch)) +
+  mapping = aes(x = pkg, fill = branch)
+) +
   geom_bar(
     stat = "count",
     position = "dodge",
-    colour = "black") +
+    colour = "black"
+  ) +
   theme_bw() +
   theme(
-    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)
+  ) +
   labs(
     title = "Function use per package",
-    subtitle = "Removed base and unknown")
+    subtitle = "Removed base and unknown"
+  )
 ```
 
 ## Depencies
