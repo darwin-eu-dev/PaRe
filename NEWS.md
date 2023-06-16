@@ -5,7 +5,19 @@ PaRe 0.1.10
 3. Changed colour highlights for report.
 4. Added addPareArticle function to add a PaRe report as an article.
 5. Added setup for unittesting.
-6. Added unittest for getDefaultPermittedPackages()
+6. Added unittest for:
+    - getDefaultPermittedPackages
+    - addPareArticle
+    - getApplyCall
+    - getApplyFromLines
+    - getDlplyCall
+    - getDlplyCallFromLines
+    - getDoCall
+    - getDoCallFromLines
+    - getFunCall
+    - getMultiLineFun
+    - checkDependencies
+7. Fixed issue detecting functions called by plyr::dlply
 
 PaRe 0.1.9
 ==========
