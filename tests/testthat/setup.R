@@ -11,3 +11,7 @@ clone(
 )
 
 repo <- Repository$new(path = pathToRepo)
+file <- repo$getRFiles()[[2]]
+fun <- file$getFunctions()[[2]]
+
+defFuns <- PaRe::getDefinedFunctions(repo)
