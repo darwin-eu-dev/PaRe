@@ -227,11 +227,14 @@ Repository <- R6::R6Class(
     },
 
     setupGitIgnore = function() {
-      gitIgnore <- readLines(file.path(private$path, ".gitignore"), warn = FALSE)
-      gitIgnore <- gitIgnore[!startsWith(x = gitIgnore, prefix = "#")]
-      gitIgnore <- gitIgnore[!gitIgnore == ""]
-      gitIgnore <- stringr::str_replace_all(string = gitIgnore, pattern = "\\*", replacement = ".")
-      private$gitIgnore <- gitIgnore
+      ignorePath <- file.path(private$path, ".gitignore")
+      if (file.exists(ignorePath)) {
+        gitIgnore <- readLines(ignorePath, warn = FALSE)
+        gitIgnore <- gitIgnore[!startsWith(x = gitIgnore, prefix = "#")]
+        gitIgnore <- gitIgnore[!gitIgnore == ""]
+        gitIgnore <- stringr::str_replace_all(string = gitIgnore, pattern = "\\*", replacement = ".")
+        private$gitIgnore <- gitIgnore
+      }
     },
 
 

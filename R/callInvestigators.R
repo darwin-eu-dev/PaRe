@@ -44,8 +44,8 @@ getDlplyCallFromLines <- function(lines) {
     funCall %>%
       stringr::str_remove_all("\\s") %>%
       stringr::str_split_i(pattern = "dlply\\(", i = 2) %>%
-      stringr::str_split_i(pattern = ",", i = 4) %>%
-      stringr::str_extract(pattern = "\\=\\w+") %>%
+      stringr::str_split_i(pattern = ",", i = 3) %>%
+      stringr::str_extract(pattern = "[\\=]?\\w+") %>%
       stringr::str_extract(pattern = "\\w+")
   })
 }
@@ -80,7 +80,7 @@ getDlplyCall <- function(fun, defFuns) {
 #'
 #' @return (\link[base]{character})
 getApplyFromLines <- function(lines) {
-  pattern <- "[\\w+]?[Aa]pply\\("
+  pattern <- "[\\w+]?[Aa]pply(LB)?\\("
   indices <- grep(pattern, lines)
   unlist(lapply(indices, function(index) {
     funCall <- paste0(getMultiLineFun(index, lines), collapse = " ")
@@ -88,10 +88,10 @@ getApplyFromLines <- function(lines) {
       funCall <- funCall %>%
         stringr::str_remove_all(pattern = "(\\s)")
 
+      pat <- ",(?=[FUN=]?\\w+?\\w+)"
+
       if (grepl(pattern = "cluster", x = funCall)) {
         pat <- ",(?=[FUN=]?\\w+?\\w+\\))"
-      } else {
-        pat <- ",(?=[FUN=]?\\w+?\\w+)"
       }
 
       funCall <- funCall %>%
