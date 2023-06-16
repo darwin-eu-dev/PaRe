@@ -46,13 +46,16 @@
 #' }
 addPareArticle <- function(repo) {
   injected <- readLines(
-    con = system.file(package = "PaRe", "rmd", "ReportInjectable.Rmd")) %>%
+    con = system.file(package = "PaRe", "rmd", "ReportInjectable.Rmd")
+  ) %>%
     gsub(
       pattern = "#!P_TITLE",
-      replacement = glue::glue("{repo$getName()} [{repo$getDescription()$get_version()}]")) %>%
+      replacement = glue::glue("{repo$getName()} [{repo$getDescription()$get_version()}]")
+    ) %>%
     gsub(
       pattern = "#!P_PATH",
-      replacement = repo$getPath())
+      replacement = repo$getPath()
+    )
 
   dir.create(file.path(repo$getPath(), "vignettes", "articles"))
 

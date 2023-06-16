@@ -207,8 +207,6 @@ Repository <- R6::R6Class(
     description = NULL,
     functionUse = NULL,
     gitIgnore = c(),
-
-
     validate = function() {
       errorMessages <- checkmate::makeAssertCollection()
       # .rproj file
@@ -225,7 +223,6 @@ Repository <- R6::R6Class(
       }
       return(invisible(self))
     },
-
     setupGitIgnore = function() {
       ignorePath <- file.path(private$path, ".gitignore")
       if (file.exists(ignorePath)) {
@@ -236,15 +233,12 @@ Repository <- R6::R6Class(
         private$gitIgnore <- gitIgnore
       }
     },
-
-
     filterIgnored = function(paths) {
       for (pat in private$gitIgnore) {
         paths <- paths[!grepl(pattern = pat, x = paths)]
       }
       return(paths)
     },
-
     fetchRFiles = function() {
       paths <- list.files(file.path(private$path, "R"), recursive = TRUE) %>%
         private$filterIgnored()
@@ -254,13 +248,12 @@ Repository <- R6::R6Class(
       }))
       return(invisible(self))
     },
-
-
     fetchCppFiles = function() {
       paths <- list.files(
         path = private$path,
         pattern = "\\.(cpp|O|h)$",
-        recursive = TRUE) %>%
+        recursive = TRUE
+      ) %>%
         private$filterIgnored()
 
       cpp <- paths[endsWith(paths, ".cpp")]
@@ -279,8 +272,6 @@ Repository <- R6::R6Class(
         File$new(repoPath = private$path, filePath = path)
       })
     },
-
-
     fetchJavaFiles = function() {
       paths <- list.files(path = private$path, pattern = "\\.java$", recursive = TRUE)
       paths <- paths[endsWith(paths, ".java")] %>%
@@ -290,13 +281,12 @@ Repository <- R6::R6Class(
         File$new(repoPath = private$path, filePath = path)
       })
     },
-
-
     fetchSqlFiles = function() {
       paths <- list.files(
         path = private$path,
         pattern = "\\.sql$",
-        recursive = TRUE) %>%
+        recursive = TRUE
+      ) %>%
         private$filterIgnored()
 
       private$sqlFiles <- lapply(paths, function(path) {
