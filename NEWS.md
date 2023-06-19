@@ -1,3 +1,7 @@
+PaRe 0.1.11
+==========
+1. Only create the ./vignettes/articles directory, if it does not exist already.
+
 PaRe 0.1.10
 ==========
 1. Fixed issue with pattern matching of files in .gitignore.
