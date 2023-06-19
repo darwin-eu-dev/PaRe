@@ -10,7 +10,7 @@ test_that("void", {
 })
 
 test_that("minimal", {
-  testthat::skip_on_os(os = "windows")
+  skip_on_cran()
   expect_null(
     checkDependencies(repo = repo)
   )

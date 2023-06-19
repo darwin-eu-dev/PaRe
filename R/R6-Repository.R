@@ -240,7 +240,7 @@ Repository <- R6::R6Class(
       return(paths)
     },
     fetchRFiles = function() {
-      paths <- list.files(file.path(private$path, "R"), recursive = TRUE) %>%
+      paths <- list.files(file.path(private$path, "R"), recursive = TRUE, pattern = "\\.[Rr]$") %>%
         private$filterIgnored()
 
       private$rFiles <- unlist(lapply(paths, function(path) {

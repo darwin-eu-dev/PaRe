@@ -57,13 +57,15 @@ addPareArticle <- function(repo) {
       replacement = repo$getPath()
     )
 
-  dir.create(file.path(repo$getPath(), "vignettes", "articles"))
+  articlePath <- file.path(repo$getPath(), "vignettes", "articles")
+
+  if (!dir.exists(articlePath)) {
+    dir.create(articlePath)
+  }
 
   writeLines(
     text = injected,
-    con = file.path(
-      repo$getPath(), "vignettes", "articles", "PareReport.Rmd"
-    )
+    con = file.path(articlePath, "PareReport.Rmd")
   )
   return(invisible(NULL))
 }
