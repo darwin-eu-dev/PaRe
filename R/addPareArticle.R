@@ -65,9 +65,7 @@ addPareArticle <- function(repo) {
 
   writeLines(
     text = injected,
-    con = file.path(
-      repo$getPath(), "vignettes", "articles", "PareReport.Rmd"
-    )
+    con = file.path(articlePath, "PareReport.Rmd")
   )
   return(invisible(NULL))
 }
