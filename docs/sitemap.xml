@@ -7,10 +7,16 @@
     <loc>/articles/ComparingBranches.html</loc>
   </url>
   <url>
+    <loc>/articles/Contributing.html</loc>
+  </url>
+  <url>
     <loc>/articles/Documentation.html</loc>
   </url>
   <url>
     <loc>/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>/articles/PareReportBranches.html</loc>
   </url>
   <url>
     <loc>/articles/Report.html</loc>
@@ -23,6 +29,9 @@
   </url>
   <url>
     <loc>/news/index.html</loc>
+  </url>
+  <url>
+    <loc>/reference/addPareArticle.html</loc>
   </url>
   <url>
     <loc>/reference/checkDependencies.html</loc>

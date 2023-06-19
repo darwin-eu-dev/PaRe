@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.10</span>
       </span>
     </div>
 
@@ -35,6 +35,12 @@
       <a href="../articles/ComparingBranches.html">Comparing branches</a>
     </li>
     <li>
+      <a href="../articles/Contributing.html">Contributing to PaRe</a>
+    </li>
+    <li>
+      <a href="../articles/PareReportBranches.html">ComPaRe branches: main, rc, dev</a>
+    </li>
+    <li>
       <a href="../articles/Report.html">Report: PaRe [0.1.0]</a>
     </li>
     <li>
@@ -44,7 +50,13 @@
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/darwin-eu-dev/PaRe/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -54,15 +66,55 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      
+      <small>Source: <a href="https://github.com/darwin-eu-dev/PaRe/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.1.7" id="pare-017">PaRe 0.1.7<a class="anchor" aria-label="anchor" href="#pare-017"></a></h2>
+<h2 class="page-header" data-toc-text="0.1.10" id="pare-0110">PaRe 0.1.10<a class="anchor" aria-label="anchor" href="#pare-0110"></a></h2>
+<ol style="list-style-type: decimal"><li>Fixed issue with pattern matching of files in .gitignore.</li>
+<li>Fixed issue with retrieving the correct amount of arguments from a function.</li>
+<li>Changed colour highlights for report.</li>
+<li>Added addPareArticle function to add a PaRe report as an article.</li>
+<li>Added setup for unittesting.</li>
+<li>Added unittest for:
+<ul><li>getDefaultPermittedPackages</li>
+<li>addPareArticle</li>
+<li>getApplyCall</li>
+<li>getApplyFromLines</li>
+<li>getDlplyCall</li>
+<li>getDlplyCallFromLines</li>
+<li>getDoCall</li>
+<li>getDoCallFromLines</li>
+<li>getFunCall</li>
+<li>getMultiLineFun</li>
+<li>checkDependencies</li>
+</ul></li>
+<li>Fixed issue detecting functions called by plyr::dlply</li>
+</ol></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1.9" id="pare-019">PaRe 0.1.9<small>2023-06-12</small><a class="anchor" aria-label="anchor" href="#pare-019"></a></h2>
+<ol style="list-style-type: decimal"><li>Added CRAN badge to README</li>
+<li>Turned off evaluation of code block that keeps crashing on:
+<ul><li>r-devel-linux-x86_64-debian-clang</li>
+<li>r-devel-linux-x86_64-debian-gcc</li>
+<li>r-patched-linux-x86_64</li>
+<li>r-release-linux-x86_64</li>
+</ul></li>
+<li>The message: “Could not connect to the internet, online hosted whitelists will be ignored.” has been replaced with the actual warning or error it throws as a message.</li>
+<li>Fetching file paths now accounts for .gitignore</li>
+</ol></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1.8" id="pare-018">PaRe 0.1.8<small>2023-06-08</small><a class="anchor" aria-label="anchor" href="#pare-018"></a></h2>
+<ol style="list-style-type: decimal"><li>Set pak to version &gt;= 0.2.0.</li>
+<li>Removed version requirement for utils.</li>
+<li>Attempt at solving issue with pak (0.1.6: 4).</li>
+</ol></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1.7" id="pare-017">PaRe 0.1.7<small>2023-06-05</small><a class="anchor" aria-label="anchor" href="#pare-017"></a></h2>
 <ol style="list-style-type: decimal"><li>Fixed issue when creating a File object for .cpp, .o, .h, .java and .sql files.</li>
 <li>Imported dependencies have a set package requirement.</li>
 <li>getDefaultPermittedPackages example now has tag .</li>
-<li>Solved issue where dependency pak did not include glue.</li>
+<li><del>Solved issue where dependency pak did not include glue.</del></li>
 </ol></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.6" id="pare-016">PaRe 0.1.6<small>2023-06-02</small><a class="anchor" aria-label="anchor" href="#pare-016"></a></h2>

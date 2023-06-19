@@ -20,7 +20,7 @@ file.edit("NEWS.md")
 
 # Format and check code -------------------------------------------------------
 styler::style_pkg()
-OhdsiRTools::checkUsagePackage("DependencyReviewer")
+OhdsiRTools::checkUsagePackage("PaRe")
 OhdsiRTools::updateCopyrightYearFolder()
 devtools::spell_check()
 
@@ -35,8 +35,17 @@ devtools::check_win_devel()
 devtools::check_win_release()
 devtools::check_win_oldrelease()
 
-# build_args = "--compact-vignettes=gs+qpdf"
-devtools::check_rhub(interactive = FALSE)
+devtools::check_rhub(
+  platforms = c(
+    "debian-clang-devel",
+    "debian-gcc-devel",
+    "fedora-clang-devel",
+    "fedora-gcc-devel",
+    "debian-gcc-patched",
+    "debian-gcc-release"
+  ),
+  interactive = FALSE
+)
 
 # args = "--compact-vignettes=gs+qpdf"
 devtools::release()
