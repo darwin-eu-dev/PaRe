@@ -190,7 +190,7 @@ getDoCall <- function(fun, defFuns) {
 #' @return (\link[base]{data.frame})
 getFunCall <- function(fun, defFuns) {
   lapply(defFuns$name, function(name) {
-    indices <- grep(paste0("[^a-zA-Z\\.\\d]", name, "\\("), fun$getLines())
+    indices <- grep(paste0("[^a-zA-Z\\.\\d](::{1,3})?", name, "\\("), fun$getLines())
     if (length(indices) > 0) {
       df <- data.frame(
         from = fun$getName(),
