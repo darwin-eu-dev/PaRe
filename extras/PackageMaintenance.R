@@ -17,6 +17,7 @@
 # Package version -------------------------------------------------------------
 file.edit("DESCRIPTION")
 file.edit("NEWS.md")
+file.edit("cran-comments.md")
 
 # Format and check code -------------------------------------------------------
 styler::style_pkg()
