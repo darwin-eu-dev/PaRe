@@ -1,3 +1,9 @@
+PaRe 0.1.11
+==========
+1. Only create the ./vignettes/articles directory, if it does not exist already.
+2. skip one unit test for checkDependencies on CRAN.
+3. Fixed issue where rds-files would be picked up in ./R/ folder.
+
 PaRe 0.1.10
 ==========
 1. Fixed issue with pattern matching of files in .gitignore.

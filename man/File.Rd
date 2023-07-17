@@ -48,7 +48,7 @@ Other Representations:
 }
 \concept{Representations}
 \section{Super class}{
-\code{PaRe::Code} -> \code{File}
+\code{\link[PaRe:Code]{PaRe::Code}} -> \code{File}
 }
 \section{Methods}{
 \subsection{Public methods}{
