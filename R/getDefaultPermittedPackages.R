@@ -4,12 +4,6 @@
 #'
 #' @export
 #'
-#' @param base (\link[base]{logical}: TRUE)
-#' \describe{
-#'   \item{TRUE}{Base packages will be included.}
-#'   \item{FALSE}{Base packages will be ignored.}
-#' }
-#'
 #' @return (\link[dplyr]{tibble})
 #' |  column |              data type |
 #' | ------- | ---------------------- |
@@ -27,7 +21,7 @@
 #'   getDefaultPermittedPackages()
 #' }
 #' }
-getDefaultPermittedPackages <- function(base = TRUE) {
+getDefaultPermittedPackages <- function() {
   # Custom list
   tryCatch(
     {
@@ -40,34 +34,24 @@ getDefaultPermittedPackages <- function(base = TRUE) {
           select(unlist(PaRe::whiteList[i, ]["package"]), unlist(PaRe::whiteList[i, ]["version"]))
       }))
 
-      basePackages <- NULL
-      if (base) {
-        # Get base packages
-        basePackages <- dplyr::bind_rows(lapply(list.files(.Library), function(pkg) {
-          df <- packageDescription(pkg = pkg, fields = c("Package", "Version")) %>%
-            unlist()
+      depList <- pak::pkg_deps(customWhiteList$package)
 
-          dplyr::tibble(
-            package = df[1],
-            version = df[2],
-            row.names = NULL
-          )
-        })) %>%
-          dplyr::filter(.data$package != "translations")
-      }
-
-      sourcePackages <- dplyr::bind_rows(
-        customWhiteList,
-        basePackages
+      packages <- c(
+        "base", "boot", "class", "cluster", "codetools", "compiler",
+        "datasets", "foreign", "graphics", "grDevices", "grid", "KernSmooth",
+        "lattice", "MASS", "Matrix", "methods", "mgcv", "nlme", "nnet",
+        "parallel", "rpart", "spatial", "splines", "stats", "stats4",
+        "survival", "tcltk", "tools", "utils"
       )
 
-      depList <- pak::pkg_deps(sourcePackages$package)
+      basePackages <- data.frame(
+        package = packages,
+        version = rep("0.0.0", length(packages))
+      )
 
-      permittedPackages <- dplyr::bind_rows(
-        basePackages,
-        depList
-      ) %>%
-        dplyr::select("package", version)
+      permittedPackages <- depList %>%
+        dplyr::select("package", version) %>%
+        dplyr::bind_rows(basePackages)
 
       permittedPackages <- permittedPackages %>%
         group_by(.data$package) %>%
