@@ -192,7 +192,7 @@ We can then plot the graph.
 ```{r plotGraphShow, eval=FALSE}
 plot(graphData)
 ```
-![glue graph](./img/glueGraph.png)
+![glue graph](../man/figures/glueGraph.png)
 
 ## Package wide function use
 `PaRe` allows you to get insight in the function usage in a package.
