@@ -54,7 +54,7 @@ addPareArticle <- function(repo) {
     ) %>%
     gsub(
       pattern = "#!P_PATH",
-      replacement = repo$getPath()
+      replacement = gsub(pattern = "\\\\", replacement = "/", repo$getPath())
     )
 
   articlePath <- file.path(repo$getPath(), "vignettes", "articles")
