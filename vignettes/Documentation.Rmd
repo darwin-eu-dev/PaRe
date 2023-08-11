@@ -227,16 +227,14 @@ Besides the location of each function being displayed, the number of arguments f
 ```{r pkgDiagramShow, eval=FALSE}
 PaRe::pkgDiagram(repo = repo) %>%
   DiagrammeRsvg::export_svg() %>%
-  charToRaw() %>%
-  magick::image_read()
+  magick::image_read_svg()
 ```
 
 ```{r pkgDiagram, echo=FALSE}
 if (fetchedRepo) {
   PaRe::pkgDiagram(repo = repo) %>%
     DiagrammeRsvg::export_svg() %>%
-    charToRaw() %>%
-    magick::image_read()
+    magick::image_read_svg()
 }
 ```
 
