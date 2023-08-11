@@ -5,7 +5,7 @@ Version: 0.1.12
 Language: en-US
 Authors@R:
     person("Maarten", "van Kessel", email = "m.l.vankessel@erasmusmc.nl",
-           role = c("aut", "cre"))
+           role = c("aut", "cre"), comment = c(ORCID = "0009-0006-8832-6030"))
 Description: Reviews other packages during code review by looking at their
     dependencies, code style, code complexity, and how internally defined
     functions interact with one another.
