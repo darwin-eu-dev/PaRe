@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
       </span>
     </div>
 
@@ -38,10 +38,10 @@
       <a href="../articles/Contributing.html">Contributing to PaRe</a>
     </li>
     <li>
-      <a href="../articles/PareReportBranches.html">ComPaRe branches: main, rc, dev</a>
+      <a href="../articles/PareReport.html">PaRe Report: PaRe [0.1.12]</a>
     </li>
     <li>
-      <a href="../articles/Report.html">Report: PaRe [0.1.0]</a>
+      <a href="../articles/PareReportBranches.html">ComPaRe branches: main, rc, dev</a>
     </li>
     <li>
       <a href="../articles/Documentation.html">Documentation</a>
@@ -70,7 +70,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.1.10" id="pare-0110">PaRe 0.1.10<a class="anchor" aria-label="anchor" href="#pare-0110"></a></h2>
+<h2 class="page-header" data-toc-text="0.1.12" id="pare-0112">PaRe 0.1.12<a class="anchor" aria-label="anchor" href="#pare-0112"></a></h2>
+<ol style="list-style-type: decimal"><li>Changed <code><a href="https://docs.ropensci.org/magick/reference/editing.html" class="external-link">magick::image_read()</a></code> call to <code><a href="https://docs.ropensci.org/magick/reference/editing.html" class="external-link">magick::image_read_svg()</a></code> to address an error encountered with using libmagick 6.9.12-93.</li>
+<li>Changed the way base packages are fetched.</li>
+</ol></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1.11" id="pare-0111">PaRe 0.1.11<small>2023-07-06</small><a class="anchor" aria-label="anchor" href="#pare-0111"></a></h2>
+<ol style="list-style-type: decimal"><li>Only create the ./vignettes/articles directory, if it does not exist already.</li>
+<li>skip one unit test for checkDependencies on CRAN.</li>
+<li>Fixed issue where rds-files would be picked up in ./R/ folder.</li>
+</ol></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1.10" id="pare-0110">PaRe 0.1.10<small>2023-06-16</small><a class="anchor" aria-label="anchor" href="#pare-0110"></a></h2>
 <ol style="list-style-type: decimal"><li>Fixed issue with pattern matching of files in .gitignore.</li>
 <li>Fixed issue with retrieving the correct amount of arguments from a function.</li>
 <li>Changed colour highlights for report.</li>

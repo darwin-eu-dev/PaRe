@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
       </span>
     </div>
 
@@ -38,10 +38,10 @@
       <a href="../articles/Contributing.html">Contributing to PaRe</a>
     </li>
     <li>
-      <a href="../articles/PareReportBranches.html">ComPaRe branches: main, rc, dev</a>
+      <a href="../articles/PareReport.html">PaRe Report: PaRe [0.1.12]</a>
     </li>
     <li>
-      <a href="../articles/Report.html">Report: PaRe [0.1.0]</a>
+      <a href="../articles/PareReportBranches.html">ComPaRe branches: main, rc, dev</a>
     </li>
     <li>
       <a href="../articles/Documentation.html">Documentation</a>
@@ -75,22 +75,9 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getDefaultPermittedPackages</span><span class="op">(</span>base <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getDefaultPermittedPackages</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
-    <div id="arguments">
-    <h2>Arguments</h2>
-    <dl><dt>base</dt>
-<dd><p>(<a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a>: TRUE)</p><dl><dt>TRUE</dt>
-<dd><p>Base packages will be included.</p></dd>
-
-<dt>FALSE</dt>
-<dd><p>Base packages will be ignored.</p></dd>
-
-
-</dl></dd>
-
-</dl></div>
     <div id="value">
     <h2>Value</h2>
     
@@ -100,14 +87,14 @@
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
-<span class="r-in"><span>  <span class="co"># Set cache</span></span></span>
-<span class="r-in"><span>  <span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_envvar.html" class="external-link">local_envvar</a></span><span class="op">(</span></span></span>
-<span class="r-in"><span>    R_USER_CACHE_DIR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Set cache</span></span></span>
+<span class="r-in"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_envvar.html" class="external-link">local_envvar</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  R_USER_CACHE_DIR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span>    <span class="fu">getDefaultPermittedPackages</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span>  <span class="op">}</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/interactive.html" class="external-link">interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu">getDefaultPermittedPackages</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

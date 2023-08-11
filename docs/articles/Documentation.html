@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
       </span>
     </div>
 
@@ -63,10 +63,10 @@
       <a href="../articles/Contributing.html">Contributing to PaRe</a>
     </li>
     <li>
-      <a href="../articles/PareReportBranches.html">ComPaRe branches: main, rc, dev</a>
+      <a href="../articles/PareReport.html">PaRe Report: PaRe [0.1.12]</a>
     </li>
     <li>
-      <a href="../articles/Report.html">Report: PaRe [0.1.0]</a>
+      <a href="../articles/PareReportBranches.html">ComPaRe branches: main, rc, dev</a>
     </li>
     <li>
       <a href="../articles/Documentation.html">Documentation</a>
@@ -101,7 +101,7 @@
                         <h4 data-toc-skip class="author">Maarten van
 Kessel</h4>
             
-            <h4 data-toc-skip class="date">2023-06-16</h4>
+            <h4 data-toc-skip class="date">2023-08-11</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/darwin-eu-dev/PaRe/blob/HEAD/vignettes/Documentation.Rmd" class="external-link"><code>vignettes/Documentation.Rmd</code></a></small>
       <div class="hidden name"><code>Documentation.Rmd</code></div>
@@ -133,9 +133,9 @@ csv-files to be used in the <code><a href="../reference/checkDependencies.html">
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 4</span></span></span>
 <span><span class="co">#&gt;   source    link                                                 package version</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> darwin    https://raw.githubusercontent.com/mvankessel-EMC/De… package version</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hades     https://raw.githubusercontent.com/mvankessel-EMC/De… package version</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> tidyverse https://raw.githubusercontent.com/mvankessel-EMC/De… package version</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tidyverse https://raw.githubusercontent.com/mvankessel-EMC/De… package version</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> darwin    https://raw.githubusercontent.com/mvankessel-EMC/De… package version</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> hades     https://raw.githubusercontent.com/mvankessel-EMC/De… package version</span></span></code></pre></div>
 <p>The data frame contains 4 columns:</p>
 <ol style="list-style-type: decimal">
 <li>
@@ -167,9 +167,9 @@ frame.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
 <span><span class="co">#&gt;   source       link                                              package version</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> darwin       https://raw.githubusercontent.com/mvankessel-EMC… package version</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> hades        https://raw.githubusercontent.com/mvankessel-EMC… package version</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> tidyverse    https://raw.githubusercontent.com/mvankessel-EMC… package version</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> tidyverse    https://raw.githubusercontent.com/mvankessel-EMC… package version</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> darwin       https://raw.githubusercontent.com/mvankessel-EMC… package version</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> hades        https://raw.githubusercontent.com/mvankessel-EMC… package version</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> dummySession some/file.csv                                     package version</span></span></code></pre></div>
 <p>If you wish to make more permanent alterations to the
 <code>whiteList</code> data frame, you can edit the whiteList.csv file
@@ -192,14 +192,14 @@ in the PaRe system files.</p>
 <span></span>
 <span><span class="va">fileWhiteList</span></span>
 <span><span class="co">#&gt;      source</span></span>
-<span><span class="co">#&gt; 1    darwin</span></span>
-<span><span class="co">#&gt; 2     hades</span></span>
-<span><span class="co">#&gt; 3 tidyverse</span></span>
+<span><span class="co">#&gt; 1 tidyverse</span></span>
+<span><span class="co">#&gt; 2    darwin</span></span>
+<span><span class="co">#&gt; 3     hades</span></span>
 <span><span class="co">#&gt; 4 dummyFile</span></span>
 <span><span class="co">#&gt;                                                                                               link</span></span>
-<span><span class="co">#&gt; 1    https://raw.githubusercontent.com/mvankessel-EMC/DependencyReviewerWhitelists/main/darwin.csv</span></span>
-<span><span class="co">#&gt; 2     https://raw.githubusercontent.com/mvankessel-EMC/DependencyReviewerWhitelists/main/hades.csv</span></span>
-<span><span class="co">#&gt; 3 https://raw.githubusercontent.com/mvankessel-EMC/DependencyReviewerWhitelists/main/tidyverse.csv</span></span>
+<span><span class="co">#&gt; 1 https://raw.githubusercontent.com/mvankessel-EMC/DependencyReviewerWhitelists/main/tidyverse.csv</span></span>
+<span><span class="co">#&gt; 2    https://raw.githubusercontent.com/mvankessel-EMC/DependencyReviewerWhitelists/main/darwin.csv</span></span>
+<span><span class="co">#&gt; 3     https://raw.githubusercontent.com/mvankessel-EMC/DependencyReviewerWhitelists/main/hades.csv</span></span>
 <span><span class="co">#&gt; 4                                                                                    some/file.csv</span></span>
 <span><span class="co">#&gt;   package version</span></span>
 <span><span class="co">#&gt; 1 package version</span></span>
@@ -250,17 +250,17 @@ white list.</li>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">repo</span> <span class="op">&lt;-</span> <span class="fu">PaRe</span><span class="fu">::</span><span class="va"><a href="../reference/Repository.html">Repository</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span>path <span class="op">=</span> <span class="va">pathToRepo</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; cloning into 'C:\Users\MVANKE~1\AppData\Local\Temp\RtmpWQaKCq/glue'...</span></span>
+<pre><code><span><span class="co">#&gt; cloning into 'C:\Users\MVANKE~1\AppData\Local\Temp\RtmpQRpwDq/glue'...</span></span>
 <span><span class="co">#&gt; Receiving objects:   1% (50/4925),   63 kb</span></span>
 <span><span class="co">#&gt; Receiving objects:  11% (542/4925),  352 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  21% (1035/4925), 1977 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  31% (1527/4925), 2369 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  41% (2020/4925), 2761 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  51% (2512/4925), 2817 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  61% (3005/4925), 3209 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  71% (3497/4925), 3770 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  81% (3990/4925), 3826 kb</span></span>
-<span><span class="co">#&gt; Receiving objects:  91% (4482/4925), 4050 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  21% (1035/4925), 1768 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  31% (1527/4925), 2345 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  41% (2020/4925), 2737 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  51% (2512/4925), 2849 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  61% (3005/4925), 3241 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  71% (3497/4925), 3746 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  81% (3990/4925), 3858 kb</span></span>
+<span><span class="co">#&gt; Receiving objects:  91% (4482/4925), 4026 kb</span></span>
 <span><span class="co">#&gt; Receiving objects: 100% (4925/4925), 4892 kb, done.</span></span></code></pre>
 </div>
 <div class="section level3">
@@ -330,10 +330,10 @@ graph.</p>
 <p>We can compute several statistics about our dependency graph</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
-<span>  countVertices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/V.html" class="external-link">V</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  countEdges <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/E.html" class="external-link">E</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  meanDegree <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/degree.html" class="external-link">degree</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
-<span>  meanDistance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/distances.html" class="external-link">distances</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span>  countVertices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/V.html" class="external-link">V</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  countEdges <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/E.html" class="external-link">E</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  meanDegree <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/degree.html" class="external-link">degree</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span>,</span>
+<span>  meanDistance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="fu">igraph</span><span class="fu">::</span><span class="fu"><a href="https://r.igraph.org/reference/distances.html" class="external-link">distances</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li>
@@ -353,7 +353,7 @@ between <code>glue</code> and all other recursive dependencies.</li>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">graphData</span><span class="op">)</span></span></code></pre></div>
 <div class="float">
-<img src="img/glueGraph.png" alt="glue graph"><div class="figcaption">glue graph</div>
+<img src="../reference/figures/glueGraph.png" alt="glue graph"><div class="figcaption">glue graph</div>
 </div>
 </div>
 </div>
@@ -381,7 +381,7 @@ a package.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> color.R    70 base    function    </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> color.R    70 base    parse       </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> color.R    70 base    tryCatch    </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># … with 416 more rows</span></span></span></code></pre>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 416 more rows</span></span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="getdefinedfunctions">getDefinedFunctions<a class="anchor" aria-label="anchor" href="#getdefinedfunctions"></a>
@@ -402,9 +402,8 @@ included in the result.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">PaRe</span><span class="fu">::</span><span class="fu"><a href="../reference/pkgDiagram.html">pkgDiagram</a></span><span class="op">(</span>repo <span class="op">=</span> <span class="va">repo</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">DiagrammeRsvg</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/DiagrammeRsvg/man/export_svg.html" class="external-link">export_svg</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/base/rawConversion.html" class="external-link">charToRaw</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">magick</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html" class="external-link">image_read</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="../docs/articles/Documentation_files/figure-html/pkgDiagram-1.png" width="1050"></p>
+<span>  <span class="fu">magick</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/magick/reference/editing.html" class="external-link">image_read_svg</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="../docs/articles/Documentation_files/figure-html/pkgDiagram-1.png" width="984"></p>
 </div>
 </div>
 <div class="section level2">
@@ -430,10 +429,13 @@ included in the result.</p>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> When switching from `summarise()` to `reframe()`, remember that `reframe()`</span></span>
 <span><span class="co">#&gt;   always returns an ungrouped data frame and adjust accordingly.</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">PaRe</span> package.</span></span>
-<span><span class="co">#&gt;   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;</span></span></span>
-<span><span class="co"><span style="color: #0000BB; font-style: italic;">#&gt; </span><span style="color: #949494; font-style: italic;"># A tibble: 2 × 2</span></span></span>
-<span><span class="co"><span style="font-style: italic;">#&gt;   type      pct</span></span></span>
-<span><span class="co"><span style="font-style: italic;">#&gt;   </span><span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt;   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/darwin-eu-dev/PaRe/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 2</span></span></span>
+<span><span class="co">#&gt;   type      pct</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> style   10.2 </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> warning  3.94</span></span></code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
