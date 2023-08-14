@@ -4,14 +4,7 @@
 \alias{getDefaultPermittedPackages}
 \title{getDefaultPermittedPackages}
 \usage{
-getDefaultPermittedPackages(base = TRUE)
-}
-\arguments{
-\item{base}{(\link[base]{logical}: TRUE)
-\describe{
-\item{TRUE}{Base packages will be included.}
-\item{FALSE}{Base packages will be ignored.}
-}}
+getDefaultPermittedPackages()
 }
 \value{
 (\link[dplyr]{tibble})\tabular{ll}{

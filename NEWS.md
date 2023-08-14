@@ -1,3 +1,10 @@
+PaRe 0.1.12
+==========
+1. Changed `magick::image_read()` call to `magick::image_read_svg()` to address
+an error encountered with using libmagick 6.9.12-93.
+2. Changed the way base packages are fetched.
+3. Resolved addPareArticle issue with injecting path into Rmd.
+
 PaRe 0.1.11
 ==========
 1. Only create the ./vignettes/articles directory, if it does not exist already.

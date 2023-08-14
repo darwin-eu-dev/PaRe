@@ -98,6 +98,7 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #' | version | \link[base]{character} |
 #'
 #' @examples
+#' donttest {
 #' # Set cahce, usually not required.
 #' withr::local_envvar(
 #'   R_USER_CACHE_DIR = tempfile()
@@ -135,6 +136,7 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #'   # Use checkDependencies on the Repository object.
 #'   checkDependencies(repo)
 #'   checkDependencies(repo, dependencyType = c("Imports", "Suggests"))
+#' }
 #' }
 checkDependencies <- function(
     repo,

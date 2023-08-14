@@ -4,8 +4,8 @@ pkgdown_sha: ~
 articles:
   ComparingBranches: ComparingBranches.html
   Contributing: Contributing.html
+  PareReport: PareReport.html
   PareReportBranches: PareReportBranches.html
-  Report: Report.html
   Documentation: Documentation.html
-last_built: 2023-06-16T12:16Z
+last_built: 2023-08-11T12:11Z
 

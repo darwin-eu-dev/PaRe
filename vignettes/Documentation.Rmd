@@ -192,7 +192,7 @@ We can then plot the graph.
 ```{r plotGraphShow, eval=FALSE}
 plot(graphData)
 ```
-![glue graph](./img/glueGraph.png)
+![glue graph](../man/figures/glueGraph.png)
 
 ## Package wide function use
 `PaRe` allows you to get insight in the function usage in a package.
@@ -227,16 +227,14 @@ Besides the location of each function being displayed, the number of arguments f
 ```{r pkgDiagramShow, eval=FALSE}
 PaRe::pkgDiagram(repo = repo) %>%
   DiagrammeRsvg::export_svg() %>%
-  charToRaw() %>%
-  magick::image_read()
+  magick::image_read_svg()
 ```
 
 ```{r pkgDiagram, echo=FALSE}
 if (fetchedRepo) {
   PaRe::pkgDiagram(repo = repo) %>%
     DiagrammeRsvg::export_svg() %>%
-    charToRaw() %>%
-    magick::image_read()
+    magick::image_read_svg()
 }
 ```
 

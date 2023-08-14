@@ -31,8 +31,7 @@ repo <- PaRe::Repository$new("#!P_PATH")
 repo %>%
   PaRe::pkgDiagram() %>%
   DiagrammeRsvg::export_svg() %>%
-  charToRaw() %>%
-  magick::image_read()
+  magick::image_read_svg()
 ```
 
 ## Summary of package functions

@@ -1,4 +1,4 @@
 "source","link","package","version"
+"tidyverse","https://raw.githubusercontent.com/mvankessel-EMC/DependencyReviewerWhitelists/main/tidyverse.csv","package","version"
 "darwin","https://raw.githubusercontent.com/mvankessel-EMC/DependencyReviewerWhitelists/main/darwin.csv","package","version"
 "hades","https://raw.githubusercontent.com/mvankessel-EMC/DependencyReviewerWhitelists/main/hades.csv","package","version"
-"tidyverse","https://raw.githubusercontent.com/mvankessel-EMC/DependencyReviewerWhitelists/main/tidyverse.csv","package","version"

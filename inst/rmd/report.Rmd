@@ -22,8 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 repo %>%
   PaRe::pkgDiagram() %>%
   DiagrammeRsvg::export_svg() %>%
-  charToRaw() %>%
-  magick::image_read()
+  magick::image_read_svg()
 ```
 
 ## Summary of package functions
