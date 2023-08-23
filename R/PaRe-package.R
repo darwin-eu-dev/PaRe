@@ -2,6 +2,7 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @useDynLib PaRe, .registration=TRUE
 #' @import utils
 #' @import pak
 #' @import glue
@@ -13,6 +14,8 @@
 #' @import rsvg
 #' @import R6
 #' @import checkmate
+#' @import Rcpp
+#' @import data.table
 #' @importFrom igraph graph_from_data_frame V write_graph all_simple_paths induced_subgraph graph_from_data_frame
 #' @importFrom cli style_bold col_yellow col_red col_magenta col_green col_blue cli_alert_warning cli_alert_info cli_alert_danger cli_alert
 #' @importFrom dplyr filter tibble arrange select bind_rows select tally summarise rename relocate mutate group_by
