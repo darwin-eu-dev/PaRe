@@ -51,6 +51,6 @@ countPackageLines <- function(repo) {
     sum(unlist(lapply(fileType, function(file) {
       file$getNLines()
     })))
-  })) %>%
-    dplyr::tibble()
+  })) |>
+    data.table::data.table()
 }

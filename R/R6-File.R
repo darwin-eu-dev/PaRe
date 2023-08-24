@@ -73,7 +73,7 @@ File <- R6::R6Class(
         private$fetchDefinedFunctions()
       }
 
-      private$gitBlame()
+      try({private$gitBlame()}, silent = TRUE)
       return(invisible(self))
     },
 
@@ -146,16 +146,15 @@ File <- R6::R6Class(
     gitBlame = function() {
       b <- git2r::blame(repo = private$repoPath, path = private$filePath)
       private$blameTable <- lapply(b$hunks, function(hunk) {
-        data.frame(
+        data.table::data.table(
           repository = basename(private$repoPath),
           author = hunk$orig_signature$name,
           file = basename(hunk$orig_path),
           date = as.character(hunk$orig_signature$when),
           lines = hunk$lines_in_hunk
         )
-      }) %>%
-        dplyr::bind_rows() %>%
-        dplyr::tibble()
+      }) |>
+        data.table::rbindlist()
       return(invisible(self))
     },
     fetchDefinedFunctions = function() {
@@ -179,7 +178,7 @@ File <- R6::R6Class(
         )
 
         # Update functionTable
-        private$functionTable <- dplyr::bind_rows(
+        private$functionTable <- rbind(
           private$functionTable,
           funObj$getFunction()
         )
@@ -205,7 +204,7 @@ File <- R6::R6Class(
           lineEnd <- lineEnd + 1
         }
       }
-      return(data.frame(
+      return(data.table::data.table(
         start = line,
         end = lineEnd
       ))
@@ -226,7 +225,7 @@ File <- R6::R6Class(
         patClosed = "\\}"
       )
 
-      return(data.frame(
+      return(data.table::data.table(
         constructorStart = constructor$start,
         constructorEnd = constructor$end,
         bodyStart = body$start,

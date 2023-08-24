@@ -88,7 +88,7 @@ Function <- R6::R6Class(
     #' |     nArgs |   (\link[base]{integer}) |
     #' | cycloComp |   (\link[base]{integer}) |
     getFunction = function() {
-      return(data.frame(
+      return(data.table::data.table(
         name = private$name,
         lineStart = private$lineStart,
         lineEnd = private$lineEnd,
@@ -107,13 +107,13 @@ Function <- R6::R6Class(
       return(invisible(self))
     },
     getNArgs = function() {
-      nArgs <- getMultiLineFun(line = 1, lines = private$lines) %>%
-        stringr::str_replace_all(pattern = "[ ]?=.+", replacement = ",") %>%
-        paste0(collapse = "") %>%
-        stringr::str_split_i(pattern = "function\\(", 2) %>%
-        stringr::str_split_i(pattern = "\\)[ ]?\\{", 1) %>%
-        stringr::str_split(pattern = ",") %>%
-        unlist() %>%
+      nArgs <- getMultiLineFun(line = 1, lines = private$lines) |>
+        stringr::str_replace_all(pattern = "[ ]?=.+", replacement = ",") |>
+        paste0(collapse = "") |>
+        stringr::str_split_i(pattern = "function\\(", 2) |>
+        stringr::str_split_i(pattern = "\\)[ ]?\\{", 1) |>
+        stringr::str_split(pattern = ",") |>
+        unlist() |>
         length()
     },
     computeCycloComp = function() {

@@ -148,13 +148,16 @@ Repository <- R6::R6Class(
       tryCatch(
         {
           git2r::checkout(object = private$path, branch = branch, ...)
-          message(glue::glue("Switched to: {branch}"))
+          message(sptrinf("Switched to: %s", branch))
           message("Re-initializing")
           self$initialize(path = private$path)
         },
         error = function(e) {
-          message(glue::glue("Availible branches: {paste(names(git2r::branches(private$path)), collapse = ', ')}"))
-          stop(glue::glue("Branches: '{branch}' not found"))
+          message(sprintf(
+            "Availible branches: %s",
+            paste(names(git2r::branches(private$path)), collapse = ', ')
+          ))
+          stop(sprintf("Branches: '%s' not found", branch))
         }
       )
       return(invisible(self))
@@ -215,7 +218,7 @@ Repository <- R6::R6Class(
 
       status <- git2r::status(repo = private$path)
       if (length(status$staged) > 0) {
-        warning(glue::glue("Staged chagned not committed, unexpected behaviour expected."))
+        warning("Staged chagned not committed, unexpected behaviour expected.")
       }
       return(invisible(self))
     },

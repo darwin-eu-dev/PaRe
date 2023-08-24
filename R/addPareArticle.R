@@ -47,11 +47,11 @@
 addPareArticle <- function(repo) {
   injected <- readLines(
     con = system.file(package = "PaRe", "rmd", "ReportInjectable.Rmd")
-  ) %>%
+  ) |>
     gsub(
       pattern = "#!P_TITLE",
-      replacement = glue::glue("{repo$getName()} [{repo$getDescription()$get_version()}]")
-    ) %>%
+      replacement = sprintf("%s [%s]", repo$getName(), repo$getDescription()$get_version())
+    ) |>
     gsub(
       pattern = "#!P_PATH",
       replacement = gsub(pattern = "\\\\", replacement = "/", repo$getPath())

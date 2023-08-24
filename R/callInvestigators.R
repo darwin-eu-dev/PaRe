@@ -41,11 +41,11 @@ getDlplyCallFromLines <- function(lines) {
   indices <- grep(pattern = "[plyr::]?dlply", lines)
   lapply(indices, function(index) {
     funCall <- paste0(getMultiLineFun(index, lines), collapse = " ")
-    funCall %>%
-      stringr::str_remove_all("\\s") %>%
-      stringr::str_split_i(pattern = "dlply\\(", i = 2) %>%
-      stringr::str_split_i(pattern = ",", i = 3) %>%
-      stringr::str_extract(pattern = "[\\=]?\\w+") %>%
+    funCall |>
+      stringr::str_remove_all("\\s") |>
+      stringr::str_split_i(pattern = "dlply\\(", i = 2) |>
+      stringr::str_split_i(pattern = ",", i = 3) |>
+      stringr::str_extract(pattern = "[\\=]?\\w+") |>
       stringr::str_extract(pattern = "\\w+")
   })
 }
@@ -85,7 +85,7 @@ getApplyFromLines <- function(lines) {
   unlist(lapply(indices, function(index) {
     funCall <- paste0(getMultiLineFun(index, lines), collapse = " ")
     if (!stringr::str_detect(string = funCall, pattern = "function[ ]?\\(")) {
-      funCall <- funCall %>%
+      funCall <- funCall |>
         stringr::str_remove_all(pattern = "(\\s)")
 
       pat <- ",(?=[FUN=]?\\w+?\\w+)"
@@ -94,15 +94,15 @@ getApplyFromLines <- function(lines) {
         pat <- ",(?=[FUN=]?\\w+?\\w+\\))"
       }
 
-      funCall <- funCall %>%
+      funCall <- funCall |>
         stringr::str_split_i(pattern = pat, i = 2)
 
       if (grepl(pattern = "=", x = funCall)) {
-        funCall <- funCall %>%
+        funCall <- funCall |>
           stringr::str_split_i(pattern = "=", i = 2)
       }
 
-      funCall <- funCall %>%
+      funCall <- funCall |>
         stringr::str_remove_all(pattern = "[\\%\\(\\)\\\\>\\<]")
       return(funCall)
     }
@@ -144,14 +144,14 @@ getDoCallFromLines <- function(lines) {
   unlist(lapply(indices, function(index) {
     funCall <- paste0(getMultiLineFun(index, lines), collapse = " ")
 
-    funCall <- funCall %>%
-      stringr::str_remove_all(pattern = "\\s") %>%
-      stringr::str_split_i(pattern = pattern, i = 2) %>%
-      stringr::str_split_i(pattern = ",", i = 1) %>%
+    funCall <- funCall |>
+      stringr::str_remove_all(pattern = "\\s") |>
+      stringr::str_split_i(pattern = pattern, i = 2) |>
+      stringr::str_split_i(pattern = ",", i = 1) |>
       stringr::str_remove_all(pattern = "[\"\'\\\\]")
 
     if (grepl("=", funCall)) {
-      funCall <- funCall %>%
+      funCall <- funCall |>
         stringr::str_split_i(pattern = "=", i = 2)
     }
     return(funCall)

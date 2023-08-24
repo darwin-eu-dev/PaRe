@@ -13,17 +13,16 @@
 #' | version | \link[base]{character} |
 printMessage <- function(notPermitted, versionCheck) {
   if (nrow(notPermitted) > 0) {
-    message(
-      glue::glue(
-        "The following are not permitted: {cli::style_bold(paste0(notPermitted$package, collapse = ', '))}\n",
-        "Please open an issue here: {cli::style_bold('https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues')}"
+    message(paste0(
+        sprintf("The following are not permitted: {%s}\n", paste0(notPermitted$package, collapse = ", ")),
+        "Please open an issue here: 'https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues'"
       )
     )
     return(notPermitted)
   } else if (nrow(versionCheck) > 0) {
-    message(glue::glue(
-      "The following versions are not of the right version: {cli::col_yellow(paste0(versionCheck$package, collapse = ', '))}\n",
-      "Please open an issue here: {cli::style_bold('https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues')}"
+    message(paste0(
+      sprintf("The following versions are not of the right version: %s\n", paste0(versionCheck$package, collapse = ", ")),
+      "Please open an issue here: 'https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues'"
     ))
     return(versionCheck)
   } else {
@@ -53,26 +52,27 @@ printMessage <- function(notPermitted, versionCheck) {
 #' | package | \link[base]{character} |
 #' | version | \link[base]{character} |
 getVersionDf <- function(dependencies, permittedPackages) {
-  permitted <- dependencies %>%
-    dplyr::filter(.data$package %in% permittedPackages$package)
+  # permitted <- dependencies %>%
+  #   dplyr::filter(.data$package %in% permittedPackages$package)
+
+  permitted <- dependencies[
+    i = dependencies$package %in% permittedPackages$package
+  ]
 
   permitted$version[permitted$version == "*"] <- "0.0.0"
 
-  permitted <- permitted %>%
-    dplyr::arrange(.data$package)
-
   permittedPackages <- permittedPackages[
-    permittedPackages$package %in% permitted$package,
-  ] %>%
-    dplyr::arrange(.data$package)
+    i = permittedPackages$package %in% permitted$package][
+      i = order(rank(dependencies$package))
+    ]
 
-  df <- cbind(
+  dt <- cbind(
     permittedPackages,
     allowed = permitted$version
   )
 
-  return(df[
-    !as.numeric_version(df$version) >= as.numeric_version(df$allowed),
+  return(dt[
+    i = !as.numeric_version(dt$version) >= as.numeric_version(dt$allowed)
   ])
 }
 
@@ -144,10 +144,13 @@ checkDependencies <- function(
     verbose = TRUE) {
   description <- repo$getDescription()
 
-  dependencies <- description$get_deps() %>%
-    dplyr::filter(.data$type %in% dependencyType) %>%
-    dplyr::select("package", "version") %>%
-    dplyr::filter(.data$package != "R")
+  deps <- description$get_deps() |>
+    data.table::data.table()
+
+  dependencies <- deps[
+    i = deps$type %in% dependencyType & deps$package != "R",
+    j = .(package, version)
+  ]
 
   dependencies$version <- stringr::str_remove(
     string = dependencies$version,
@@ -155,18 +158,30 @@ checkDependencies <- function(
   )
 
   if (isTRUE(verbose)) {
-    permittedPackages <- getDefaultPermittedPackages()
+    permittedPackages <- getDefaultPermittedPackages() |>
+      data.table::data.table()
+
+    permittedPackages[
+      , version := as.character.numeric_version(permittedPackages$version)
+    ]
   } else {
     suppressMessages(
-      permittedPackages <- getDefaultPermittedPackages()
+      permittedPackages <- getDefaultPermittedPackages() |>
+        data.table::data.table()
     )
+
+    permittedPackages[
+      , version := as.character.numeric_version(permittedPackages$version)
+    ]
   }
 
-  notPermitted <- dependencies %>%
-    dplyr::filter(!.data$package %in% permittedPackages$package)
+  notPermitted <- dependencies[
+    i = !dependencies$package %in% permittedPackages$package
+  ]
 
-  permitted <- dependencies %>%
-    dplyr::filter(.data$package %in% permittedPackages$package)
+  permitted <- dependencies[
+    i = dependencies$package %in% permittedPackages$package
+  ]
 
   permitted$version[permitted$version == "*"] <- "0.0.0"
 

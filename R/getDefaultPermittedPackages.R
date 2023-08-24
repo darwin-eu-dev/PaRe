@@ -23,49 +23,49 @@
 #' }
 getDefaultPermittedPackages <- function() {
   # Custom list
-  tryCatch(
-    {
-      customWhiteList <- dplyr::bind_rows(lapply(seq_len(nrow(PaRe::whiteList)), function(i) {
-        pkgs <- utils::read.table(
-          file = unlist(PaRe::whiteList[i, ]["link"]),
-          sep = ",",
-          header = TRUE
-        ) %>%
-          select(unlist(PaRe::whiteList[i, ]["package"]), unlist(PaRe::whiteList[i, ]["version"]))
-      }))
+  tryCatch({
+    customWhiteList <- lapply(seq_len(nrow(PaRe::whiteList)), function(i) {
+      pkgs <- data.table::fread(unlist(PaRe::whiteList[i, "link"]))
 
-      depList <- pak::pkg_deps(customWhiteList$package)
+      cols <- PaRe::whiteList[i, c("package", "version")] |>
+        unlist() |>
+        unname()
+      return(pkgs[j = ..cols])
+    }) |>
+      data.table::rbindlist()
 
-      packages <- c(
-        "base", "boot", "class", "cluster", "codetools", "compiler",
-        "datasets", "foreign", "graphics", "grDevices", "grid", "KernSmooth",
-        "lattice", "MASS", "Matrix", "methods", "mgcv", "nlme", "nnet",
-        "parallel", "rpart", "spatial", "splines", "stats", "stats4",
-        "survival", "tcltk", "tools", "utils"
-      )
+    depList <- pak::pkg_deps(customWhiteList$package) |>
+      data.table::data.table()
 
-      basePackages <- data.frame(
-        package = packages,
-        version = rep("0.0.0", length(packages))
-      )
+    packages <- c(
+      "base", "boot", "class", "cluster", "codetools", "compiler",
+      "datasets", "foreign", "graphics", "grDevices", "grid", "KernSmooth",
+      "lattice", "MASS", "Matrix", "methods", "mgcv", "nlme", "nnet",
+      "parallel", "rpart", "spatial", "splines", "stats", "stats4",
+      "survival", "tcltk", "tools", "utils"
+    )
 
-      permittedPackages <- depList %>%
-        dplyr::select("package", version) %>%
-        dplyr::bind_rows(basePackages)
+    basePackages <- data.table::data.table(
+      package = packages,
+      version = rep("0.0.0", length(packages))
+    )
 
-      permittedPackages <- permittedPackages %>%
-        group_by(.data$package) %>%
-        summarise(version = min(as.numeric_version(version)))
+    permittedPackages <- rbind(
+      depList[j = .(package, version)],
+      basePackages
+    )
 
-      permittedPackages
-    },
-    error = function(e) {
-      message(e)
-      NULL
-    },
-    warning = function(w) {
-      message(w)
-      NULL
-    }
-  )
+    permittedPackages[
+      , version := .SD[as.numeric_version(version) == min(as.numeric_version(version))],
+      by = package
+    ]
+  },
+  error = function(e) {
+    message(e)
+    NULL
+  },
+  warning = function(w) {
+    message(w)
+    NULL
+  })
 }

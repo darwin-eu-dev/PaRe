@@ -17,44 +17,31 @@ funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
   line <- lines[i]
 
   if (!startsWith(line, "#") && !is.na(line) && length(line) >= 0 && line != "NA") {
-    line <- paste(
-      stringr::str_split(
-        string = line,
-        pattern = "\\w+\\$",
-        simplify = TRUE
-      ),
-      collapse = ""
-    )
-
-    # Remove strings
-    line <- stringr::str_replace_all(line, "[\"\'\`].+[\"\'\`]+", "")
-
-    funVec <- unlist(stringr::str_extract_all(
-      string = line,
-      pattern = "[\\w\\.]+(::)?[\\w\\.]+\\("
-    ))
-
-    funVec <- stringr::str_remove_all(
-      string = funVec,
-      pattern = "\\("
-    )
+    funVec <- line |>
+      stringr::str_split(pattern = "\\w+\\$", simplify = TRUE) |>
+      paste(collapse = "") |>
+      stringr::str_replace_all("[\"\'\`].+[\"\'\`]+", "") |>
+      stringr::str_extract_all(pattern = "[\\w\\.]+(::)?[\\w\\.]+\\(") |>
+      unlist() |>
+      stringr::str_remove_all(pattern = "\\(")
 
     if ("do.call" %in% funVec) {
-      funVec <- append(funVec, getDoCallFromLines(lines))
+      funVec <- funVec |>
+        append(getDoCallFromLines(lines))
     }
 
     if (any(stringr::str_detect(string = funVec, pattern = "[\\w]+?[Aa]pply"))) {
-      funVec <- append(funVec, getApplyFromLines(lines))
+      funVec <- funVec |>
+        append(getApplyFromLines(lines))
     }
 
     if ("plyr::dlply" %in% funVec) {
-      funVec <- append(funVec, getDlplyCallFromLines(lines))
+      funVec <- funVec |>
+        append(getDlplyCallFromLines(lines))
     }
 
-    funVec <- stringr::str_split(
-      string = funVec,
-      pattern = "::"
-    )
+    funVec <- funVec |>
+      stringr::str_split(pattern = "::")
 
     if (length(funVec) > 0) {
       funVec <- lapply(
@@ -68,17 +55,10 @@ funsUsedInLine <- function(lines, name, i, verbose = FALSE) {
         }
       )
 
-      df <- data.frame(t(sapply(funVec, unlist)))
-      names(df) <- c("pkg", "fun")
+      dt <- data.table::data.table(t(sapply(funVec, unlist)))
+      names(dt) <- c("pkg", "fun")
 
-      df <- df %>%
-        dplyr::mutate(
-          file = name,
-          line = i
-        ) %>%
-        dplyr::tibble()
-
-      return(df)
+      return(dt[, file := name][, line := i])
     } else {
       if (verbose == TRUE) {
         message(paste0("No functions found for line: ", i))
@@ -104,12 +84,10 @@ funsUsedInFile <- function(files, verbose = FALSE) {
 
     lines <- file$getLines()
 
-    out <- lapply(
-      X = seq_len(length(lines)),
-      FUN = function(i) {
+    out <- lapply(seq_len(length(lines)), function(i) {
         funsUsedInLine(lines = file$getLines(), name = file$getName(), i = i)
-      }
-    )
+      }) |>
+      data.table::rbindlist()
   })
 }
 
@@ -124,7 +102,7 @@ funsUsedInFile <- function(files, verbose = FALSE) {
 #' @param verbose (\link[base]{logical}: FALSE)\cr
 #' Prints message to console which file is currently being worked on.
 #'
-#' @return (\link[dplyr]{tibble})
+#' @return (\link[data.table]{data.table})
 #' | column |              data type |
 #' | ------ | ---------------------- |
 #' |   file | \link[base]{character} |
@@ -172,7 +150,7 @@ getFunctionUse <- function(repo, verbose = FALSE) {
 
   if (length(funUse) == 0) {
     warning("No functions found, output will be empty")
-    funUse <- dplyr::tibble(
+    funUse <- data.table::data.table(
       file = character(0),
       line = numeric(0),
       pkg = character(0),
@@ -180,10 +158,17 @@ getFunctionUse <- function(repo, verbose = FALSE) {
     )
   }
 
-  funUse <- dplyr::bind_rows(funUse) %>%
-    dplyr::relocate("file", "line", "pkg", "fun") %>%
-    dplyr::arrange(.data$file, .data$line, .data$pkg, .data$fun)
+  funUse <- funUse |>
+    data.table::rbindlist(fill = TRUE)
+
+  funUse <- funUse[
+    j = .(file, line, pkg, fun)] |>
+    data.table::setorder(file, line, pkg, fun)
 
   funUse$pkg[funUse$fun %in% ls("package:base")] <- "base"
+
+  defFuns <- getDefinedFunctions(repo)
+  description <- repo$getDescription()
+  funUse <- funUse[fun %in% defFuns$name, pkg := description$get_field("Package")]
   return(funUse)
 }
