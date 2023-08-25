@@ -12,23 +12,26 @@
 #' | package | \link[base]{character} |
 #' | version | \link[base]{character} |
 printMessage <- function(notPermitted, versionCheck) {
+  out <- data.table::data.table()
   if (nrow(notPermitted) > 0) {
     message(paste0(
         sprintf("The following are not permitted: {%s}\n", paste0(notPermitted$package, collapse = ", ")),
         "Please open an issue here: 'https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues'"
       )
     )
-    return(notPermitted)
-  } else if (nrow(versionCheck) > 0) {
+    notPermitted$allowed <- "none"
+    out <- rbind(out, notPermitted)
+  }
+
+  if (nrow(versionCheck) > 0) {
     message(paste0(
       sprintf("The following versions are not of the right version: %s\n", paste0(versionCheck$package, collapse = ", ")),
       "Please open an issue here: 'https://github.com/mvankessel-EMC/DependencyReviewerWhitelists/issues'"
     ))
-    return(versionCheck)
-  } else {
-    message("All dependencies are approved.")
-    return(NULL)
+    out <- rbind(out, versionCheck)
   }
+
+  return(out)
 }
 
 #' getVersionDf
@@ -63,7 +66,7 @@ getVersionDf <- function(dependencies, permittedPackages) {
 
   permittedPackages <- permittedPackages[
     i = permittedPackages$package %in% permitted$package][
-      i = order(rank(dependencies$package))
+      i = order(rank(permitted$package))
     ]
 
   dt <- cbind(
@@ -71,9 +74,11 @@ getVersionDf <- function(dependencies, permittedPackages) {
     allowed = permitted$version
   )
 
-  return(dt[
+  dt <- dt[
     i = !as.numeric_version(dt$version) >= as.numeric_version(dt$allowed)
-  ])
+  ]
+
+  return(dt)
 }
 
 #' checkDependencies
@@ -160,19 +165,11 @@ checkDependencies <- function(
   if (isTRUE(verbose)) {
     permittedPackages <- getDefaultPermittedPackages() |>
       data.table::data.table()
-
-    permittedPackages[
-      , version := as.character.numeric_version(permittedPackages$version)
-    ]
   } else {
     suppressMessages(
       permittedPackages <- getDefaultPermittedPackages() |>
         data.table::data.table()
     )
-
-    permittedPackages[
-      , version := as.character.numeric_version(permittedPackages$version)
-    ]
   }
 
   notPermitted <- dependencies[
@@ -184,6 +181,7 @@ checkDependencies <- function(
   ]
 
   permitted$version[permitted$version == "*"] <- "0.0.0"
+  notPermitted$version[notPermitted$version == "*"] <- "0.0.0"
 
   return(printMessage(
     notPermitted,
