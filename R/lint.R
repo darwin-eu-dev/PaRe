@@ -51,26 +51,31 @@
 #'   messages <- lintRepo(repo = repo)
 #' }
 lintRepo <- function(repo) {
-  tempDir <- tempdir()
-  tempFile <- tempfile()
-
-  files <- repo$getRFiles()
-
-  messages <- dplyr::bind_rows(lapply(files, function(file) {
-    tempFile <- tempfile(pattern = file$getName(), tmpdir = tempDir)
-    writeLines(text = file$getLines(), con = tempFile)
-
-    data.frame(lintr::lint(
-      filename = tempFile,
-      linters = lintr::linters_with_defaults(
-        lintr::object_name_linter(styles = "camelCase")
-      )
-    )) %>%
-      dplyr::mutate(filename = file$getName())
-  }))
-  return(messages)
+  if (is.null(repo$getCluster())) {
+    return(data.table::rbindlist(lapply(
+      X = repo$getRFiles(),
+      FUN = lintFile,
+      repo = repo
+    )))
+  } else {
+    return(data.table::rbindlist(parallel::parLapply(
+      cl = repo$getCluster(),
+      X = repo$getRFiles(),
+      fun = lintFile,
+      repo = repo
+    )))
+  }
 }
 
+lintFile <- function(file, repo) {
+  lintr::lint(
+    text = file$getLines(),
+    filename = file.path(repo$getPath(), file$getFilePath()),
+    linters = lintr::linters_with_defaults(
+      lintr::object_name_linter(styles = "camelCase")
+    )
+  ) |> data.frame()
+}
 
 #' lintScore
 #'
@@ -132,13 +137,19 @@ lintScore <- function(repo, messages) {
     file$getNLines()
   })))
 
-  pct <- messages %>%
-    dplyr::group_by(.data$type) %>%
-    dplyr::tally() %>%
-    dplyr::summarise(.data$type, pct = round(.data$n / nLines * 100, 2))
+  # pct <- messages %>%
+  #   dplyr::group_by(.data$type) %>%
+  #   dplyr::tally() %>%
+  #   dplyr::summarise(.data$type, pct = round(.data$n / nLines * 100, 2))
+  #
+  # d <- data.table::data.table(messages)
+
+  x <- d[
+    j = data.table::data.table(table(type))][
+      , pct := round(N / nLines * 100, 2), by = type]
 
   if (nrow(pct) == 0) {
-    message(glue::glue("{nrow(pct)} Lintr messages found"))
+    message(sprintf("%s Lintr messages found", nrow(pct)))
     return(NULL)
   }
   return(pct)

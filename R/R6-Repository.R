@@ -52,7 +52,7 @@ Repository <- R6::R6Class(
     #' Path to R package project
     #'
     #' @return `invisible(self)`
-    initialize = function(path) {
+    initialize = function(path, nCores = 1) {
       private$path <- normalizePath(path)
       private$name <- basename(private$path)
       private$git <- git2r::in_repository(private$path)
@@ -65,6 +65,10 @@ Repository <- R6::R6Class(
       private$fetchCppFiles()
       private$fetchJavaFiles()
       private$fetchSqlFiles()
+
+      if (nCores > 1 & nCores <= parallel::detectCores()) {
+        private$cluster <- parallel::makeCluster(spec = nCores)
+      }
       return(invisible(self))
     },
 
@@ -143,14 +147,14 @@ Repository <- R6::R6Class(
     #' Further parameters for \link[git2r]{checkout}.
     #'
     #' @return `invisible(self)`
-    gitCheckout = function(branch, ...) {
+    gitCheckout = function(branch) {
       checkmate::assertCharacter(branch, len = 1)
       tryCatch(
         {
-          git2r::checkout(object = private$path, branch = branch, ...)
+          git2r::checkout(object = private$path, branch = branch)
           message(sptrinf("Switched to: %s", branch))
           message("Re-initializing")
-          self$initialize(path = private$path)
+          self$initialize(path = private$path, nCores = nrow(summary(private$cluster)))
         },
         error = function(e) {
           message(sprintf(
@@ -174,7 +178,7 @@ Repository <- R6::R6Class(
       message("Pulling latest")
       git2r::pull(repo = private$path, ...)
       message("Re-initializing")
-      self$initialize(path = private$path)
+      self$initialize(path = private$path, nCores = nrow(summary(private$cluster)))
       return(invisible(self))
     },
 
@@ -195,6 +199,10 @@ Repository <- R6::R6Class(
       data.table::rbindlist(lapply(files, function(file) {
         file$getBlameTable()
       }))
+    },
+
+    getCluster = function() {
+      return(private$cluster)
     }
   ),
   # Private ----
@@ -211,6 +219,7 @@ Repository <- R6::R6Class(
     description = NULL,
     functionUse = NULL,
     gitIgnore = c(),
+    cluster = NULL,
     validate = function() {
       errorMessages <- checkmate::makeAssertCollection()
       checkmate::assertDirectoryExists("./R/", add = errorMessages)
@@ -232,12 +241,14 @@ Repository <- R6::R6Class(
           stringr::str_replace_all(pattern = "\\*", replacement = ".")
       }
     },
+
     filterIgnored = function(paths) {
       for (pat in private$gitIgnore) {
         paths <- paths[!grepl(pattern = pat, x = paths)]
       }
       return(paths)
     },
+
     fetchRFiles = function() {
       paths <- list.files(
         path = file.path(private$path, "R"),
@@ -249,6 +260,7 @@ Repository <- R6::R6Class(
       }))
       return(invisible(self))
     },
+
     fetchCppFiles = function() {
       paths <- list.files(
         path = private$path,
@@ -273,6 +285,7 @@ Repository <- R6::R6Class(
         File$new(repoPath = private$path, filePath = path)
       })
     },
+
     fetchJavaFiles = function() {
       paths <- list.files(path = private$path, pattern = "\\.java$", recursive = TRUE)
       paths <- paths[endsWith(paths, ".java")] |>
@@ -282,6 +295,7 @@ Repository <- R6::R6Class(
         File$new(repoPath = private$path, filePath = path)
       })
     },
+
     fetchSqlFiles = function() {
       paths <- list.files(
         path = private$path,
@@ -293,6 +307,12 @@ Repository <- R6::R6Class(
       private$sqlFiles <- lapply(paths, function(path) {
         File$new(repoPath = private$path, filePath = path)
       })
+    },
+
+    finalize = function() {
+      if (!is.null(private$cluster)) {
+        parallel::stopCluster(private$cluster)
+      }
     }
   )
 )

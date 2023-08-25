@@ -53,36 +53,46 @@
 #'   }
 #' }
 getGraphData <- function(repo, packageTypes = c("Imports")) {
-  deps <- repo$getDescription()$get_deps() %>%
-    dplyr::filter(tolower(.data$type) %in% tolower(packageTypes)) %>%
-    dplyr::pull(.data$package)
+  deps <- repo$getDescription()$get_deps() |>
+    data.table()
+
+  deps <- deps[i = tolower(type) %in% tolower(packageTypes)]
 
   remoteRef <- repo$getDescription()$get_remotes()
-  deps[deps %in% basename(remoteRef)] <- remoteRef[basename(remoteRef) %in% deps]
+
+  deps[
+    i = package %in% basename(remoteRef),
+    package := remoteRef[basename(remoteRef) %in% package]
+  ]
 
   # Get all dependencies using pak
-  data <- pak::pkg_deps(deps)
+  data <- pak::pkg_deps(deps$package) |>
+    data.table()
 
   # Add current package
-  data <- data %>%
-    dplyr::add_row(
+  data <- rbind(
+    data.table(
       ref = repo$getName(),
       package = repo$getName(),
-      deps = list(dplyr::tibble(ref = deps, type = "Imports", package = deps)),
-      .before = TRUE
-    )
+      deps = list(data.table(ref = deps$package, type = deps$type, package = deps$package))
+    ),
+    data,
+    fill = TRUE
+  )
 
-  # Reformat dependencies to long format
-  pkgDeps <- dplyr::bind_rows(lapply(X = 1:nrow(data), FUN = function(row) {
-    deps <- data[["deps"]][[row]][["package"]]
-    pkg <- unlist(rep(data[row, ]["package"], length(deps)))
-    type <- tolower(data[["deps"]][[row]][["type"]])
-    dplyr::tibble(pkg = pkg, deps = deps, type = type, op = "", version = "")
-  }))
+  data.table::data.table(
+    pkg = rep(unname(unlist(data[row, ][, .(package)])), length(deps$package)),
+    deps = data[["deps"]][[row]][, .(package)]
+  )
 
-  pkgDeps <- pkgDeps %>%
-    dplyr::filter(tolower(.data$type) %in% tolower(packageTypes)) %>%
-    dplyr::select("pkg", "deps")
+  pkgDeps <- lapply(seq_len(nrow(data)), function(row) {
+    data[["deps"]][[row]] <- data.table::data.table(data[["deps"]][[row]])
+    suppressWarnings(data.table::data.table(
+      pkg = rep(unname(unlist(data[row, ][, .(package)])), length(deps$package)),
+      deps = unlist(unname(data[["deps"]][[row]][, .(package)]))
+    ))
+  }) |>
+    data.table::rbindlist()
 
   # Convert tibble to graph
   netData <- igraph::graph_from_data_frame(

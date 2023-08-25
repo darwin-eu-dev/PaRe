@@ -55,11 +55,10 @@ getDefinedFunctions <- function(repo) {
   files <- repo$getRFiles()
 
   dplyr::bind_rows(lapply(files, function(file) {
-    df <- file$getFunctionTable()
+    dt <- file$getFunctionTable()
 
-    if (!is.null(df)) {
-      df %>%
-        dplyr::mutate(fileName = file$getName())
+    if (!is.null(dt)) {
+      dt[, fileName := file$getName()]
     }
   }))
 }
