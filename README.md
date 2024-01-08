@@ -31,7 +31,7 @@ You can install the development version of DependencyReviewer like so:
 
 ``` r
 install.packages("remotes")
-remotes::install_github("darwin-eu/PaRe")
+remotes::install_github("darwin-eu-dev/PaRe")
 ```
 
 ## Latest changes:
