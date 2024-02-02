@@ -12,17 +12,17 @@
 # 3: if1 if2
 # 4: if1 if3
 
-lines <- c(
-  "apply(x, mean)",
-  "sapply(x, mean)",
-  "vapply(x, mean)",
-  "vapply(X = x, FUN = mean)",
-  "clusterApply(cl, x, mean)",
-  "clusterApplyLB(cl, x, mean)",
-  "parSapply(cl, x, mean)",
-  "parLapplyLB(cl = cl, X = x, fun = mean)"
-)
-
 test_that("minimal", {
+  lines <- c(
+    "apply(x, mean)",
+    "sapply(x, mean)",
+    "vapply(x, mean)",
+    "vapply(X = x, FUN = mean)",
+    "clusterApply(cl, x, mean)",
+    "clusterApplyLB(cl, x, mean)",
+    "parSapply(cl, x, mean)",
+    "parLapplyLB(cl = cl, X = x, fun = mean)"
+  )
+
   expect_true(all(PaRe:::getApplyFromLines(lines = lines) == "mean"))
 })
