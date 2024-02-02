@@ -17,5 +17,5 @@ test_that("minimal", {
   defFuns <- PaRe::getDefinedFunctions(repo)
 
   expect_null(PaRe:::getDlplyCall(fun, defFuns))
-  unlink(repo$getPath())
+  unlink(repo$getPath(), recursive = TRUE)
 })

@@ -22,7 +22,7 @@ test_that("regular use", {
   defFuns <- PaRe::getDefinedFunctions(repo)
 
   expect_true(length(PaRe:::getMultiLineFun(line = 1, lines = fun$getLines())) == 1)
-  unlink(repo$getPath())
+  unlink(repo$getPath(), recursive = TRUE)
 })
 
 test_that("No closing bracket", {

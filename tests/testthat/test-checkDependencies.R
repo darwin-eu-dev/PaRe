@@ -22,5 +22,5 @@ test_that("minimal", {
     checkDependencies(repo = repo),
     "All dependencies are approved."
   )
-  unlink(repo$getPath())
+  unlink(repo$getPath(), recursive = TRUE)
 })

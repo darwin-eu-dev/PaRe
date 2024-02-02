@@ -7,5 +7,5 @@ test_that("minimal", {
   path <- file.path(repo$getPath(), "vignettes", "articles", "PareReport.Rmd")
 
   expect_true(file.exists(path))
-  unlink(repo$getPath())
+  unlink(repo$getPath(), recursive = TRUE)
 })
