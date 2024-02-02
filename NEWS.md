@@ -1,3 +1,8 @@
+PaRe 0.1.13
+==========
+1. Fixed issue where pak 0.7.1 broke `getDefaultPermittedPackages()`.
+2. Tests should run anywhere expect when there is no internet connection.
+
 PaRe 0.1.12
 ==========
 1. Changed `magick::image_read()` call to `magick::image_read_svg()` to address

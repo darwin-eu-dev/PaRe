@@ -1,7 +1,7 @@
 Package: PaRe
 Type: Package
 Title: A Way to Perform Code Review or QA on Other Packages
-Version: 0.1.12
+Version: 0.1.13
 Language: en-US
 Authors@R:
     person("Maarten", "van Kessel", email = "m.l.vankessel@erasmusmc.nl",
@@ -47,3 +47,4 @@ Suggests:
 VignetteBuilder: knitr
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
+Config/testthat/parallel: true
