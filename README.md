@@ -27,11 +27,11 @@ review and has the following features:
 
 ## Installation <a name="Installation"></a>
 
-You can install the development version of DependencyReviewer like so:
+You can install the development version of PaRe like so:
 
 ``` r
 install.packages("remotes")
-remotes::install_github("darwin-eu/PaRe")
+remotes::install_github("darwin-eu-dev/PaRe")
 ```
 
 ## Latest changes:
