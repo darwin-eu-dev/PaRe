@@ -36,10 +36,10 @@ Initializer method
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{name}}{(\link[base]{character})\cr
+\item{\code{name}}{(\code{character(1)})\cr
 Name of Code object.}
 
-\item{\code{lines}}{(\link[base]{character})\cr
+\item{\code{lines}}{(\code{character(n)})\cr
 Vector of lines Code object.}
 }
 \if{html}{\out{</div>}}
@@ -65,7 +65,7 @@ Overload generic print, to print Code object.
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-([base]{character})
+(\code{character(n)})
 }
 }
 \if{html}{\out{<hr>}}
@@ -78,7 +78,7 @@ Get method for lines.
 }
 
 \subsection{Returns}{
-(\link[base]{character})\cr
+(\code{character(n)})\cr
 Vector of lines in the Code object.
 }
 }
@@ -92,7 +92,7 @@ Get method for number of lines.
 }
 
 \subsection{Returns}{
-(\link[base]{numeric})
+(\code{numeric(1)})
 Number of lines in the Code object.
 }
 }
@@ -106,7 +106,7 @@ Get method for Name.
 }
 
 \subsection{Returns}{
-(\link[base]{character})\cr
+(\code{character(1)})\cr
 Name of the Code object.
 }
 }

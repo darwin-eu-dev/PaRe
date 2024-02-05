@@ -3,14 +3,15 @@
 #' Prints messages dependening of the nrow of the number of rows of the
 #' notPermitted and versionCheck data.frames
 #'
-#' @param notPermitted ([base]{data.frame})
-#' @param versionCheck ([base]{data.frame})
+#' @param notPermitted (`data.frame()`)
+#' @param versionCheck (`data.frame()`)
 #'
 #' @return (\link[base]{data.frame})
 #' |  column |              data type |
 #' | ------- | ---------------------- |
 #' | package | \link[base]{character} |
 #' | version | \link[base]{character} |
+#' @noRd
 printMessage <- function(notPermitted, versionCheck) {
   if (nrow(notPermitted) > 0) {
     message(
@@ -35,6 +36,8 @@ printMessage <- function(notPermitted, versionCheck) {
 #' getVersionDf
 #'
 #' Function to compare different versions.
+#'
+#' @noRd
 #'
 #' @param dependencies (\link[base]{data.frame})
 #' |  column |              data type |

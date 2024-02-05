@@ -32,6 +32,7 @@ Data frame with all the packages that are now permitted.\tabular{ll}{
 Check package dependencies
 }
 \examples{
+donttest {
 # Set cahce, usually not required.
 withr::local_envvar(
   R_USER_CACHE_DIR = tempfile()
@@ -69,5 +70,6 @@ if (fetchedRepo) {
   # Use checkDependencies on the Repository object.
   checkDependencies(repo)
   checkDependencies(repo, dependencyType = c("Imports", "Suggests"))
+}
 }
 }
