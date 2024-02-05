@@ -85,14 +85,14 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #'
 #' @export
 #'
-#' @param repo (\link[PaRe]{Repository})\cr
+#' @param repo (`Repository`)\cr
 #' Repository object.
-#' @param dependencyType (\link[base]{character})\cr
+#' @param dependencyType (`character()`)\cr
 #' Types of dependencies to be included
-#' @param verbose (\link[base]{logical}: TRUE)
+#' @param verbose (`logical()`: `TRUE`)
 #' TRUE or FALSE. If TRUE, progress will be reported.
 #'
-#' @return (\link[base]{data.frame})\cr
+#' @return (`data.frame()`)\cr
 #' Data frame with all the packages that are now permitted.
 
 #' |  column |              data type |
@@ -101,7 +101,7 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #' | version | \link[base]{character} |
 #'
 #' @examples
-#' donttest {
+#' \donttest{
 #' # Set cahce, usually not required.
 #' withr::local_envvar(
 #'   R_USER_CACHE_DIR = tempfile()
