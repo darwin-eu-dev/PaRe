@@ -78,8 +78,7 @@ Get method for lines.
 }
 
 \subsection{Returns}{
-(\code{character(n)})\cr
-Vector of lines in the Code object.
+(\code{character(n)}) Vector of lines in the Code object.
 }
 }
 \if{html}{\out{<hr>}}
@@ -92,8 +91,7 @@ Get method for number of lines.
 }
 
 \subsection{Returns}{
-(\code{numeric(1)})
-Number of lines in the Code object.
+(\code{numeric(1)}) Number of lines in the Code object.
 }
 }
 \if{html}{\out{<hr>}}
@@ -106,8 +104,7 @@ Get method for Name.
 }
 
 \subsection{Returns}{
-(\code{character(1)})\cr
-Name of the Code object.
+(\code{character(1)}) Name of the Code object.
 }
 }
 \if{html}{\out{<hr>}}

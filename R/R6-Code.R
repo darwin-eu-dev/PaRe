@@ -50,8 +50,7 @@ Code <- R6::R6Class(
     #' @description
     #' Get method for lines.
     #'
-    #' @return (`character(n)`)\cr
-    #' Vector of lines in the Code object.
+    #' @return (`character(n)`) Vector of lines in the Code object.
     getLines = function() {
       return(private$lines)
     },
@@ -59,8 +58,7 @@ Code <- R6::R6Class(
     #' @description
     #' Get method for number of lines.
     #'
-    #' @return (`numeric(1)`)
-    #' Number of lines in the Code object.
+    #' @return (`numeric(1)`) Number of lines in the Code object.
     getNLines = function() {
       return(private$nLines)
     },
@@ -68,8 +66,7 @@ Code <- R6::R6Class(
     #' @description
     #' Get method for Name.
     #'
-    #' @return (`character(1)`)\cr
-    #' Name of the Code object.
+    #' @return (`character(1)`) Name of the Code object.
     getName = function() {
       return(private$name)
     }
