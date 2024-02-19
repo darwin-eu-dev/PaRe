@@ -6,11 +6,11 @@
 #' @param notPermitted (`data.frame()`)
 #' @param versionCheck (`data.frame()`)
 #'
-#' @return (\link[base]{data.frame})
+#' @return (`data.frame()`)
 #' |  column |              data type |
 #' | ------- | ---------------------- |
-#' | package | \link[base]{character} |
-#' | version | \link[base]{character} |
+#' | package | `character()` |
+#' | version | `character()` |
 #' @noRd
 printMessage <- function(notPermitted, versionCheck) {
   if (nrow(notPermitted) > 0) {
@@ -39,22 +39,22 @@ printMessage <- function(notPermitted, versionCheck) {
 #'
 #' @noRd
 #'
-#' @param dependencies (\link[base]{data.frame})
+#' @param dependencies (`data.frame()`)
 #' |  column |              data type |
 #' | ------- | ---------------------- |
-#' | package | \link[base]{character} |
-#' | version | \link[base]{character} |
-#' @param permittedPackages (\link[base]{data.frame})
+#' | package | `character()` |
+#' | version | `character()` |
+#' @param permittedPackages `data.frame()`
 #' |  column |              data type |
 #' | ------- | ---------------------- |
-#' | package | \link[base]{character} |
-#' | version | \link[base]{character} |
+#' | package | `character()` |
+#' | version | `character()` |
 #'
-#' @return (\link[base]{data.frame})
+#' @return (`data.frame()`)
 #' |  column |              data type |
 #' | ------- | ---------------------- |
-#' | package | \link[base]{character} |
-#' | version | \link[base]{character} |
+#' | package | `character()` |
+#' | version | `character()` |
 getVersionDf <- function(dependencies, permittedPackages) {
   permitted <- dependencies %>%
     dplyr::filter(.data$package %in% permittedPackages$package)
@@ -97,8 +97,8 @@ getVersionDf <- function(dependencies, permittedPackages) {
 
 #' |  column |              data type |
 #' | ------- | ---------------------- |
-#' | package | \link[base]{character} |
-#' | version | \link[base]{character} |
+#' | package | `character()` |
+#' | version | `character()` |
 #'
 #' @examples
 #' \donttest{

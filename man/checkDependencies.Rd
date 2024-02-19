@@ -24,8 +24,8 @@ TRUE or FALSE. If TRUE, progress will be reported.}
 (\code{data.frame()})\cr
 Data frame with all the packages that are now permitted.\tabular{ll}{
    column \tab data type \cr
-   package \tab \link[base]{character} \cr
-   version \tab \link[base]{character} \cr
+   package \tab \code{character()} \cr
+   version \tab \code{character()} \cr
 }
 }
 \description{
