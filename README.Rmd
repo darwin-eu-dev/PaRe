@@ -35,7 +35,7 @@ PaRe (**Pa**ckage **Re**viewer) is the successor of the DependencyReviewer packa
 You can install the development version of DependencyReviewer like so:
 ```{r eval=FALSE}
 install.packages("remotes")
-remotes::install_github("darwin-eu/PaRe")
+remotes::install_github("darwin-eu-dev/PaRe")
 ```
 
 ## Latest changes:
