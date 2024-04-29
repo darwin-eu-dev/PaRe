@@ -1,7 +1,7 @@
 PaRe 0.1.13
 ==========
-1. Fixed issue where pak 0.7.1 broke `getDefaultPermittedPackages()`.
-2. Tests should run anywhere expect when there is no internet connection.
+1. Fixed issue where pak 0.7.1 broke `getDefaultPermittedPackages()` and `getGraphData()`.
+2. Tests should run anywhere except when there is no internet connection.
 
 PaRe 0.1.12
 ==========
