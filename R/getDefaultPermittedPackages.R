@@ -35,7 +35,7 @@ getDefaultPermittedPackages <- function() {
       }) %>%
         dplyr::bind_rows()
 
-      depList <- lapply(customWhiteList$package, pak::pkg_deps) %>%
+      depList <- invisible(lapply(customWhiteList$package, pak::pkg_deps)) %>%
         dplyr::bind_rows() %>%
         dplyr::distinct()
 
