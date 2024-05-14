@@ -170,7 +170,12 @@ DT::datatable(
 ## Dependency review
 ### Check dependencies against whitelist
 ```{r checkDependencies, warning=FALSE, echo=FALSE}
-DT::datatable(PaRe::checkDependencies(repo = repo, verbose = FALSE))
+tryCatch({
+  DT::datatable(PaRe::checkDependencies(repo = repo, dependencyType = "Imports", verbose = FALSE))
+}, error = function(e) {
+  message("Could not check dependencies with error:")
+  message(sprintf("\t%s", e))
+})
 ```
 
 ### Dependency characteristics
@@ -179,7 +184,8 @@ DT::datatable(PaRe::checkDependencies(repo = repo, verbose = FALSE))
 - **meanDegree**: The average amount of imports per dependency.
 - **meanDistance**: The average dependency layers between `r repo$getName()` and all other recursive dependencies.
 ```{r dependencyGraphStats, message=FALSE, warning=FALSE, echo=FALSE}
-graphData <- PaRe::getGraphData(repo = repo)
+tryCatch({
+  graphData <- PaRe::getGraphData(repo = repo, packageTypes = "Imports")
 
 DT::datatable(data.frame(
   countVertices = length(igraph::V(graphData)),
@@ -188,6 +194,10 @@ DT::datatable(data.frame(
   meanDistance = round(mean(igraph::distances(graphData)), 2)
   ),
               rownames= FALSE)
+}, error = function(e) {
+  message("Could not get graph data with error:")
+  message(sprintf("\t%s", e))
+})
 ```
 
 ### Function use per dependency
