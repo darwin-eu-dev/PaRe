@@ -16,7 +16,7 @@ test_that("void", {
 
 test_that("minimal", {
   skip_if(
-    utils::packageVersion(pkg = "base") <= package_version("4.4.0")
+    utils::packageVersion(pkg = "base") > package_version("4.4.0")
   )
   repo <- makeRepo()
   testthat::skip_if(!R6::is.R6(repo))
