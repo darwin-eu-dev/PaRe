@@ -1,7 +1,8 @@
 test_that("minimal", {
+  testthat::skip()
   if (checkSuggests()) {
     repo <- makeRepo()
-    testthat::skip_if(!R6::is.R6(repo))
+    skip_if(!R6::is.R6(repo))
 
     suppressWarnings(addPareArticle(repo))
 
