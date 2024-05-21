@@ -15,8 +15,8 @@ test_that("void", {
 })
 
 test_that("minimal", {
-  skip()
   repo <- makeRepo()
+  skip()
   testthat::skip_if(!R6::is.R6(repo))
 
   expect_message(
