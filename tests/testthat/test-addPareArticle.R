@@ -1,5 +1,4 @@
 test_that("minimal", {
-  testthat::skip()
   if (checkSuggests()) {
     repo <- makeRepo()
     skip_if(!R6::is.R6(repo))
