@@ -9,5 +9,7 @@ test_that("minimal", {
 
     expect_true(file.exists(path))
     unlink(repo$getPath(), recursive = TRUE)
+  } else {
+    skip()
   }
 })
