@@ -16,12 +16,11 @@ test_that("void", {
 
 test_that("minimal", {
   repo <- makeRepo()
-  skip()
   testthat::skip_if(!R6::is.R6(repo))
 
   expect_message(
-    checkDependencies(repo = repo),
+    checkDependencies(repo),
     "All dependencies are approved."
   )
-  unlink(repo$getPath(), recursive = TRUE)
+  #unlink(repo$getPath(), recursive = TRUE)
 })
