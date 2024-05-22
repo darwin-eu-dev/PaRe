@@ -1,3 +1,9 @@
+PaRe 0.1.13
+==========
+1. Fixed issue where pak 0.7.1 broke `getDefaultPermittedPackages()` and `getGraphData()` and updated internal code.
+2. Tests should run anywhere except when there is no internet connection.
+3. Regardless if dependencies are being fetched when using `makeReport()`, it should continue.
+
 PaRe 0.1.12
 ==========
 1. Changed `magick::image_read()` call to `magick::image_read_svg()` to address

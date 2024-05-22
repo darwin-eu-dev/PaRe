@@ -1,5 +1,5 @@
 ---
-title: "PaRe Report: #!P_TITLE"
+title: "PaRe Report: PaRe [0.1.12] OLD"
 author: "`r paste('PaRe', packageVersion('PaRe'))`"
 date: "`r Sys.Date()`"
 output:
@@ -8,7 +8,7 @@ output:
     toc_float: true
     theme: cosmo
 vignette: >
-  %\VignetteIndexEntry{#!P_TITLE}
+  %\VignetteIndexEntry{PaRe [0.1.12]}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -23,7 +23,7 @@ library(dplyr)
 ```
 
 ```{r, echo=FALSE}
-repo <- PaRe::Repository$new("#!P_PATH")
+repo <- PaRe::Repository$new("D:/Users/mvankessel/Documents/R-Packages/PaRe")
 ```
 
 ## Package overview
@@ -170,12 +170,7 @@ DT::datatable(
 ## Dependency review
 ### Check dependencies against whitelist
 ```{r checkDependencies, warning=FALSE, echo=FALSE}
-tryCatch({
-  DT::datatable(PaRe::checkDependencies(repo = repo, dependencyType = "Imports", verbose = FALSE))
-}, error = function(e) {
-  message("Could not check dependencies with error:")
-  message(sprintf("\t%s", e))
-})
+DT::datatable(PaRe::checkDependencies(repo = repo, verbose = FALSE))
 ```
 
 ### Dependency characteristics
@@ -184,8 +179,7 @@ tryCatch({
 - **meanDegree**: The average amount of imports per dependency.
 - **meanDistance**: The average dependency layers between `r repo$getName()` and all other recursive dependencies.
 ```{r dependencyGraphStats, message=FALSE, warning=FALSE, echo=FALSE}
-tryCatch({
-  graphData <- PaRe::getGraphData(repo = repo, packageTypes = "Imports")
+graphData <- PaRe::getGraphData(repo = repo)
 
 DT::datatable(data.frame(
   countVertices = length(igraph::V(graphData)),
@@ -194,10 +188,6 @@ DT::datatable(data.frame(
   meanDistance = round(mean(igraph::distances(graphData)), 2)
   ),
               rownames= FALSE)
-}, error = function(e) {
-  message("Could not get graph data with error:")
-  message(sprintf("\t%s", e))
-})
 ```
 
 ### Function use per dependency

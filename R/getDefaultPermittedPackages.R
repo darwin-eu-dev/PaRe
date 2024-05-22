@@ -25,16 +25,19 @@ getDefaultPermittedPackages <- function() {
   # Custom list
   tryCatch(
     {
-      customWhiteList <- dplyr::bind_rows(lapply(seq_len(nrow(PaRe::whiteList)), function(i) {
+      customWhiteList <- lapply(seq_len(nrow(PaRe::whiteList)), function(i) {
         pkgs <- utils::read.table(
           file = unlist(PaRe::whiteList[i, ]["link"]),
           sep = ",",
           header = TRUE
         ) %>%
-          select(unlist(PaRe::whiteList[i, ]["package"]), unlist(PaRe::whiteList[i, ]["version"]))
-      }))
+          dplyr::select(unlist(PaRe::whiteList[i, ]["package"]), unlist(PaRe::whiteList[i, ]["version"]))
+      }) %>%
+        dplyr::bind_rows()
 
-      depList <- pak::pkg_deps(customWhiteList$package)
+      depList <- invisible(lapply(customWhiteList$package, pak::pkg_deps)) %>%
+        dplyr::bind_rows() %>%
+        dplyr::distinct()
 
       packages <- c(
         "base", "boot", "class", "cluster", "codetools", "compiler",
@@ -54,8 +57,8 @@ getDefaultPermittedPackages <- function() {
         dplyr::bind_rows(basePackages)
 
       permittedPackages <- permittedPackages %>%
-        group_by(.data$package) %>%
-        summarise(version = min(as.numeric_version(version)))
+        dplyr::group_by(.data$package) %>%
+        dplyr::summarise(version = min(as.numeric_version(version)))
 
       permittedPackages
     },

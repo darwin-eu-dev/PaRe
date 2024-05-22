@@ -11,27 +11,28 @@ checkDependencies(
 )
 }
 \arguments{
-\item{repo}{(\link[PaRe]{Repository})\cr
+\item{repo}{(\code{Repository})\cr
 Repository object.}
 
-\item{dependencyType}{(\link[base]{character})\cr
+\item{dependencyType}{(\code{character()})\cr
 Types of dependencies to be included}
 
-\item{verbose}{(\link[base]{logical}: TRUE)
+\item{verbose}{(\code{logical()}: \code{TRUE})
 TRUE or FALSE. If TRUE, progress will be reported.}
 }
 \value{
-(\link[base]{data.frame})\cr
+(\code{data.frame()})\cr
 Data frame with all the packages that are now permitted.\tabular{ll}{
    column \tab data type \cr
-   package \tab \link[base]{character} \cr
-   version \tab \link[base]{character} \cr
+   package \tab \code{character()} \cr
+   version \tab \code{character()} \cr
 }
 }
 \description{
 Check package dependencies
 }
 \examples{
+\donttest{
 # Set cahce, usually not required.
 withr::local_envvar(
   R_USER_CACHE_DIR = tempfile()
@@ -69,5 +70,6 @@ if (fetchedRepo) {
   # Use checkDependencies on the Repository object.
   checkDependencies(repo)
   checkDependencies(repo, dependencyType = c("Imports", "Suggests"))
+}
 }
 }

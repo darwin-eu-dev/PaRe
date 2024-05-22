@@ -19,7 +19,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Maarten van Kessel \email{m.l.vankessel@erasmusmc.nl}
+\strong{Maintainer}: Maarten van Kessel \email{m.l.vankessel@erasmusmc.nl} (\href{https://orcid.org/0009-0006-8832-6030}{ORCID})
 
 }
 \keyword{internal}

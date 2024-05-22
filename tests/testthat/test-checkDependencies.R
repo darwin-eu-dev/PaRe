@@ -1,3 +1,8 @@
+library(PaRe)
+library(git2r)
+library(testthat)
+library(withr)
+
 withr::local_envvar(
   R_USER_CACHE_DIR = tempfile("cache-")
 )
@@ -10,34 +15,15 @@ test_that("void", {
 })
 
 test_that("minimal", {
-  skip_on_cran()
-  expect_null(
-    checkDependencies(repo = repo)
+  skip_if(
+    utils::packageVersion(pkg = "base") > package_version("4.4.0")
   )
+  repo <- makeRepo()
+  testthat::skip_if(!R6::is.R6(repo))
+
+  expect_message(
+    checkDependencies(repo),
+    "All dependencies are approved."
+  )
+  unlink(repo$getPath(), recursive = TRUE)
 })
-
-#
-# dependencies <- data.frame(
-#   package = c("a", "b", "c"),
-#   version = c("1.0.1", "1.9.2", "0.3.0")
-# )
-#
-# permittedPackages <- data.frame(
-#   package = c("a", "b"),
-#   version = c("1.0.0", "1.9.5")
-# )
-#
-# notPermitted <- data.frame(
-#   package = c("c"),
-#   version = c("*")
-# )
-
-# PaRe:::getVersionDf(dependencies, permittedPackages)
-
-# test_that("", {
-#   PaRe:::getVersionDf(dependencies, permittedPackages)
-# })
-#
-# test_that("", {
-#   PaRe:::printMessage(notPermitted, )
-# })

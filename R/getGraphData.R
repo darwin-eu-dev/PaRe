@@ -61,7 +61,9 @@ getGraphData <- function(repo, packageTypes = c("Imports")) {
   deps[deps %in% basename(remoteRef)] <- remoteRef[basename(remoteRef) %in% deps]
 
   # Get all dependencies using pak
-  data <- pak::pkg_deps(deps)
+  data <- invisible(lapply(deps, pak::pkg_deps)) %>%
+    dplyr::bind_rows() %>%
+    dplyr::distinct()
 
   # Add current package
   data <- data %>%

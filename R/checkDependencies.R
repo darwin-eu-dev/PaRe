@@ -3,14 +3,15 @@
 #' Prints messages dependening of the nrow of the number of rows of the
 #' notPermitted and versionCheck data.frames
 #'
-#' @param notPermitted ([base]{data.frame})
-#' @param versionCheck ([base]{data.frame})
+#' @param notPermitted (`data.frame()`)
+#' @param versionCheck (`data.frame()`)
 #'
-#' @return (\link[base]{data.frame})
+#' @return (`data.frame()`)
 #' |  column |              data type |
 #' | ------- | ---------------------- |
-#' | package | \link[base]{character} |
-#' | version | \link[base]{character} |
+#' | package | `character()` |
+#' | version | `character()` |
+#' @noRd
 printMessage <- function(notPermitted, versionCheck) {
   if (nrow(notPermitted) > 0) {
     message(
@@ -36,22 +37,24 @@ printMessage <- function(notPermitted, versionCheck) {
 #'
 #' Function to compare different versions.
 #'
-#' @param dependencies (\link[base]{data.frame})
-#' |  column |              data type |
-#' | ------- | ---------------------- |
-#' | package | \link[base]{character} |
-#' | version | \link[base]{character} |
-#' @param permittedPackages (\link[base]{data.frame})
-#' |  column |              data type |
-#' | ------- | ---------------------- |
-#' | package | \link[base]{character} |
-#' | version | \link[base]{character} |
+#' @noRd
 #'
-#' @return (\link[base]{data.frame})
+#' @param dependencies (`data.frame()`)
 #' |  column |              data type |
 #' | ------- | ---------------------- |
-#' | package | \link[base]{character} |
-#' | version | \link[base]{character} |
+#' | package | `character()` |
+#' | version | `character()` |
+#' @param permittedPackages `data.frame()`
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | `character()` |
+#' | version | `character()` |
+#'
+#' @return (`data.frame()`)
+#' |  column |              data type |
+#' | ------- | ---------------------- |
+#' | package | `character()` |
+#' | version | `character()` |
 getVersionDf <- function(dependencies, permittedPackages) {
   permitted <- dependencies %>%
     dplyr::filter(.data$package %in% permittedPackages$package)
@@ -82,23 +85,23 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #'
 #' @export
 #'
-#' @param repo (\link[PaRe]{Repository})\cr
+#' @param repo (`Repository`)\cr
 #' Repository object.
-#' @param dependencyType (\link[base]{character})\cr
+#' @param dependencyType (`character()`)\cr
 #' Types of dependencies to be included
-#' @param verbose (\link[base]{logical}: TRUE)
+#' @param verbose (`logical()`: `TRUE`)
 #' TRUE or FALSE. If TRUE, progress will be reported.
 #'
-#' @return (\link[base]{data.frame})\cr
+#' @return (`data.frame()`)\cr
 #' Data frame with all the packages that are now permitted.
 
 #' |  column |              data type |
 #' | ------- | ---------------------- |
-#' | package | \link[base]{character} |
-#' | version | \link[base]{character} |
+#' | package | `character()` |
+#' | version | `character()` |
 #'
 #' @examples
-#' donttest {
+#' \donttest{
 #' # Set cahce, usually not required.
 #' withr::local_envvar(
 #'   R_USER_CACHE_DIR = tempfile()

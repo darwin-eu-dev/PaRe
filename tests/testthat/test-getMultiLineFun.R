@@ -15,7 +15,14 @@
 # 10: while con1 con2 if1 if2
 
 test_that("regular use", {
+  repo <- makeRepo()
+  testthat::skip_if(!R6::is.R6(repo))
+  file <- repo$getRFiles()[[2]]
+  fun <- file$getFunctions()[[2]]
+  defFuns <- PaRe::getDefinedFunctions(repo)
+
   expect_true(length(PaRe:::getMultiLineFun(line = 1, lines = fun$getLines())) == 1)
+  unlink(repo$getPath(), recursive = TRUE)
 })
 
 test_that("No closing bracket", {

@@ -13,9 +13,9 @@ Code <- R6::R6Class(
     #' @description
     #' Initializer method
     #'
-    #' @param name (\link[base]{character})\cr
+    #' @param name (`character(1)`)\cr
     #' Name of Code object.
-    #' @param lines (\link[base]{character})\cr
+    #' @param lines (`character(n)`)\cr
     #' Vector of lines Code object.
     #'
     #' @return `invisible(self)`
@@ -32,7 +32,7 @@ Code <- R6::R6Class(
     #' @param ...
     #' further arguments passed to or from other methods. See \link[base]{print}.
     #'
-    #' @return ([base]{character})
+    #' @return (`character(n)`)
     print = function(...) {
       classTypes <- class(self)
       classTypes <- paste0(glue::glue("<{classTypes}>"), collapse = " ")
@@ -50,8 +50,7 @@ Code <- R6::R6Class(
     #' @description
     #' Get method for lines.
     #'
-    #' @return (\link[base]{character})\cr
-    #' Vector of lines in the Code object.
+    #' @return (`character(n)`) Vector of lines in the Code object.
     getLines = function() {
       return(private$lines)
     },
@@ -59,8 +58,7 @@ Code <- R6::R6Class(
     #' @description
     #' Get method for number of lines.
     #'
-    #' @return (\link[base]{numeric})
-    #' Number of lines in the Code object.
+    #' @return (`numeric(1)`) Number of lines in the Code object.
     getNLines = function() {
       return(private$nLines)
     },
@@ -68,8 +66,7 @@ Code <- R6::R6Class(
     #' @description
     #' Get method for Name.
     #'
-    #' @return (\link[base]{character})\cr
-    #' Name of the Code object.
+    #' @return (`character(1)`) Name of the Code object.
     getName = function() {
       return(private$name)
     }
