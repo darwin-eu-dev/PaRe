@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 ![R-CMD-check](https://github.com/darwin-eu-dev/PaRe/actions/workflows/R-CMD-check.yaml/badge.svg)
+[![codecov.io](https://codecov.io/gh/darwin-eu-dev/PaRe/coverage.svg?branch=main)](https://app.codecov.io/gh/darwin-eu-dev/PaRe?branch=main)
 ![CRAN](https://www.r-pkg.org/badges/version/PaRe) <!-- badges: end -->
 
 PaRe (**Pa**ckage **Re**viewer) is the successor of the
