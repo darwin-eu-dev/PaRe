@@ -4,7 +4,11 @@
 \alias{getDefaultPermittedPackages}
 \title{getDefaultPermittedPackages}
 \usage{
-getDefaultPermittedPackages()
+getDefaultPermittedPackages(nThreads = 1)
+}
+\arguments{
+\item{nThreads}{(\code{numeric(1)}: 1)
+Number of threads to use to fetch permitted packages}
 }
 \value{
 (\link[dplyr]{tibble})\tabular{ll}{
