@@ -14,6 +14,8 @@
 #'   \item "enhances"
 #'   \item "linkingto"
 #' }
+#' @param nThreads (`numeric(1)`: 1)
+#' Number of threads to use to fetch permitted packages
 #'
 #' @return (\link[tidygraph]{as_tbl_graph})
 #'
@@ -52,7 +54,7 @@
 #'     getGraphData(repo = repo, packageTypes = c("Imports"))
 #'   }
 #' }
-getGraphData <- function(repo, packageTypes = c("Imports")) {
+getGraphData <- function(repo, packageTypes = c("Imports"), nThreads = 1) {
   deps <- repo$getDescription()$get_deps() %>%
     dplyr::filter(tolower(.data$type) %in% tolower(packageTypes)) %>%
     dplyr::pull(.data$package)
@@ -61,7 +63,7 @@ getGraphData <- function(repo, packageTypes = c("Imports")) {
   deps[deps %in% basename(remoteRef)] <- remoteRef[basename(remoteRef) %in% deps]
 
   # Get all dependencies using pak
-  data <- pak::pkg_deps(deps)
+  data <- getParDeps(pkgs = deps, nThreads = nThreads)
 
   # Add current package
   data <- data %>%

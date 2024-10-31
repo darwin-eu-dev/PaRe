@@ -89,8 +89,8 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #' Repository object.
 #' @param dependencyType (`character()`)\cr
 #' Types of dependencies to be included
-#' @param verbose (`logical()`: `TRUE`)
-#' TRUE or FALSE. If TRUE, progress will be reported.
+#' @param nThreads (`numeric(1)`: 1)
+#' Number of threads to use to fetch permitted packages
 #'
 #' @return (`data.frame()`)\cr
 #' Data frame with all the packages that are now permitted.
@@ -144,7 +144,7 @@ getVersionDf <- function(dependencies, permittedPackages) {
 checkDependencies <- function(
     repo,
     dependencyType = c("Imports", "Depends"),
-    verbose = TRUE) {
+    nThreads = 1) {
   description <- repo$getDescription()
 
   dependencies <- description$get_deps() %>%
@@ -157,13 +157,7 @@ checkDependencies <- function(
     pattern = "[\\s>=<]+"
   )
 
-  if (isTRUE(verbose)) {
-    permittedPackages <- getDefaultPermittedPackages()
-  } else {
-    suppressMessages(
-      permittedPackages <- getDefaultPermittedPackages()
-    )
-  }
+  permittedPackages <- getDefaultPermittedPackages(nThreads)
 
   notPermitted <- dependencies %>%
     dplyr::filter(!.data$package %in% permittedPackages$package)
