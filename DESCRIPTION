@@ -14,7 +14,7 @@ BugReports: https://github.com/darwin-eu-dev/PaRe/issues
 License: Apache License (>= 2)
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Imports: 
     cli (>= 3.6.0),
     cyclocomp (>= 1.1.0),
@@ -33,7 +33,8 @@ Imports:
     utils,
     R6 (>= 2.5.1),
     git2r (>= 0.31.0),
-    checkmate (>= 2.1.0)
+    checkmate (>= 2.1.0),
+    parallel
 Suggests:
     ggplot2,
     plotly,
