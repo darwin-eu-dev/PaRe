@@ -1,13 +1,13 @@
 test_that("minimal", {
-  if (checkSuggests()) {
-    repo <- makeRepo()
-    testthat::skip_if(!R6::is.R6(repo))
+  skip_if_not(checkSuggests())
 
-    suppressWarnings(addPareArticle(repo))
+  repo <- makeRepo()
+  testthat::skip_if(!R6::is.R6(repo))
 
-    path <- file.path(repo$getPath(), "vignettes", "articles", "PareReport.Rmd")
+  suppressWarnings(addPareArticle(repo))
 
-    expect_true(file.exists(path))
-    unlink(repo$getPath(), recursive = TRUE)
-  }
+  path <- file.path(repo$getPath(), "vignettes", "articles", "PareReport.Rmd")
+
+  expect_true(file.exists(path))
+  unlink(repo$getPath(), recursive = TRUE)
 })
