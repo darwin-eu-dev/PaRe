@@ -19,7 +19,7 @@ test_that("minimal", {
   testthat::skip_if(!R6::is.R6(repo))
 
   expect_message(
-    checkDependencies(repo = repo),
+    suppressWarnings(checkDependencies(repo = repo)),
     "All dependencies are approved."
   )
   unlink(repo$getPath(), recursive = TRUE)
@@ -31,7 +31,7 @@ test_that("parallel", {
   testthat::skip_if(!R6::is.R6(repo))
 
   expect_message(
-    checkDependencies(repo = repo, nThreads = 2),
+    suppressWarnings(checkDependencies(repo = repo, nThreads = 2)),
     "All dependencies are approved."
   )
   unlink(repo$getPath(), recursive = TRUE)

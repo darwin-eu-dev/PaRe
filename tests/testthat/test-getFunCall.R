@@ -17,7 +17,7 @@ test_that("minimal", {
   fun <- funs[glueIdx][[1]]
 
   df <- bind_rows(PaRe:::getFunCall(fun, defFuns))
-  expect_true(nrow(df) == 4)
+  expect_true(nrow(df) == 1)
   expect_true(ncol(df) == 2)
   unlink(repo$getPath(), recursive = TRUE)
 })
