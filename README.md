@@ -5,8 +5,11 @@
 
 <!-- badges: start -->
 
+[![Lifecycle:experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 ![R-CMD-check](https://github.com/darwin-eu-dev/PaRe/actions/workflows/R-CMD-check.yaml/badge.svg)
-![CRAN](https://www.r-pkg.org/badges/version/PaRe) <!-- badges: end -->
+[![CRAN](https://www.r-pkg.org/badges/version/PaRe)](https://CRAN.R-project.org/package=PaRe)
+
+<!-- badges: end -->
 
 PaRe (**Pa**ckage **Re**viewer) is the successor of the
 DependencyReviewer package. PaRe reviews other packages during code
