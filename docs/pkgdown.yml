@@ -1,4 +1,4 @@
-pandoc: 3.1.1
+pandoc: '3.2'
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
@@ -7,5 +7,5 @@ articles:
   PareReport: PareReport.html
   PareReportBranches: PareReportBranches.html
   Documentation: Documentation.html
-last_built: 2023-08-11T12:11Z
+last_built: 2024-11-28T14:21Z
 

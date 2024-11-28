@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.14</span>
       </span>
     </div>
 
@@ -70,9 +70,21 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.1.12" id="pare-0112">PaRe 0.1.12<a class="anchor" aria-label="anchor" href="#pare-0112"></a></h2>
+<h2 class="page-header" data-toc-text="0.1.14" id="pare-0114">PaRe 0.1.14<a class="anchor" aria-label="anchor" href="#pare-0114"></a></h2>
+<ol style="list-style-type: decimal"><li>Changed tests so R-CMD-Check passes on depends-only environment</li>
+<li>Added <code>nThreads</code> parameter to <code><a href="../reference/makeReport.html">makeReport()</a></code>, <code><a href="../reference/getDefaultPermittedPackages.html">getDefaultPermittedPackages()</a></code> and <code><a href="../reference/getGraphData.html">getGraphData()</a></code> for parallelisation.</li>
+</ol></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1.13" id="pare-0113">PaRe 0.1.13<small>2024-05-21</small><a class="anchor" aria-label="anchor" href="#pare-0113"></a></h2>
+<ol style="list-style-type: decimal"><li>Fixed issue where pak 0.7.1 broke <code><a href="../reference/getDefaultPermittedPackages.html">getDefaultPermittedPackages()</a></code> and <code><a href="../reference/getGraphData.html">getGraphData()</a></code> and updated internal code.</li>
+<li>Tests should run anywhere except when there is no internet connection.</li>
+<li>Regardless if dependencies are being fetched when using <code><a href="../reference/makeReport.html">makeReport()</a></code>, it should continue.</li>
+</ol></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1.12" id="pare-0112">PaRe 0.1.12<small>2023-08-11</small><a class="anchor" aria-label="anchor" href="#pare-0112"></a></h2>
 <ol style="list-style-type: decimal"><li>Changed <code><a href="https://docs.ropensci.org/magick/reference/editing.html" class="external-link">magick::image_read()</a></code> call to <code><a href="https://docs.ropensci.org/magick/reference/editing.html" class="external-link">magick::image_read_svg()</a></code> to address an error encountered with using libmagick 6.9.12-93.</li>
 <li>Changed the way base packages are fetched.</li>
+<li>Resolved addPareArticle issue with injecting path into Rmd.</li>
 </ol></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.1.11" id="pare-0111">PaRe 0.1.11<small>2023-07-06</small><a class="anchor" aria-label="anchor" href="#pare-0111"></a></h2>
