@@ -170,6 +170,7 @@ DT::datatable(PaRe::checkDependencies(repo = repo, nThreads = nThreads))
 - **countEdges**: The total amount of imports of all dependencies.
 - **meanDegree**: The average amount of imports per dependency.
 - **meanDistance**: The average dependency layers between `r repo$getName()` and all other recursive dependencies.
+
 ```{r dependencyGraphStats, echo=params$showCode, message=FALSE, warning=FALSE}
 graphData <- PaRe::getGraphData(repo = repo, nThreads = nThreads)
 
@@ -179,7 +180,11 @@ DT::datatable(data.frame(
   meanDegree = round(mean(igraph::degree(graphData)), 2),
   meanDistance = round(mean(igraph::distances(graphData)), 2)
   ),
-              rownames = FALSE)
+              rownames= FALSE)
+}, error = function(e) {
+  message("Could not get graph data with error:")
+  message(sprintf("\t%s", e))
+})
 ```
 
 ### Function use per dependency
