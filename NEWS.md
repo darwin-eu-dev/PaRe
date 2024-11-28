@@ -1,3 +1,8 @@
+PaRe 0.1.14
+==========
+1. Changed tests so R-CMD-Check passes on depends-only environment
+2. Added `nThreads` parameter to `makeReport()`, `getDefaultPermittedPackages()` and `getGraphData()` for parallelisation.
+
 PaRe 0.1.13
 ==========
 1. Fixed issue where pak 0.7.1 broke `getDefaultPermittedPackages()` and `getGraphData()` and updated internal code.

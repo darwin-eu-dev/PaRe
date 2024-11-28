@@ -4,11 +4,7 @@
 \alias{checkDependencies}
 \title{checkDependencies}
 \usage{
-checkDependencies(
-  repo,
-  dependencyType = c("Imports", "Depends"),
-  verbose = TRUE
-)
+checkDependencies(repo, dependencyType = c("Imports", "Depends"), nThreads = 1)
 }
 \arguments{
 \item{repo}{(\code{Repository})\cr
@@ -17,8 +13,8 @@ Repository object.}
 \item{dependencyType}{(\code{character()})\cr
 Types of dependencies to be included}
 
-\item{verbose}{(\code{logical()}: \code{TRUE})
-TRUE or FALSE. If TRUE, progress will be reported.}
+\item{nThreads}{(\code{numeric(1)}: 1)
+Number of threads to use to fetch permitted packages}
 }
 \value{
 (\code{data.frame()})\cr

@@ -11,6 +11,7 @@ params:
   pkgName: pkgName
   repo: repo
   showCode: showCode
+  nThreads: nThreads
 ---
 
 ```{r setup, include=FALSE}
@@ -161,12 +162,7 @@ DT::datatable(
 ## Dependency review
 ### Check dependencies against whitelist
 ```{r checkDependencies, echo=params$showCode, warning=FALSE}
-tryCatch({
-  DT::datatable(PaRe::checkDependencies(repo = repo, dependencyType = "Imports", verbose = FALSE))
-}, error = function(e) {
-  message("Could not check dependencies with error:")
-  message(sprintf("\t%s", e))
-})
+DT::datatable(PaRe::checkDependencies(repo = repo, nThreads = nThreads))
 ```
 
 ### Dependency characteristics
@@ -174,9 +170,9 @@ tryCatch({
 - **countEdges**: The total amount of imports of all dependencies.
 - **meanDegree**: The average amount of imports per dependency.
 - **meanDistance**: The average dependency layers between `r repo$getName()` and all other recursive dependencies.
-```{r dependencyGraphStats, echo=params$showCode, warning=FALSE}
-tryCatch({
-  graphData <- PaRe::getGraphData(repo = repo, packageTypes = "Imports")
+
+```{r dependencyGraphStats, echo=params$showCode, message=FALSE, warning=FALSE}
+graphData <- PaRe::getGraphData(repo = repo, nThreads = nThreads)
 
 DT::datatable(data.frame(
   countVertices = length(igraph::V(graphData)),

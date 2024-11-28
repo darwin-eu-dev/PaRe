@@ -7,7 +7,7 @@
 Class representing a piece of code.
 }
 \seealso{
-Other Representations:
+Other Representations: 
 \code{\link{File}},
 \code{\link{Function}},
 \code{\link{Repository}}

@@ -16,10 +16,21 @@
 
 test_that("regular use", {
   repo <- makeRepo()
-  testthat::skip_if(!R6::is.R6(repo))
-  file <- repo$getRFiles()[[2]]
-  fun <- file$getFunctions()[[2]]
+  testthat::skip_if_not(all(class(repo) == c("Repository", "R6")))
+  files <- repo$getRFiles()
+  glueIdx <- sapply(files, function(file) {
+    file$getName() == "glue.R"
+  })
+
+  file <- files[glueIdx][[1]]
+  funs <- file$getFunctions()
   defFuns <- PaRe::getDefinedFunctions(repo)
+
+  glueIdx <- sapply(funs, function(fun) {
+    fun$getName() == "glue"
+  })
+
+  fun <- funs[glueIdx][[1]]
 
   expect_true(length(PaRe:::getMultiLineFun(line = 1, lines = fun$getLines())) == 1)
   unlink(repo$getPath(), recursive = TRUE)
