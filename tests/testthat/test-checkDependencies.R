@@ -15,11 +15,8 @@ test_that("void", {
 })
 
 test_that("minimal", {
-  skip_if(
-    utils::packageVersion(pkg = "base") > package_version("4.4.0")
-  )
+  skip_if_offline()
   repo <- makeRepo()
-  testthat::skip_if(!R6::is.R6(repo))
 
   expect_message(
     suppressWarnings(checkDependencies(repo = repo)),
@@ -30,8 +27,9 @@ test_that("minimal", {
 
 
 test_that("parallel", {
+  skip_if_offline()
+
   repo <- makeRepo()
-  testthat::skip_if(!R6::is.R6(repo))
 
   expect_message(
     suppressWarnings(checkDependencies(repo = repo, nThreads = 2)),
