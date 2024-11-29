@@ -3,12 +3,20 @@ library(testthat)
 library(git2r)
 
 path <- file.path(tempdir(), "glue")
+repoCloned <- NULL
 
 if (!is.null(curl::nslookup("captive.apple.com", error = FALSE))) {
-  clone(
-    url = "https://github.com/tidyverse/glue",
-    local_path = path
-  )
+  tryCatch({
+    clone(
+      url = "https://github.com/tidyverse/glue",
+      local_path = path
+    )
+    repoCloned <- TRUE
+  }, error = function(e) {
+    repoCloned <- FALSE
+  })
+} else {
+  repoCloned <- FALSE
 }
 
 withr::defer({
