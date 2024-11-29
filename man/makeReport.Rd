@@ -4,7 +4,7 @@
 \alias{makeReport}
 \title{makeReport}
 \usage{
-makeReport(repo, outputFile, showCode = FALSE)
+makeReport(repo, outputFile, showCode = FALSE, nThreads = 1)
 }
 \arguments{
 \item{repo}{(\link[PaRe]{Repository})\cr
@@ -15,6 +15,9 @@ Path to html-file.}
 
 \item{showCode}{(\link[base]{logical}: FALSE)\cr
 Logical to show code or not in the report.}
+
+\item{nThreads}{(\code{numeric(1)}: 1)
+Number of threads to use to fetch permitted packages}
 }
 \value{
 (\code{NULL})

@@ -23,7 +23,7 @@ library(dplyr)
 ```
 
 ```{r, echo=FALSE}
-repo <- PaRe::Repository$new("D:/Users/mvankessel/Documents/R-Packages/PaRe")
+repo <- PaRe::Repository$new("../../")
 ```
 
 ## Package overview
@@ -170,7 +170,7 @@ DT::datatable(
 ## Dependency review
 ### Check dependencies against whitelist
 ```{r checkDependencies, warning=FALSE, echo=FALSE}
-DT::datatable(PaRe::checkDependencies(repo = repo, verbose = FALSE))
+DT::datatable(PaRe::checkDependencies(repo = repo, nThreads = 10))
 ```
 
 ### Dependency characteristics
@@ -179,7 +179,7 @@ DT::datatable(PaRe::checkDependencies(repo = repo, verbose = FALSE))
 - **meanDegree**: The average amount of imports per dependency.
 - **meanDistance**: The average dependency layers between `r repo$getName()` and all other recursive dependencies.
 ```{r dependencyGraphStats, message=FALSE, warning=FALSE, echo=FALSE}
-graphData <- PaRe::getGraphData(repo = repo)
+graphData <- PaRe::getGraphData(repo = repo, nThreads = 10)
 
 DT::datatable(data.frame(
   countVertices = length(igraph::V(graphData)),

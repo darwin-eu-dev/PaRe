@@ -1,3 +1,19 @@
+# Copyright 2024 DARWIN EU®
+#
+# This file is part of PaRe
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 #' printMessage
 #'
 #' Prints messages dependening of the nrow of the number of rows of the
@@ -89,8 +105,8 @@ getVersionDf <- function(dependencies, permittedPackages) {
 #' Repository object.
 #' @param dependencyType (`character()`)\cr
 #' Types of dependencies to be included
-#' @param verbose (`logical()`: `TRUE`)
-#' TRUE or FALSE. If TRUE, progress will be reported.
+#' @param nThreads (`numeric(1)`: 1)
+#' Number of threads to use to fetch permitted packages
 #'
 #' @return (`data.frame()`)\cr
 #' Data frame with all the packages that are now permitted.
@@ -144,7 +160,7 @@ getVersionDf <- function(dependencies, permittedPackages) {
 checkDependencies <- function(
     repo,
     dependencyType = c("Imports", "Depends"),
-    verbose = TRUE) {
+    nThreads = 1) {
   description <- repo$getDescription()
 
   dependencies <- description$get_deps() %>%
@@ -157,13 +173,7 @@ checkDependencies <- function(
     pattern = "[\\s>=<]+"
   )
 
-  if (isTRUE(verbose)) {
-    permittedPackages <- getDefaultPermittedPackages()
-  } else {
-    suppressMessages(
-      permittedPackages <- getDefaultPermittedPackages()
-    )
-  }
+  permittedPackages <- getDefaultPermittedPackages(nThreads)
 
   notPermitted <- dependencies %>%
     dplyr::filter(!.data$package %in% permittedPackages$package)

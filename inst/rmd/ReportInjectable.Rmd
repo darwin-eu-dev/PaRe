@@ -170,12 +170,7 @@ DT::datatable(
 ## Dependency review
 ### Check dependencies against whitelist
 ```{r checkDependencies, warning=FALSE, echo=FALSE}
-tryCatch({
-  DT::datatable(PaRe::checkDependencies(repo = repo, dependencyType = "Imports", verbose = FALSE))
-}, error = function(e) {
-  message("Could not check dependencies with error:")
-  message(sprintf("\t%s", e))
-})
+DT::datatable(PaRe::checkDependencies(repo = repo, nThreads = "#!P_THREADS"))
 ```
 
 ### Dependency characteristics

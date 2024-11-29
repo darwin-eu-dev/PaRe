@@ -232,9 +232,13 @@ PaRe::pkgDiagram(repo = repo) %>%
 
 ```{r pkgDiagram, echo=FALSE}
 if (fetchedRepo) {
-  PaRe::pkgDiagram(repo = repo) %>%
-    DiagrammeRsvg::export_svg() %>%
-    magick::image_read_svg()
+  if (all(c(
+    require("DiagrammeRsvg", character.only = TRUE),
+    require("magick", character.only = TRUE)))) {
+      PaRe::pkgDiagram(repo = repo) %>%
+        DiagrammeRsvg::export_svg() %>%
+        magick::image_read_svg()
+  }
 }
 ```
 

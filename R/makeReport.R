@@ -1,3 +1,19 @@
+# Copyright 2024 DARWIN EU®
+#
+# This file is part of PaRe
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 #' makeReport
 #'
 #' Uses rmarkdown's render function to render a html-report of the given package.
@@ -10,6 +26,8 @@
 #' Path to html-file.
 #' @param showCode (\link[base]{logical}: FALSE)\cr
 #' Logical to show code or not in the report.
+#' @param nThreads (`numeric(1)`: 1)
+#' Number of threads to use to fetch permitted packages
 #'
 #' @return (`NULL`)
 #'
@@ -48,7 +66,7 @@
 #'   makeReport(repo = repo, outputFile = tempfile())
 #' }
 #' }
-makeReport <- function(repo, outputFile, showCode = FALSE) {
+makeReport <- function(repo, outputFile, showCode = FALSE, nThreads = 1) {
   if (checkInstalled()) {
     outputFile <- normalizePath(outputFile, mustWork = FALSE)
     writeLines("", con = outputFile)
@@ -60,7 +78,7 @@ makeReport <- function(repo, outputFile, showCode = FALSE) {
     rmarkdown::render(
       input = system.file(package = "PaRe", "rmd", "report.Rmd"),
       output_file = outputFile,
-      params = list(pkgName = pkgName, repo = repo, showCode = showCode)
+      params = list(pkgName = pkgName, repo = repo, showCode = showCode, nThreads = nThreads)
     )
   }
 }

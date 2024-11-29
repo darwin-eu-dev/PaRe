@@ -4,7 +4,7 @@
 \alias{getGraphData}
 \title{getGraphData}
 \usage{
-getGraphData(repo, packageTypes = c("Imports"))
+getGraphData(repo, packageTypes = c("Imports"), nThreads = 1)
 }
 \arguments{
 \item{repo}{(\link[PaRe]{Repository})\cr
@@ -18,6 +18,9 @@ Any of the following options may be included in a vector: \itemize{
 \item "enhances"
 \item "linkingto"
 }}
+
+\item{nThreads}{(\code{numeric(1)}: 1)
+Number of threads to use to fetch permitted packages}
 }
 \value{
 (\link[tidygraph]{as_tbl_graph})

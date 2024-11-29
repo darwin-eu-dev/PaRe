@@ -1,3 +1,19 @@
+# Copyright 2024 DARWIN EU®
+#
+# This file is part of PaRe
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 #' getGraphData
 #'
 #' Get the dependency interactions as a graph representation.
@@ -14,6 +30,8 @@
 #'   \item "enhances"
 #'   \item "linkingto"
 #' }
+#' @param nThreads (`numeric(1)`: 1)
+#' Number of threads to use to fetch permitted packages
 #'
 #' @return (\link[tidygraph]{as_tbl_graph})
 #'
@@ -52,7 +70,7 @@
 #'     getGraphData(repo = repo, packageTypes = c("Imports"))
 #'   }
 #' }
-getGraphData <- function(repo, packageTypes = c("Imports")) {
+getGraphData <- function(repo, packageTypes = c("Imports"), nThreads = 1) {
   deps <- repo$getDescription()$get_deps() %>%
     dplyr::filter(tolower(.data$type) %in% tolower(packageTypes)) %>%
     dplyr::pull(.data$package)
@@ -61,9 +79,7 @@ getGraphData <- function(repo, packageTypes = c("Imports")) {
   deps[deps %in% basename(remoteRef)] <- remoteRef[basename(remoteRef) %in% deps]
 
   # Get all dependencies using pak
-  data <- invisible(lapply(deps, pak::pkg_deps)) %>%
-    dplyr::bind_rows() %>%
-    dplyr::distinct()
+  data <- getParDeps(pkgs = deps, nThreads = nThreads)
 
   # Add current package
   data <- data %>%

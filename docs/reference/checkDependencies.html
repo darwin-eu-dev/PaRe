@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PaRe</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.14</span>
       </span>
     </div>
 
@@ -75,42 +75,39 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">checkDependencies</span><span class="op">(</span></span>
-<span>  <span class="va">repo</span>,</span>
-<span>  dependencyType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Imports"</span>, <span class="st">"Depends"</span><span class="op">)</span>,</span>
-<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">checkDependencies</span><span class="op">(</span><span class="va">repo</span>, dependencyType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Imports"</span>, <span class="st">"Depends"</span><span class="op">)</span>, nThreads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>repo</dt>
-<dd><p>(<a href="Repository.html">Repository</a>)<br>
+<dd><p>(<code>Repository</code>)<br>
 Repository object.</p></dd>
 
 
 <dt>dependencyType</dt>
-<dd><p>(<a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>)<br>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Types of dependencies to be included</p></dd>
 
 
-<dt>verbose</dt>
-<dd><p>(<a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a>: TRUE)
-TRUE or FALSE. If TRUE, progress will be reported.</p></dd>
+<dt>nThreads</dt>
+<dd><p>(<code>numeric(1)</code>: 1)
+Number of threads to use to fetch permitted packages</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     
 
-<p>(<a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>)<br></p>
+<p>(<code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code>)<br></p>
 
 
-<p>Data frame with all the packages that are now permitted.</p><table class="table table"><tr><td>column</td><td>data type</td></tr><tr><td>package</td><td><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></td></tr><tr><td>version</td><td><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></td></tr></table></div>
+<p>Data frame with all the packages that are now permitted.</p><table class="table table"><tr><td>column</td><td>data type</td></tr><tr><td>package</td><td><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code></td></tr><tr><td>version</td><td><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code></td></tr></table></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Set cahce, usually not required.</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Set cahce, usually not required.</span></span></span>
 <span class="r-in"><span><span class="fu">withr</span><span class="fu">::</span><span class="fu"><a href="https://withr.r-lib.org/reference/with_envvar.html" class="external-link">local_envvar</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  R_USER_CACHE_DIR <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
@@ -142,13 +139,14 @@ TRUE or FALSE. If TRUE, progress will be reported.</p></dd>
 <span class="r-in"><span>    <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> cloning into 'C:\Users\MVANKE~1\AppData\Local\Temp\RtmpwNkTBX/glue'...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> cloning into 'C:\Users\MVANKE~1\AppData\Local\Temp\RtmpMLHGjE/glue'...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">fetchedRepo</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="co"># Use checkDependencies on the Repository object.</span></span></span>
 <span class="r-in"><span>  <span class="fu">checkDependencies</span><span class="op">(</span><span class="va">repo</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu">checkDependencies</span><span class="op">(</span><span class="va">repo</span>, dependencyType <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Imports"</span>, <span class="st">"Suggests"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
