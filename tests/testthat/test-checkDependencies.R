@@ -16,24 +16,23 @@ test_that("void", {
 
 test_that("minimal", {
   skip_if_offline()
-  repo <- makeRepo()
+
+  repo <- Repository$new(path)
 
   expect_message(
     suppressWarnings(checkDependencies(repo = repo)),
     "All dependencies are approved."
   )
-  unlink(repo$getPath(), recursive = TRUE)
 })
 
 
 test_that("parallel", {
   skip_if_offline()
 
-  repo <- makeRepo()
+  repo <- Repository$new(path)
 
   expect_message(
     suppressWarnings(checkDependencies(repo = repo, nThreads = 2)),
     "All dependencies are approved."
   )
-  unlink(repo$getPath(), recursive = TRUE)
 })
