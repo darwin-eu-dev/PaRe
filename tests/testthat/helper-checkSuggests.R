@@ -3,6 +3,7 @@ checkSuggests <- function() {
     c("ggplot2", "plotly", "ggraph", "DT", "magick", "withr", "cowplot", "knitr", "testthat"),
     require,
     character.only = TRUE,
-    quietly = TRUE
+    quietly = TRUE,
+    warn.conflicts = FALSE
   ))))
 }

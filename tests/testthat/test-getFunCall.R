@@ -1,6 +1,8 @@
 test_that("minimal", {
-  repo <- makeRepo()
-  testthat::skip_if_not(all(class(repo) == c("Repository", "R6")))
+  skip_if_offline()
+
+  repo <- Repository$new(path)
+
   files <- repo$getRFiles()
   glueIdx <- sapply(files, function(file) {
     file$getName() == "glue.R"
@@ -19,5 +21,4 @@ test_that("minimal", {
   df <- bind_rows(PaRe:::getFunCall(fun, defFuns))
   expect_true(nrow(df) == 1)
   expect_true(ncol(df) == 2)
-  unlink(repo$getPath(), recursive = TRUE)
 })

@@ -1,6 +1,3 @@
-library(PaRe)
-library(testthat)
-
 test_that("minimal", {
   lines <- c(
     "do.call(mean, list(c(1, 2, 3)))",

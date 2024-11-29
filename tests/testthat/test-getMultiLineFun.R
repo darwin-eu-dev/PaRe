@@ -15,8 +15,10 @@
 # 10: while con1 con2 if1 if2
 
 test_that("regular use", {
-  repo <- makeRepo()
-  testthat::skip_if_not(all(class(repo) == c("Repository", "R6")))
+  skip_if_offline()
+
+  repo <- Repository$new(path)
+
   files <- repo$getRFiles()
   glueIdx <- sapply(files, function(file) {
     file$getName() == "glue.R"
@@ -33,7 +35,6 @@ test_that("regular use", {
   fun <- funs[glueIdx][[1]]
 
   expect_true(length(PaRe:::getMultiLineFun(line = 1, lines = fun$getLines())) == 1)
-  unlink(repo$getPath(), recursive = TRUE)
 })
 
 test_that("No closing bracket", {

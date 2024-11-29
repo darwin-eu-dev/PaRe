@@ -1,9 +1,8 @@
-library(PaRe)
-library(testthat)
-
 test_that("minimal", {
-  repo <- makeRepo()
-  testthat::skip_if_not(all(class(repo) == c("Repository", "R6")))
+  skip_if_offline()
+
+  repo <- Repository$new(path)
+
   files <- repo$getRFiles()
   glueIdx <- sapply(files, function(file) {
     file$getName() == "glue.R"
@@ -20,5 +19,4 @@ test_that("minimal", {
   fun <- funs[glueIdx][[1]]
 
   expect_null(PaRe:::getDoCall(fun, defFuns))
-  unlink(repo$getPath(), recursive = TRUE)
 })
