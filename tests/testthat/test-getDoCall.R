@@ -1,5 +1,6 @@
 test_that("minimal", {
   skip_if_offline()
+  skip_if_not(repoCloned)
 
   repo <- Repository$new(path)
 

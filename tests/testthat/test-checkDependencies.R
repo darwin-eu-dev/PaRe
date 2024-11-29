@@ -16,6 +16,7 @@ test_that("void", {
 
 test_that("minimal", {
   skip_if_offline()
+  skip_if_not(repoCloned)
 
   repo <- Repository$new(path)
 
@@ -28,6 +29,7 @@ test_that("minimal", {
 
 test_that("parallel", {
   skip_if_offline()
+  skip_if_not(repoCloned)
 
   repo <- Repository$new(path)
 
