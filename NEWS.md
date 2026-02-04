@@ -1,6 +1,6 @@
 PaRe 0.1.16
 ==========
-1. Use `dplyr::reframe()` instead of `dplyr::summarise()`
+1. Use `dplyr::reframe()` instead of `dplyr::summarise()` for dplyr >= 1.2.0 compatability
 
 PaRe 0.1.15
 ==========
