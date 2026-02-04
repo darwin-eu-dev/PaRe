@@ -151,7 +151,7 @@ lintScore <- function(repo, messages) {
   pct <- messages %>%
     dplyr::group_by(.data$type) %>%
     dplyr::tally() %>%
-    dplyr::summarise(.data$type, pct = round(.data$n / nLines * 100, 2))
+    dplyr::reframe(.data$type, pct = round(.data$n / nLines * 100, 2))
 
   if (nrow(pct) == 0) {
     message(glue::glue("{nrow(pct)} Lintr messages found"))
