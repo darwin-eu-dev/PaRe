@@ -234,10 +234,11 @@ PaRe::pkgDiagram(repo = repo) %>%
 if (fetchedRepo) {
   if (all(c(
     require("DiagrammeRsvg", character.only = TRUE),
-    require("magick", character.only = TRUE)))) {
-      PaRe::pkgDiagram(repo = repo) %>%
-        DiagrammeRsvg::export_svg() %>%
-        magick::image_read_svg()
+    require("magick", character.only = TRUE)
+  ))) {
+    PaRe::pkgDiagram(repo = repo) %>%
+      DiagrammeRsvg::export_svg() %>%
+      magick::image_read_svg()
   }
 }
 ```

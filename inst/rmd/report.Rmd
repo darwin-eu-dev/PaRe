@@ -180,11 +180,8 @@ DT::datatable(data.frame(
   meanDegree = round(mean(igraph::degree(graphData)), 2),
   meanDistance = round(mean(igraph::distances(graphData)), 2)
   ),
-              rownames= FALSE)
-}, error = function(e) {
-  message("Could not get graph data with error:")
-  message(sprintf("\t%s", e))
-})
+  rownames = FALSE
+)
 ```
 
 ### Function use per dependency
