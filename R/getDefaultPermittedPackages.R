@@ -18,28 +18,38 @@ getParDeps <- function(pkgs, nThreads) {
   deps <- if (nThreads > 1) {
     cl <- parallel::makeCluster(nThreads)
     on.exit(parallel::stopCluster(cl = cl))
-    parallel::clusterEvalQ(cl = cl, expr = {library("pak", character.only = TRUE)})
+    parallel::clusterEvalQ(cl = cl, expr = {
+      library("pak", character.only = TRUE)
+    })
 
     parallel::parLapply(cl = cl, X = pkgs, fun = function(pkg) {
-      tryCatch({
-        res <- pak::pkg_deps(pkg = pkg)
-        return(res)
-      }, error = function(e) {
-        return(NULL)
-      }, warning = function(w) {
-        return(res)
-      })
+      tryCatch(
+        {
+          res <- pak::pkg_deps(pkg = pkg)
+          return(res)
+        },
+        error = function(e) {
+          return(NULL)
+        },
+        warning = function(w) {
+          return(res)
+        }
+      )
     })
   } else {
     lapply(X = pkgs, function(pkg) {
-      tryCatch({
-        res <- pak::pkg_deps(pkg = pkg)
-        return(res)
-      }, error = function(e) {
-        return(NULL)
-      }, warning = function(w) {
-        return(res)
-      })
+      tryCatch(
+        {
+          res <- pak::pkg_deps(pkg = pkg)
+          return(res)
+        },
+        error = function(e) {
+          return(NULL)
+        },
+        warning = function(w) {
+          return(res)
+        }
+      )
     })
   }
 

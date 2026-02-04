@@ -1,3 +1,11 @@
+PaRe 0.1.16
+==========
+1. Use `dplyr::reframe()` instead of `dplyr::summarise()`
+
+PaRe 0.1.15
+==========
+1. Updated internal test setup
+
 PaRe 0.1.14
 ==========
 1. Changed tests so R-CMD-Check passes on depends-only environment
